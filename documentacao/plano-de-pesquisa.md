@@ -3,7 +3,11 @@
 ## Categoria: Ciências da Natureza e Exatas
 
 ## Resumo:
-O resumo deve conter, de forma sintética e clara, tanto a natureza da pesquisa realizada quanto os resultados e as conclusões mais importantes. O quê? Por quê?Com base em quê? E os Resultados obtidos. 
+Este trabalho tem como objetivo o desenvolvimento de um curso web preparatório para competições de xadrez, voltado aos jogadores que precisam de um suporte mais estruturado em seus estudos. O projeto busca atender a necessidade dos jogadores de encontrarem um método organizado e acessível de treinamento, considerando as dificuldades enfrentadas por muitos enxadristas na preparação para torneios.
+
+A pesquisa irá se em estudos sobre o ensino do xadrez, análise de plataformas digitais já existentes e no levantamento das necessidades dos usuários, a partir de um questionario, buscando compreender quais recursos são mais eficientes no processo de aprendizagem e treinamento. Após isso, será desenvolvida uma plataforma web com os conteúdos teóricos, exercícios e um acompanhamento do desempenho dos usuários.
+
+Espera-se que o sistema consiga proporcionar uma melhor organização dos estudos, auxiliar no desenvolvimento das habilidades estratégicas dos jogadores e contribuir para um melhor desempenho em suas competições futuras. Portanto, é esperado que o projeto ofereça uma ferramenta acessível e eficiente para o treinamento enxadrístico dos jogadores. 
 
 ## Palavras-Chave: Xadrez; Curso online; Plataforma web; Preparação para competições; Treinamento.
  
