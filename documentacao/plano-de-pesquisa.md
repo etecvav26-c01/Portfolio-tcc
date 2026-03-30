@@ -29,9 +29,11 @@ Dessa forma, este projeto propõe o desenvolvimento de um curso web preparatóri
 
 ## Objetivos:
 
-## Objetivo Geral
+### Objetivo Geral
+Desenvolver um curso web preparatório para torneios de xadrez, com o objetivo de ajudar aos jogadores a aprimorarem seu jogo e sua organização em estudos de xadrez.
 
-## Objetivos Específicos
+### Objetivos Específicos
+
 
 
 ## Metodologia:
