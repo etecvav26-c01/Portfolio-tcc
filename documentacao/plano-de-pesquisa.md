@@ -51,7 +51,15 @@ Avaliar a eficiência do curso web no apoio à preparação dos jogadores para c
 
 
 ## Metodologia:
+O grupo pretende utilizar alguns tipos de pesquisa para o desenvolvimento do TCC, com o objetivo de obter informações confiáveis e melhorar a qualidade do aplicativo que será desenvolvido, baseando-se nos dados coletados.
 
+A pesquisa bibliográfica será utilizada para buscar informações em sites, artigos, livros e conteúdos sobre xadrez e programação, auxiliando no desenvolvimento do conteúdo do aplicativo, de forma que este apresente qualidade, coerência e um método lógico de ensino. Além disso, o estudo sobre programação servirá de base para a definição das tecnologias utilizadas no desenvolvimento do projeto.
+
+Também será utilizada a pesquisa documental, por meio da análise de aplicativos e plataformas já existentes voltadas ao treinamento de xadrez, com o objetivo de identificar funcionalidades relevantes e possíveis deficiências, que poderão ser consideradas na elaboração do projeto.
+
+Além disso, será realizada uma pesquisa de campo, por meio um de questionário e algumas entrevistas com os jogadores de xadrez da escola, a fim de compreender suas necessidades e dificuldades, garantindo que o aplicativo seja útil, acessível e capaz de atender às demandas dos usuários.
+
+Essas pesquisas são importantes para que o projeto seja bem fundamentado e realmente atenda às necessidades dos usuários, garantindo sua usabilidade e finalidade.
 
 ## Cronograma:
 
