@@ -65,6 +65,12 @@ Essas pesquisas são importantes para que o projeto seja bem fundamentado e real
 
 
 ## Resultados Esperados:
+Espera-se que o desenvolvimento do curso web proporcione aos jogadores de xadrez uma forma mais organizada e acessível de estudo, auxiliando no aprimoramento de suas habilidades e na preparação para competições.
 
+Além disso, espera-se que a plataforma contribua para o desenvolvimento do raciocínio lógico, da tomada de decisões e do conhecimento estratégico dos usuários, por meio de conteúdos estruturados e práticas orientadas.
+
+Também se espera que o sistema facilite o acompanhamento do progresso dos jogadores, permitindo uma melhor organização dos estudos e maior eficiência no treinamento.
+
+Dessa forma, o projeto busca oferecer uma ferramenta útil e eficiente, que atenda às necessidades dos usuários e contribua para a melhoria do desempenho em torneios de xadrez.
 
 ## Referências:
