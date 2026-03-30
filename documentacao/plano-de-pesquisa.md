@@ -74,3 +74,7 @@ Também se espera que o sistema facilite o acompanhamento do progresso dos jogad
 Dessa forma, o projeto busca oferecer uma ferramenta útil e eficiente, que atenda às necessidades dos usuários e contribua para a melhoria do desempenho em torneios de xadrez.
 
 ## Referências:
+REINFELD, Fred. Manual completo de aberturas de xadrez. São Paulo: Ibrasa, 1979. Disponível em: https://pt.scribd.com/document/577943064/Manual-Completo-de-Aberturas-de-Xadrez-Fred-Reinfeld?utm_source=chatgpt.com . Acesso em: 30 mar. 2026.
+
+NETO, Hélio. Manual de xadrez: curso básico. Brasil: Sesc – Serviço Social do Comércio, 2018. Disponível em: https://upload.wikimedia.org/wikipedia/commons/8/8b/Manual_xadrez.pdf . Acesso em: 28 mar. 2026.
+
