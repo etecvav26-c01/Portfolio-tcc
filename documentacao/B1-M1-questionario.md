@@ -4,6 +4,15 @@ Feito por:
 <br> Adrian Morales 3°C
 <br> Antonio Miguel 3°C
 
+## Questão 1)
+
+
+## Questão 2)
+
+
+## Questão 3)
+
+
 ## Questão 4)
 
 
