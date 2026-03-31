@@ -1,5 +1,9 @@
 # Título do Projeto: Desenvolvimento de um curso web preparatorio para competição de xadrez
 
+### Feito por: 
+Adrian Morales 3°C
+<br> Antonio Miguel 3°C
+
 ## Categoria: Ciências da Natureza e Exatas
 
 ## Resumo:
