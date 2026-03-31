@@ -1,10 +1,11 @@
-# Título do Projeto: Desenvolvimento de um curso web preparatorio para competição de xadrez
+# Desenvolvimento de um curso web preparatorio para competição de xadrez
 
 ### Feito por: 
 Adrian Morales 3°C
 <br> Antonio Miguel 3°C
 
-## Categoria: Ciências da Natureza e Exatas
+### Categoria: 
+Ciências da Natureza e Exatas
 
 ## Resumo:
 Este trabalho tem como objetivo o desenvolvimento de um curso web preparatório para competições de xadrez, voltado aos jogadores que precisam de um suporte mais estruturado em seus estudos. O projeto busca atender a necessidade dos jogadores de encontrarem um método organizado e acessível de treinamento, considerando as dificuldades enfrentadas por muitos enxadristas na preparação para torneios.
