@@ -6,6 +6,7 @@ Feito por:
 
 ## Questão 1)Pesquisa sobre empresa da área de Desenvolvimento de Sistemas.
 Nome da empresa
+
 Microsoft
 
 Área de atuação
@@ -50,51 +51,56 @@ A Microsoft é uma das maiores empresas de tecnologia do mundo e investe constan
 
 
 ## Questão 2)Impactos ambientais da área de tecnologia
+
 As atividades relacionadas ao desenvolvimento de sistemas, apesar de digitais, também geram impactos ambientais indiretos. Esses impactos estão ligados principalmente ao uso de infraestrutura tecnológica, como servidores, dispositivos eletrônicos e processos de fabricação de hardware.
-###Consumo de energia em servidores e data centers
+
+Consumo de energia em servidores e data centers
+
 Sistemas e aplicações dependem de servidores que funcionam continuamente, consumindo grande quantidade de energia elétrica. Data centers precisam de refrigeração constante, o que aumenta ainda mais o consumo energético e pode contribuir para a emissão de gases poluentes.
-###Descarte de equipamentos eletrônicos
+
+Descarte de equipamentos eletrônicos
+
 O avanço tecnológico faz com que dispositivos se tornem obsoletos rapidamente. Isso gera descarte frequente de computadores, servidores e outros equipamentos, muitas vezes sem o tratamento adequado.
-###Lixo eletrônico (e-waste)
+
+Lixo eletrônico (e-waste)
+
 O lixo eletrônico contém substâncias tóxicas, como metais pesados, que podem contaminar o solo e a água quando descartados incorretamente. Esse é um dos maiores problemas ambientais ligados à tecnologia.
-###Uso de recursos naturais
+
+Uso de recursos naturais
+
 A fabricação de hardware exige a extração de recursos naturais, como metais raros e outros materiais. Esse processo pode causar impactos ambientais, como desmatamento, poluição e esgotamento de recursos.
 
 
 ## Questão 3)Doenças ocupacionais na área de tecnologia
+
 As atividades na área de desenvolvimento de sistemas envolvem longos períodos em frente ao computador, o que pode causar problemas físicos e mentais ao longo do tempo.
-###Problemas de visão
+
+Problemas de visão
+
 O uso excessivo de telas pode causar fadiga ocular, olhos secos, visão embaçada e dores de cabeça.
+
 Como evitar:
-Fazer pausas regulares (regra 20-20-20)
-Ajustar brilho e contraste da tela
-Manter distância adequada do monitor
-###Problemas posturais
+
+● Fazer pausas regulares (regra 20-20-20)
+
+● Ajustar brilho e contraste da tela
+
+● Manter distância adequada do monitor
+
+Problemas de postura
+
 Ficar muito tempo sentado pode causar dores nas costas, pescoço e ombros.
+
 Como evitar:
-Usar cadeira ergonômica
-Manter postura correta
-Ajustar altura da mesa e monitor
-Levantar e se alongar com frequência
-###Lesões por esforço repetitivo (LER/DORT)
-Movimentos repetitivos podem causar dores em mãos, punhos e braços.
-Como evitar:
-Fazer pausas durante o uso do computador
-Usar teclado e mouse adequados
-Evitar esforço excessivo e repetitivo
-###Estresse e saúde mental
-A pressão por prazos pode causar ansiedade e desgaste emocional.
-Como evitar:
-Organizar o tempo e tarefas
-Evitar sobrecarga de trabalho
-Praticar atividades de lazer
-Ter momentos de descanso
-###Sedentarismo
-Ficar muito tempo parado pode afetar a saúde física.
-Como evitar:
-Praticar exercícios físicos regularmente
-Fazer pausas para se movimentar
-Manter uma rotina ativa
+
+● Usar cadeira ergonômica
+
+● Manter postura correta
+
+● Ajustar altura da mesa e monitor
+
+● Levantar e se alongar com frequência
+
 
 
 ## Questão 4) Análise do tema do TCC
