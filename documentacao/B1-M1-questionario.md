@@ -5,28 +5,47 @@ Feito por:
 <br> Antonio Miguel 3°C
 
 ## Questão 1)Pesquisa sobre empresa da área de Desenvolvimento de Sistemas.
-###Nome da empresa
+Nome da empresa
 Microsoft
-###Área de atuação
+
+Área de atuação
+
 A Microsoft atua principalmente no desenvolvimento de sistemas, criando softwares, plataformas em nuvem, aplicativos e sistemas operacionais.
-###Como ela atua na região
+
+Como ela atua na região
+
 A Microsoft atua globalmente, também no Brasil, oferecendo seus serviços por meio da internet, parcerias com empresas locais e suporte técnico. No país, ela fornece soluções como o Windows e o pacote Office, além de serviços em nuvem através do Azure, amplamente utilizados por empresas brasileiras.
-###Setor tecnológico atendido
+
+Setor tecnológico atendido
+
 A empresa atende diversos setores, como:
+
 ● Educação
+
 ● Empresarial (gestão e produtividade)
+
 ● Tecnologia da informação (TI)
+
 ● Jogos digitais
+
 ● Computação em nuvem
-###Principais produtos ou serviços
+
+Principais produtos ou serviços
+
 Entre os principais produtos e serviços da Microsoft, destacam-se:
+
 ● Sistema operacional Windows
+
 ● Pacote Office (Word, Excel, PowerPoint)
+
 ● Plataforma de nuvem Azure
+
 ● Plataforma de jogos Xbox
+
 ● Ferramentas de desenvolvimento como Visual Studio
 
-###Outras informações relevantes
+Outras informações relevantes
+
 A Microsoft é uma das maiores empresas de tecnologia do mundo e investe constantemente em inovação, especialmente nas áreas de inteligência artificial e computação em nuvem. Além disso, possui forte presença no mercado corporativo e educacional
 
 
