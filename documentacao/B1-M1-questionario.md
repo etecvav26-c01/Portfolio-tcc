@@ -5,19 +5,20 @@ Feito por:
 <br> Antonio Miguel 3°C
 
 ## Questão 1)Pesquisa sobre empresa da área de Desenvolvimento de Sistemas.
-Nome da empresa
+
+#### Nome da empresa:
 
 Microsoft
 
-Área de atuação
+#### Área de atuação:
 
 A Microsoft atua principalmente no desenvolvimento de sistemas, criando softwares, plataformas em nuvem, aplicativos e sistemas operacionais.
 
-Como ela atua na região
+#### Como ela atua na região:
 
 A Microsoft atua globalmente, também no Brasil, oferecendo seus serviços por meio da internet, parcerias com empresas locais e suporte técnico. No país, ela fornece soluções como o Windows e o pacote Office, além de serviços em nuvem através do Azure, amplamente utilizados por empresas brasileiras.
 
-Setor tecnológico atendido
+#### Setor tecnológico atendido
 
 A empresa atende diversos setores, como:
 
@@ -31,7 +32,7 @@ A empresa atende diversos setores, como:
 
 ● Computação em nuvem
 
-Principais produtos ou serviços
+#### Principais produtos ou serviços
 
 Entre os principais produtos e serviços da Microsoft, destacam-se:
 
@@ -45,7 +46,7 @@ Entre os principais produtos e serviços da Microsoft, destacam-se:
 
 ● Ferramentas de desenvolvimento como Visual Studio
 
-Outras informações relevantes
+#### Outras informações relevantes
 
 A Microsoft é uma das maiores empresas de tecnologia do mundo e investe constantemente em inovação, especialmente nas áreas de inteligência artificial e computação em nuvem. Além disso, possui forte presença no mercado corporativo e educacional
 
@@ -54,19 +55,19 @@ A Microsoft é uma das maiores empresas de tecnologia do mundo e investe constan
 
 As atividades relacionadas ao desenvolvimento de sistemas, apesar de digitais, também geram impactos ambientais indiretos. Esses impactos estão ligados principalmente ao uso de infraestrutura tecnológica, como servidores, dispositivos eletrônicos e processos de fabricação de hardware.
 
-Consumo de energia em servidores e data centers
+#### Consumo de energia em servidores e data centers
 
 Sistemas e aplicações dependem de servidores que funcionam continuamente, consumindo grande quantidade de energia elétrica. Data centers precisam de refrigeração constante, o que aumenta ainda mais o consumo energético e pode contribuir para a emissão de gases poluentes.
 
-Descarte de equipamentos eletrônicos
+#### Descarte de equipamentos eletrônicos
 
 O avanço tecnológico faz com que dispositivos se tornem obsoletos rapidamente. Isso gera descarte frequente de computadores, servidores e outros equipamentos, muitas vezes sem o tratamento adequado.
 
-Lixo eletrônico (e-waste)
+#### Lixo eletrônico (e-waste)
 
 O lixo eletrônico contém substâncias tóxicas, como metais pesados, que podem contaminar o solo e a água quando descartados incorretamente. Esse é um dos maiores problemas ambientais ligados à tecnologia.
 
-Uso de recursos naturais
+#### Uso de recursos naturais
 
 A fabricação de hardware exige a extração de recursos naturais, como metais raros e outros materiais. Esse processo pode causar impactos ambientais, como desmatamento, poluição e esgotamento de recursos.
 
@@ -75,11 +76,11 @@ A fabricação de hardware exige a extração de recursos naturais, como metais 
 
 As atividades na área de desenvolvimento de sistemas envolvem longos períodos em frente ao computador, o que pode causar problemas físicos e mentais ao longo do tempo.
 
-Problemas de visão
+### Problemas de visão
 
 O uso excessivo de telas pode causar fadiga ocular, olhos secos, visão embaçada e dores de cabeça.
 
-Como evitar:
+#### Como evitar:
 
 ● Fazer pausas regulares (regra 20-20-20)
 
@@ -87,11 +88,11 @@ Como evitar:
 
 ● Manter distância adequada do monitor
 
-Problemas de postura
+### Problemas de postura
 
 Ficar muito tempo sentado pode causar dores nas costas, pescoço e ombros.
 
-Como evitar:
+#### Como evitar:
 
 ● Usar cadeira ergonômica
 
