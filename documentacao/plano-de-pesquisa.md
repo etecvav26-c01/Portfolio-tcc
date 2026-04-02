@@ -68,6 +68,54 @@ Essas pesquisas são importantes para que o projeto seja bem fundamentado e real
 
 ## Cronograma:
 
+#### Março:
+- Definição do tema
+- Divisão das tarefas entre os integrantes
+- Definição dos objetivos geral e específicos
+
+#### Abril
+- Entrega do questionário e do plano de pesquisa
+- Pesquisa bibliográfica
+- Pesquisa de campo
+- Definição dos requisitos e das tecnologias a serem utilizadas
+
+#### Maio
+- Desenvolvimento do protótipo inicial
+- Modelagem do banco de dados
+- Estruturação do sistema
+- Início da programação
+
+#### Junho
+- Criação do banco de dados
+- Desenvolvimento da identidade visual do projeto
+- Implementação das primeiras funcionalidades
+
+#### Julho
+- Continuação do desenvolvimento
+- Integração das funcionalidades
+- Ajustes no sistema
+
+#### Agosto
+- Testes de funcionamento
+- Correção de erros
+- Testes com usuários
+- Testes relacionados à qualidade e segurança do sistema
+
+#### Setembro
+- Ajustes finais
+- Finalização da interface
+- Revisão geral do sistema
+
+#### Outubro
+- Elaboração do trabalho escrito (TCC)
+- Organização das referências
+- Revisão do documento
+
+#### Novembro
+- Finalização do TCC
+- Preparação da apresentação
+- Entrega do projeto
+
 
 ## Resultados Esperados:
 Espera-se que o desenvolvimento do curso web proporcione aos jogadores de xadrez uma forma mais organizada e acessível de estudo, auxiliando no aprimoramento de suas habilidades e na preparação para competições.
