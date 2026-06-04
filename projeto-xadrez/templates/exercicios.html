@@ -2,16 +2,23 @@
 
 {% block content %}
 
-<h1>Exercícios</h1>
+    <center><h1>Exercícios</h1></center>
 
-<div id="board" style="width: 500px;"></div>
+    <div id="board" style="max-width: 600px; width: 100%;"></div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    Chessboard('board', {
-        position: 'start'
-    });
-});
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var board = Chessboard('board', {
+                position: 'start',
+                pieceTheme: '/static/img/chesspieces/wikipedia/{piece}.png'
+            });
+
+            window.addEventListener('resize', function() {
+                board.resize();
+            });
+
+        });
+    </script>
 
 {% endblock %}
