@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Exercícios</h1>
+
+<div id="board" style="width: 500px;"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    Chessboard('board', {
+        position: 'start'
+    });
+});
+</script>
+
+{% endblock %}
