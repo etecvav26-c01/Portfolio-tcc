@@ -4,6 +4,10 @@ body{
     min-height: 100vh;
 }
 
+footer{
+    background-color: #1E1E1E;
+}
+
 .container{
     color: #F5F5F5;
 }
@@ -44,4 +48,20 @@ body{
 
 .btn-primary:hover{
     background-color: #E0B93B !important;
+}
+
+.hero{
+    text-align: center;
+    padding: 120px 20px;
+}
+
+.hero h1{
+    font-size: 4rem;
+    font-weight: bold;
+    color: #C9A227;
+}
+
+.hero p{
+    color: #B0B0B0;
+    font-size: 1.2rem;
 }
