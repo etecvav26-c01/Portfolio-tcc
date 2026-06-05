@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ usuario.nome }}</h1>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <p>
+            Exercícios concluídos:
+            {{ usuario.exercicios_concluidos }}
+        </p>
+
+        <p>
+            Pontos:
+            {{ usuario.pontos }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

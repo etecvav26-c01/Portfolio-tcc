@@ -6,19 +6,35 @@
 
     <div id="board" style="max-width: 600px; width: 100%;"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <script type="module">
 
-            var board = Chessboard('board', {
-                position: 'start',
-                pieceTheme: '/static/img/chesspieces/wikipedia/{piece}.png'
+    import { Chess } from '/static/js/chess.js';
+
+    const game = new Chess();
+
+    const board = Chessboard('board', {
+        position: 'start',
+        draggable: true,
+        pieceTheme: '/static/img/chesspieces/wikipedia/{piece}.png',
+
+        onDrop: function(source, target) {
+
+            const move = game.move({
+                from: source,
+                to: target,
+                promotion: 'q'
             });
 
-            window.addEventListener('resize', function() {
-                board.resize();
-            });
+            if (move === null) {
+                return 'snapback';
+            }
+        },
 
-        });
+        onSnapEnd: function() {
+            board.position(game.fen());
+        }
+    });
+
     </script>
 
 {% endblock %}

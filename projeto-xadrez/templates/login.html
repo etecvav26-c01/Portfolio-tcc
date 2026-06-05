@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<form method="POST">
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email"
+               name="email"
+               class="form-control"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Senha</label>
+        <input type="password"
+               name="senha"
+               class="form-control"
+               required>
+    </div>
+
+    <button class="btn btn-success">
+        Entrar
+    </button>
+
+</form>
+
+<hr>
+
+<p class="text-center">
+    Não possui uma conta?
+    <a href="/cadastro">
+        Cadastre-se aqui
+    </a>
+</p>
+{% endblock %}
