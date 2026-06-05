@@ -1,0 +1,47 @@
+body{
+    background-color: #121212 !important;
+    color: #F5F5F5 !important;
+    min-height: 100vh;
+}
+
+.container{
+    color: #F5F5F5;
+}
+
+.card{
+    background-color: #1E1E1E !important;
+    color: white !important;
+    border: 1px solid #333 !important;
+}
+
+.card-title{
+    color: #C9A227;
+}
+
+.offcanvas{
+    background-color: #1E1E1E !important;
+    color: white !important;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.nav-link:hover{
+    color: #C9A227 !important;
+}
+
+.navbar-brand{
+    color: #C9A227 !important;
+    font-weight: bold;
+}
+
+.btn-primary{
+    background-color: #C9A227 !important;
+    border-color: #C9A227 !important;
+    color: black !important;
+}
+
+.btn-primary:hover{
+    background-color: #E0B93B !important;
+}

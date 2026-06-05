@@ -7,7 +7,7 @@
 
         <title>ChessMaster</title>
         <link rel="stylesheet"
-            href="{{url_for('static', filename='css/style.css')}}">
+        href="{{ url_for('static', filename='css/style.css') }}">
 
         <link rel="stylesheet"
             href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -15,10 +15,10 @@
         <link rel="stylesheet"
         href="{{ url_for('static', filename='css/chessboard-1.0.0.min.css') }}">
 </head>
-    <body>
+    <body class="bg-dark text-light">
 
-        <nav class="navbar bg-body-tertiary fixed-top">
-            <div class="container-fluid">
+        <nav class="navbar navbar-dark bg-black fixed-top"> 
+                <div class="container-fluid">
 
                 <a class="navbar-brand" href="#">
                     Primeiro Lance
@@ -80,7 +80,7 @@
                 </div>
 
             </div>
-        </nav>
+    </nav>
 
         <div class="container" style="padding-top: 90px;">
             {% block content %}

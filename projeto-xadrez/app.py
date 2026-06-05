@@ -90,7 +90,8 @@ def cadastro():
                 )
 
             conexao.commit()
-
+            
+            flash("Conta criada com sucesso!")
             return redirect("/login")
 
         finally:

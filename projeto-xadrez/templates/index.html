@@ -2,82 +2,49 @@
 
 {% block content %}
 
-    <div class="text-center py-5">
+<div class="hero">
 
-        <h1 class="display-3 fw-bold">
-            ♟️ Primeiro Lance
-        </h1>
+    <h1>♟️ Primeiro Lance</h1>
 
-        <p class="lead mt-3">
-            Aprenda xadrez do básico ao avançado com exercícios interativos,
-            aulas práticas e desafios.
-        </p>
+    <p>
+        Aprenda xadrez do básico ao avançado através
+        de aulas, exercícios e desafios interativos.
+    </p>
 
-        <div class="mt-4">
+    {% if "usuario_id" in session %}
 
-            <a href="/login"
-            class="btn btn-primary btn-lg me-2">
-                Começar a aprender
-            </a>
+        <a href="/aprender" class="btn btn-primary btn-lg">
+            Continuar Aprendendo
+        </a>
 
-        </div>
+    {% else %}
 
-    </div>
+        <a href="/login" class="btn btn-primary btn-lg">
+            Começar Agora
+        </a>
 
-    <hr class="my-5">
+    {% endif %}
 
-    <div class="row text-center">
+</div>
 
-        <div class="col-md-4 mb-4">
+<h2 class="section-title">
+    O que você encontrará?
+</h2>
 
-            <div class="card h-100 shadow">
+<div class="row">
 
-                <div class="card-body">
+    <div class="col-md-4 mb-4">
 
-                    <h3>🧠 Aprenda</h3>
+        <div class="card h-100">
 
-                    <p>
-                        Estude regras, táticas, aberturas e finais
-                        de forma organizada.
-                    </p>
+            <div class="card-body">
 
-                </div>
+                <h3>📚 Aprender</h3>
 
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100 shadow">
-
-                <div class="card-body">
-
-                    <h3>♟️ Exercícios</h3>
-
-                    <p>
-                        Resolva desafios e melhore sua visão tática.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100 shadow">
-
-                <div class="card-body">
-
-                    <h3>📈 Evolução</h3>
-
-                    <p>
-                        Acompanhe seu progresso e desempenho.
-                    </p>
-
-                </div>
+                <p>
+                    Aprenda regras, táticas, finais
+                    e aberturas de forma organizada.
+                </p>
 
             </div>
 
@@ -85,17 +52,50 @@
 
     </div>
 
-    <hr class="my-5">
+    <div class="col-md-4 mb-4">
 
-    <div class="text-center">
+        <div class="card h-100">
 
-        <h2>Por que aprender xadrez?</h2>
+            <div class="card-body">
 
-        <p class="mt-3">
-            O xadrez desenvolve raciocínio lógico,
-            concentração, planejamento e tomada de decisões.
-        </p>
+                <h3>♟️ Exercícios</h3>
+
+                <p>
+                    Resolva posições e melhore sua
+                    visão tática.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <h3>📈 Evolução</h3>
+
+                <p>
+                    Acompanhe seu progresso
+                    e desempenho.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+    Primeiro Lance © 2026
+
+</div>
 
 {% endblock %}
