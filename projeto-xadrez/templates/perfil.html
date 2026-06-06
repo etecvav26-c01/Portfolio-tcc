@@ -2,21 +2,97 @@
 
 {% block content %}
 
-<h1>{{ usuario.nome }}</h1>
+<div class="container">
 
-<div class="card">
+    <div class="card shadow-lg mb-4">
 
-    <div class="card-body">
+        <div class="card-body text-center">
 
-        <p>
-            Exercícios concluídos:
-            {{ usuario.exercicios_concluidos }}
-        </p>
+            <img src="{{ url_for('static', filename='img/default-user.png') }}"
+                 width="120"
+                 class="rounded-circle mb-3">
 
-        <p>
-            Pontos:
-            {{ usuario.pontos }}
-        </p>
+            <h2>{{ usuario.nome }}</h2>
+
+            <p class="text-secondary">
+                Jogador do Primeiro Lance
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card h-100">
+
+                <div class="card-body text-center">
+
+                    <h3>📚</h3>
+
+                    <h5>Exercícios</h5>
+
+                    <h2>{{ usuario.exercicios_concluidos }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card h-100">
+
+                <div class="card-body text-center">
+
+                    <h3>⭐</h3>
+
+                    <h5>Pontos</h5>
+
+                    <h2>{{ usuario.pontos }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card h-100">
+
+                <div class="card-body text-center">
+
+                    <h3>♟️</h3>
+
+                    <h5>Nível</h5>
+
+                    <h2>Iniciante</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card mt-4">
+
+        <div class="card-body">
+
+            <h4>Próximos Passos</h4>
+
+            <ul>
+                <li>Completar os primeiros exercícios.</li>
+                <li>Aprender movimento das peças.</li>
+                <li>Resolver mate em 1.</li>
+            </ul>
+
+        </div>
 
     </div>
 

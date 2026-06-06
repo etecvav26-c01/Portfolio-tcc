@@ -1,12 +1,35 @@
+/* Estética do corpo da pagina  */
+
+html,
 body{
-    background-color: #121212 !important;
-    color: #F5F5F5 !important;
-    min-height: 100vh;
+    height: 100%;
 }
 
-footer{
-    background-color: #1E1E1E;
+body{
+    display: flex;
+    flex-direction: column;
+
+    background-color: #121212 !important;
+    color: #F5F5F5 !important;
 }
+
+main{
+    flex: 1;
+}
+
+.footer{
+    text-align: center;
+
+    padding: 20px;
+
+    color: #666;
+
+    font-size: 0.9rem;
+
+    border-top: 1px solid #2A2A2A;
+}
+
+/* Configuração do Bootstrap  */
 
 .container{
     color: #F5F5F5;
@@ -14,17 +37,36 @@ footer{
 
 .card{
     background-color: #1E1E1E !important;
-    color: white !important;
-    border: 1px solid #333 !important;
+    color: #F5F5F5 !important;
+    border: 1px solid #2E2E2E;
+    border-radius: 15px;
+    transition: 0.3s;
 }
 
-.card-title{
-    color: #C9A227;
+.card:hover{
+    transform: translateY(-6px);
+
+    border-color: #C9A227;
+}
+
+.card h1,
+.card h2,
+.card h3,
+.card h4,
+.card h5,
+.card h6{
+    color: #F5F5F5 !important;
 }
 
 .offcanvas{
     background-color: #1E1E1E !important;
     color: white !important;
+}
+
+.navbar{
+    background-color: #181818 !important;
+
+    border-bottom: 1px solid #2A2A2A;
 }
 
 .nav-link{
@@ -37,8 +79,13 @@ footer{
 
 .navbar-brand{
     color: #C9A227 !important;
-    font-weight: bold;
+
+    font-weight: 700;
+
+    font-size: 1.4rem;
 }
+
+/* Botões da pagina  */
 
 .btn-primary{
     background-color: #C9A227 !important;
@@ -52,16 +99,20 @@ footer{
 
 .hero{
     text-align: center;
+
     padding: 120px 20px;
 }
 
 .hero h1{
-    font-size: 4rem;
-    font-weight: bold;
     color: #C9A227;
+
+    font-size: 4rem;
+
+    font-weight: 700;
 }
 
 .hero p{
-    color: #B0B0B0;
+    color: #999;
+
     font-size: 1.2rem;
 }

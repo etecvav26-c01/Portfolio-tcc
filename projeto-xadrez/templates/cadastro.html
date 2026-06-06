@@ -2,38 +2,47 @@
 
 {% block content %}
 
-<h1>Criar Conta</h1>
+    <br><br>
+    <center><h1>Criar Conta</h1></center>
 
-<form method="POST">
+    <form method="POST">
 
-    <div class="mb-3">
-        <label>Nome</label>
-        <input type="text"
-               name="nome"
-               class="form-control"
-               required>
-    </div>
+        <div class="mb-3">
+            <label>Nome</label>
+            <input type="text"
+                name="nome"
+                class="form-control"
+                required>
+        </div>
 
-    <div class="mb-3">
-        <label>Email</label>
-        <input type="email"
-               name="email"
-               class="form-control"
-               required>
-    </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email"
+                name="email"
+                class="form-control"
+                required>
+        </div>
 
-    <div class="mb-3">
-        <label>Senha</label>
-        <input type="password"
-               name="senha"
-               class="form-control"
-               required>
-    </div>
+        <div class="mb-3">
+            <label>Senha</label>
+            <input type="password"
+                name="senha"
+                class="form-control"
+                required>
+        </div>
+        <br>
+        <center><button class="btn btn-primary">
+            Criar Conta
+        </button></center>
+    </form>
+    <br>
+    <p class="text-center">
+        Já possui uma conta?
+        <a href="/login">
+            Entre por aqui
+        </a>
+    </p>
+ 
 
-    <button class="btn btn-primary">
-        Criar Conta
-    </button>
-
-</form>
 
 {% endblock %}

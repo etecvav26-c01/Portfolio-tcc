@@ -14,10 +14,12 @@
 
     {% endif %}
 {% endwith %}
+<br>
+<br>
 
-    <h1>Login</h1>
+    <center><h1>Login</h1></center>
 
-    <form method="POST">
+    <form method="POST">    
 
         <div class="mb-3">
             <label>Email</label>
@@ -34,19 +36,23 @@
                 class="form-control"
                 required>
         </div>
-
-        <button class="btn btn-success">
+        <br>
+        <center><button class="btn btn-primary">
             Entrar
-        </button>
+        </button></center>
 
     </form>
-
-    <hr>
-
+    <br>
     <p class="text-center">
         Não possui uma conta?
         <a href="/cadastro">
             Cadastre-se aqui
         </a>
     </p>
+ 
+
+
+
+
+
 {% endblock %}

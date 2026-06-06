@@ -88,14 +88,15 @@
 
             </div>
     </nav>
-
+    <main>
         <div class="container" style="padding-top: 90px;">
             {% block content %}
             {% endblock %}
 
         </div>
+    </main>
 
-        <!-- scripts-->
+    <!-- scripts-->
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='js/chessboard-1.0.0.min.js') }}"></script>
@@ -108,8 +109,8 @@
     <script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
 
     <center><div class="footer">
-        <br>
-        <br>
+        <hr>
+
         Trabalho ficticio para o TCC em Desenvolvimento de Sistemas -  ETECVAV
         <p>
         Primeiro Lance © 2026

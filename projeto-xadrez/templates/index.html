@@ -2,50 +2,93 @@
 
 {% block content %}
 
-<div class="hero">
+    <div class="hero">
 
-    <h1>Primeiro Lance</h1>
+        <h1>Primeiro Lance</h1>
 
-    <p>
-        Aprenda xadrez do básico ao avançado através
-        de aulas, exercícios e desafios interativos.
-    </p>
+        <p>
+            Aprenda xadrez do básico ao avançado através
+            de aulas, exercícios e desafios interativos.
+        </p>
 
-    {% if "usuario_id" in session %}
+        {% if "usuario_id" in session %}
 
-        <a href="/aprender" class="btn btn-primary btn-lg">
-            Continuar Aprendendo
-        </a>
+            <a href="/aprender" class="btn btn-primary btn-lg">
+                Continuar Aprendendo
+            </a>
 
-    {% else %}
+        {% else %}
 
-        <a href="/login" class="btn btn-primary btn-lg">
-            Começar Agora
-        </a>
+            <a href="/login" class="btn btn-primary btn-lg">
+                Começar Agora
+            </a>
 
-    {% endif %}
+        {% endif %}
 
-</div>
-<hr>
-<br>
-<h2 class="section-title">
-    O que você encontrará?
-</h2>
+    </div>
 
-<div class="row">
+    <hr>
+    <br>
 
-    <div class="col-md-4 mb-4">
+    <center><h2 class="section-title">
+        O que você encontrará?
+    </h2></center>
 
-        <div class="card h-100">
+    <br>
+    <div class="row">
 
-            <div class="card-body">
+        <div class="col-md-4 mb-4">
 
-                <h3>📚 Aprender</h3>
+            <div class="card h-100">
 
-                <p>
-                    Aprenda regras, táticas, finais
-                    e aberturas de forma organizada.
-                </p>
+                <div class="card-body">
+
+                    <h3>📚 Aprender</h3>
+
+                    <p>
+                        Aprenda regras, táticas, finais
+                        e aberturas de forma organizada.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <h3>♟️ Exercícios</h3>
+
+                    <p>
+                        Resolva posições e melhore sua
+                        visão tática.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <h3>📈 Evolução</h3>
+
+                    <p>
+                        Acompanhe seu progresso
+                        e desempenho.
+                    </p>
+
+                </div>
 
             </div>
 
@@ -53,46 +96,4 @@
 
     </div>
 
-    <div class="col-md-4 mb-4">
-
-        <div class="card h-100">
-
-            <div class="card-body">
-
-                <h3>♟️ Exercícios</h3>
-
-                <p>
-                    Resolva posições e melhore sua
-                    visão tática.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-4 mb-4">
-
-        <div class="card h-100">
-
-            <div class="card-body">
-
-                <h3>📈 Evolução</h3>
-
-                <p>
-                    Acompanhe seu progresso
-                    e desempenho.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-<br>
-<hr>
-<br>
 {% endblock %}
