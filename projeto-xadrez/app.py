@@ -131,33 +131,23 @@ def perfil():
         return redirect("/login")
 
     conexao = conectar_bd()
+    cursor = conexao.cursor()
 
-    try:
-        with conexao.cursor() as cursor:
+    cursor.execute("""
+        SELECT nome, email
+        FROM usuarios
+        WHERE id = %s
+    """, (session["usuario_id"],))
 
-            cursor.execute(
-                """
-                SELECT u.nome,
-                       p.exercicios_concluidos,
-                       p.pontos
-                FROM usuarios u
-                JOIN progresso p
-                    ON u.id = p.usuario_id
-                WHERE u.id = %s
-                """,
-                (session["usuario_id"],)
-            )
+    usuario = cursor.fetchone()
 
-            usuario = cursor.fetchone()
-
-    finally:
-        conexao.close()
+    cursor.close()
+    conexao.close()
 
     return render_template(
         "perfil.html",
         usuario=usuario
     )
-
 
 if __name__ == '__main__':
     app.run(debug=True)
