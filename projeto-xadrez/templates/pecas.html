@@ -1,137 +1,222 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <br>
 <br>
-    <div id="board" style="max-width:500px; margin:auto;"></div>
-    <script>
-    document.addEventListener("DOMContentLoaded", function(){
-
-        Chessboard('board', {
-            position: 'start'
-        });
-
-    });
-    </script>
-
 
     <div class="container">
+        
+    <div class="text-center mb-4">
 
-        <div class="text-center mb-5">
+        <h1 class="text-warning">
+            ♙ Movimento das Peças
+        </h1>
 
-            <h1 class="text-warning">
-                ♙ Movimento das Peças
-            </h1>
+        <p class="text-secondary">
+            Aprenda como cada peça se movimenta no tabuleiro de xadrez.
+        </p>
 
-            <p class="text-secondary">
-                Aprenda como cada peça se move no tabuleiro.
-            </p>
+    </div>
 
-        </div>
+    <!-- Tabuleiro -->
 
-        <!-- Peão -->
+    <div class="card mb-5">
 
-        <div class="card mb-4">
+        <div class="card-body text-center">
 
-            <div class="card-body">
+            <h4 class="mb-3">Demonstração</h4>
 
-                <h3>♙ Peão</h3>
-
-                <p>
-                    O peão move-se uma casa para frente.
-                    No primeiro movimento pode avançar duas casas.
-                    Captura peças na diagonal.
-                </p>
-
+            <div id="board"
+                style="max-width:500px; margin:auto;">
             </div>
 
-        </div>
+            <div class="mt-4">
 
-        <!-- Torre -->
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarPeao()">
+                    ♙ Peão
+                </button>
 
-        <div class="card mb-4">
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarTorre()">
+                    ♖ Torre
+                </button>
 
-            <div class="card-body">
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarCavalo()">
+                    ♘ Cavalo
+                </button>
 
-                <h3>♖ Torre</h3>
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarBispo()">
+                    ♗ Bispo
+                </button>
 
-                <p>
-                    Move-se quantas casas desejar
-                    horizontalmente ou verticalmente.
-                </p>
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarRainha()">
+                    ♕ Rainha
+                </button>
 
-            </div>
-
-        </div>
-
-        <!-- Cavalo -->
-
-        <div class="card mb-4">
-
-            <div class="card-body">
-
-                <h3>♘ Cavalo</h3>
-
-                <p>
-                    Move-se em formato de L.
-                    É a única peça que pode pular outras peças.
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- Bispo -->
-
-        <div class="card mb-4">
-
-            <div class="card-body">
-
-                <h3>♗ Bispo</h3>
-
-                <p>
-                    Move-se pelas diagonais
-                    quantas casas desejar.
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- Rainha -->
-
-        <div class="card mb-4">
-
-            <div class="card-body">
-
-                <h3>♕ Rainha</h3>
-
-                <p>
-                    Combina os movimentos da torre e do bispo.
-                    É a peça mais poderosa do jogo.
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- Rei -->
-
-        <div class="card mb-4">
-
-            <div class="card-body">
-
-                <h3>♔ Rei</h3>
-
-                <p>
-                    Move-se uma casa por vez
-                    em qualquer direção.
-                </p>
+                <button class="btn btn-warning m-1"
+                        onclick="mostrarRei()">
+                    ♔ Rei
+                </button>
 
             </div>
 
         </div>
 
     </div>
+
+    <!-- Peão -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♙ Peão</h3>
+
+            <p>
+                O peão move-se uma casa para frente.
+                Em seu primeiro movimento ele pode avançar duas casas.
+                Sua captura é feita na diagonal.
+                Quando alcança a última fileira do tabuleiro,
+                pode ser promovido para outra peça.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Torre -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♖ Torre</h3>
+
+            <p>
+                A torre move-se horizontalmente e verticalmente
+                por quantas casas desejar.
+                É uma peça muito forte em finais de partida
+                e participa do movimento especial chamado roque.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Cavalo -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♘ Cavalo</h3>
+
+            <p>
+                O cavalo move-se em formato de "L":
+                duas casas em uma direção e uma em outra.
+                É a única peça capaz de saltar sobre outras peças.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Bispo -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♗ Bispo</h3>
+
+            <p>
+                O bispo move-se pelas diagonais do tabuleiro.
+                Cada bispo permanece sempre na mesma cor de casa
+                durante toda a partida.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Rainha -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♕ Rainha</h3>
+
+            <p>
+                A rainha combina os movimentos da torre e do bispo.
+                Pode mover-se em linhas retas ou diagonais
+                por quantas casas desejar.
+                É considerada a peça mais poderosa do jogo.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Rei -->
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h3>♔ Rei</h3>
+
+            <p>
+                O rei move-se apenas uma casa por vez,
+                em qualquer direção.
+                A proteção do rei é o principal objetivo da partida,
+                pois quando ele sofre xeque-mate o jogo termina.
+            </p>
+
+        </div>
+
+
+    <script>
+
+    let board;
+
+    document.addEventListener("DOMContentLoaded", function(){
+
+        board = Chessboard("board", {
+            position: "start",
+            pieceTheme: "/static/img/chesspieces/wikipedia/{piece}.png"
+        });
+    });
+
+        function mostrarPeao(){
+            board.position("8/8/8/8/8/8/4P3/8");
+        }
+
+        function mostrarTorre(){
+            board.position("8/8/8/8/4R3/8/8/8");
+        }
+
+        function mostrarCavalo(){
+            board.position("8/8/8/8/4N3/8/8/8");
+        }
+
+        function mostrarBispo(){
+            board.position("8/8/8/8/4B3/8/8/8");
+        }
+
+        function mostrarRainha(){
+            board.position("8/8/8/8/4Q3/8/8/8");
+        }
+
+        function mostrarRei(){
+            board.position("8/8/8/8/4K3/8/8/8");
+        }
+
+    </script>
 
 {% endblock %}
