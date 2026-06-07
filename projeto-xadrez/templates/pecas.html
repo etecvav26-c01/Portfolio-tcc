@@ -6,7 +6,7 @@
 <br>
 
     <div class="container">
-        
+
     <div class="text-center mb-4">
 
         <h1 class="text-warning">
@@ -190,33 +190,130 @@
         board = Chessboard("board", {
             position: "start",
             pieceTheme: "/static/img/chesspieces/wikipedia/{piece}.png"
+            });
         });
-    });
 
         function mostrarPeao(){
-            board.position("8/8/8/8/8/8/4P3/8");
-        }
 
+            board.position({
+                e2: 'wP'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'e3',
+                    'e4'
+                ]);
+            }, 100);
+
+        }
         function mostrarTorre(){
-            board.position("8/8/8/8/4R3/8/8/8");
+
+            board.position({
+                e4: 'wR'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'e1','e2','e3',
+                    'e5','e6','e7','e8',
+                    'a4','b4','c4','d4',
+                    'f4','g4','h4'
+                ]);
+            }, 100);
+
         }
 
         function mostrarCavalo(){
-            board.position("8/8/8/8/4N3/8/8/8");
+
+            board.position({
+                e4: 'wN'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'c3','c5',
+                    'd2','d6',
+                    'f2','f6',
+                    'g3','g5'
+                ]);
+            }, 100);
+
         }
 
         function mostrarBispo(){
-            board.position("8/8/8/8/4B3/8/8/8");
+
+            board.position({
+                e4: 'wB'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'd3','c2','b1',
+                    'f5','g6','h7',
+                    'd5','c6','b7','a8',
+                    'f3','g2','h1'
+                ]);
+            }, 100);
+
         }
 
         function mostrarRainha(){
-            board.position("8/8/8/8/4Q3/8/8/8");
+            board.position({
+                e4: 'wQ'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'd3','c2','b1',
+                    'f5','g6','h7',
+                    'd5','c6','b7','a8',
+                    'f3','g2','h1',
+                    'e1','e2','e3',
+                    'e5','e6','e7','e8',
+                    'a4','b4','c4','d4',
+                    'f4','g4','h4'
+            ]);
+            }, 100);
+
         }
 
         function mostrarRei(){
-            board.position("8/8/8/8/4K3/8/8/8");
+
+            board.position({
+                e4: 'wK'
+            });
+
+            setTimeout(() => {
+                destacarCasas([
+                    'd3','e3','f3',
+                    'd4','f4',
+                    'd5','e5','f5'
+                ]);
+            }, 100);
+
+        }
+        function limparDestaques() {
+            document.querySelectorAll('.square-highlight')
+            .forEach(casa => casa.classList.remove('square-highlight'));
         }
 
+        function destacarCasas(casas) {
+
+            limparDestaques();
+
+            casas.forEach(casa => {
+
+                const elemento = document.querySelector(
+                    `.square-${casa}`
+                );
+
+                if (elemento) {
+                    elemento.classList.add('square-highlight');
+                }
+
+            });
+        }
     </script>
 
 {% endblock %}
