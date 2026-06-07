@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+    <div id="board" style="max-width:500px; margin:auto;"></div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+
+        Chessboard('board', {
+            position: 'start'
+        });
+
+    });
+    </script>
+
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h1 class="text-warning">
+                ♙ Movimento das Peças
+            </h1>
+
+            <p class="text-secondary">
+                Aprenda como cada peça se move no tabuleiro.
+            </p>
+
+        </div>
+
+        <!-- Peão -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♙ Peão</h3>
+
+                <p>
+                    O peão move-se uma casa para frente.
+                    No primeiro movimento pode avançar duas casas.
+                    Captura peças na diagonal.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Torre -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♖ Torre</h3>
+
+                <p>
+                    Move-se quantas casas desejar
+                    horizontalmente ou verticalmente.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Cavalo -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♘ Cavalo</h3>
+
+                <p>
+                    Move-se em formato de L.
+                    É a única peça que pode pular outras peças.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Bispo -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♗ Bispo</h3>
+
+                <p>
+                    Move-se pelas diagonais
+                    quantas casas desejar.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Rainha -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♕ Rainha</h3>
+
+                <p>
+                    Combina os movimentos da torre e do bispo.
+                    É a peça mais poderosa do jogo.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Rei -->
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <h3>♔ Rei</h3>
+
+                <p>
+                    Move-se uma casa por vez
+                    em qualquer direção.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

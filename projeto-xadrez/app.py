@@ -45,6 +45,7 @@ def login():
 
                 session["usuario_id"] = usuario["id"]
                 session["usuario_nome"] = usuario["nome"]
+                session["admin"] = usuario["admin"]
 
                 return redirect("/perfil")
 
@@ -148,6 +149,56 @@ def perfil():
         "perfil.html",
         usuario=usuario
     )
+
+@app.route("/admin")
+def admin():
+
+    if "usuario_id" not in session:
+        return redirect("/login")
+
+    conexao = conectar_bd()
+
+    with conexao.cursor() as cursor:
+
+        cursor.execute("""
+            SELECT admin
+            FROM usuarios
+            WHERE id = %s
+        """, (session["usuario_id"],))
+
+        usuario = cursor.fetchone()
+
+    conexao.close()
+
+    if not usuario["admin"]:
+        return redirect("/")
+
+    return render_template("admin.html")
+
+@app.route("/aprender/pecas")
+def pecas():
+
+    if "usuario_id" not in session:
+        return redirect("/login")
+
+    return render_template("pecas.html")
+
+
+@app.route("/aprender/xeque")
+def xeque():
+    return render_template("xeque.html")
+
+
+@app.route("/aprender/taticas")
+def taticas():
+    return render_template("taticas.html")
+
+
+@app.route("/aprender/aberturas")
+def aberturas():
+    return render_template("aberturas.html")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
