@@ -38,9 +38,11 @@ O xadrez é considerado uma atividade que promove o desenvolvimento intelectual 
 
 Essas competências são úteis em vários campos do intelecto inclusive na criatividade. A figura 1 apresenta um gráfico referente a uma pesquisa da “The American Chess School” dos anos 80, e compara o desempenho em um teste de criatividade entre dois grupos de crianças com o qi maior de 130, onde um grupo joga xadrez e o outro não, nota-se uma grande diferença entre os dois grupos, onde o primeiro, o que joga xadrez, teve um desempenho superior ao do segundo, o grupo que não joga.
 
-Figura 1 : Gráfico de comparação do teste
-
+<p align="center">
+Figura 1 : Gráfico de comparação do teste<br>
+<img src="img/grafico.png" width="400"><br>
 Fonte: Study I. The ESEA Title IV-C Project: Developing Critical and Creative Thinking Through Chess
+</p>
 
 Além disso, a prática do xadrez estimula aspectos emocionais importantes, como o controle da ansiedade, a disciplina e a responsabilidade pelas próprias escolhas. Tais características tornam o jogo uma ferramenta valiosa tanto para fins educacionais quanto para o desenvolvimento pessoal dos praticantes.
 
@@ -50,9 +52,11 @@ Nos últimos anos, o crescimento das plataformas digitais ampliou significativam
 
 Plataformas como Lichess e Chess.com oferecem diversas funcionalidades voltadas ao aprendizado, incluindo análise de partidas, resolução de problemas táticos e acesso a conteúdos educacionais (Como exemplificado na figura 2, a esquerda da tela existem várias opções para pratica e estudo ) . Apesar disso, muitos usuários ainda encontram dificuldades para estabelecer uma rotina organizada de estudos, especialmente quando o objetivo é a preparação para competições.
 
-Figura 2: Home do chess.com
-
+<p align="center">
+Figura 2: Home do chess.com<br>
+<img src="img/chesspontocom.png" width="400"></center><br>
 Fonte: chess.com
+</p>
 
 Diante desse cenário, torna-se relevante o desenvolvimento de sistemas que integrem conteúdos teóricos, exercícios e mecanismos de acompanhamento do progresso dos jogadores, proporcionando uma experiência mais estruturada de aprendizagem.
 
@@ -62,9 +66,11 @@ O sistema proposto será desenvolvido como uma plataforma web voltada ao treinam
 
 Além do conteúdo teórico, a plataforma contará com funcionalidades destinadas ao acompanhamento do desempenho dos usuários. Dessa forma, os jogadores poderão visualizar sua evolução ao longo do tempo, identificar pontos de melhoria e organizar seus estudos de maneira mais eficiente. Algumas das funcionalidades já estão sendo introduzidas no site, a home do site na figura 3 onde já pode ser visto o começo dessas funcionalidades
 
-Figura 3: Home do site
-
+<p align="center">
+Figura 3: Home do site<br>
+<img src="img/home.png" width="400"><br>
 Fonte: Próprio autores
+</p>
 
 TECNOLOGIAS UTILIZADAS:
 
