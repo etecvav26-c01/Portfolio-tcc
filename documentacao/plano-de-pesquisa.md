@@ -3,6 +3,7 @@
 ### Feito por: 
 Adrian Morales 3°C
 <br> Antonio Miguel 3°C
+<br> João Vitor Gomes 3°C
 
 ### Categoria: 
 Ciências da Natureza e Exatas
