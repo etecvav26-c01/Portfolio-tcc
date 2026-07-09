@@ -181,22 +181,22 @@ def pecas():
     if "usuario_id" not in session:
         return redirect("/login")
 
-    return render_template("pecas.html")
+    return render_template("cursos/pecas.html")
 
 
 @app.route("/aprender/xeque")
 def xeque():
-    return render_template("xeque.html")
+    return render_template("cursos/xeque.html")
 
 
 @app.route("/aprender/taticas")
 def taticas():
-    return render_template("taticas.html")
+    return render_template("cursos/taticas.html")
 
 
 @app.route("/aprender/aberturas")
 def aberturas():
-    return render_template("aberturas.html")
+    return render_template("cursos/aberturas.html")
 
 
 
