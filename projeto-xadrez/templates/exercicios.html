@@ -2,56 +2,106 @@
 
 {% block content %}
 
-
+<div class="container">
 
     <div class="card mt-4">
 
         <div class="card-body">
 
-            <center><h4>Exercicios de xadrez</h4>
+            <h2 class="text-warning">
+                Teste do Motor - Primeiro Lance Engine
+            </h2>
 
-            <p>
-                Em desenvolvimento.
-            </p></center>
+            <p class="text-secondary">
+                Esta página serve para testar o funcionamento do tabuleiro.
+            </p>
 
         </div>
 
     </div>
 
-  
     <br>
 
-    <div id="board" style="max-width: 600px; width: 100%;"></div>
+    <div class="row">
 
-    <script type="module">
+        <div class="col-lg-8">
 
-    import { Chess } from '/static/js/chess.js';
+            <div id="board" style="max-width:600px;"></div>
 
-    const game = new Chess();
+        </div>
 
-    const board = Chessboard('board', {
-        position: 'start',
-        draggable: true,
-        pieceTheme: '/static/img/chesspieces/wikipedia/{piece}.png',
+        <div class="col-lg-4">
 
-        onDrop: function(source, target) {
+            <div class="card mb-3">
 
-            const move = game.move({
-                from: source,
-                to: target,
-                promotion: 'q'
-            });
+                <div class="card-body">
 
-            if (move === null) {
-                return 'snapback';
-            }
-        },
+                    <h5>Controles</h5>
 
-        onSnapEnd: function() {
-            board.position(game.fen());
-        }
-    });
+                    <button class="btn btn-warning w-100 mb-2"
+                            onclick="PLBoard.reset()">
 
-    </script>
+                        Reiniciar Partida
+
+                    </button>
+
+                    <button class="btn btn-secondary w-100 mb-2"
+                            onclick="PLBoard.flip()">
+
+                        Girar Tabuleiro
+
+                    </button>
+
+                    <button class="btn btn-info w-100"
+                            onclick="mostrarFen()">
+
+                        Mostrar FEN
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h5>Informações</h5>
+
+                    <p><strong>FEN Atual</strong></p>
+
+                    <textarea
+                        id="fen"
+                        class="form-control"
+                        rows="7"
+                        readonly></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="module"
+src="{{ url_for('static', filename='js/main.js') }}">
+</script>
+
+<script>
+
+function mostrarFen(){
+
+    document.getElementById("fen").value =
+        PLBoard.fen();
+
+}
+
+setInterval(mostrarFen,500);
+
+</script>
 
 {% endblock %}
