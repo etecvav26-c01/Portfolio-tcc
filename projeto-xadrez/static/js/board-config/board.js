@@ -1,5 +1,3 @@
-import { Chess } from "../chess.js";
-
 export class PLBoard {
 
     constructor(config = {}) {
@@ -18,8 +16,10 @@ export class PLBoard {
 
             draggable: config.draggable ?? true,
 
-            pieceTheme:
-                "/static/img/chesspieces/wikipedia/{piece}.png",
+            pieceTheme: "/static/img/chesspieces/wikipedia/{piece}.png",
+
+            onDragStart: (source, piece) =>
+                this.onDragStart(source, piece),
 
             onDrop: (source, target) =>
                 this.onDrop(source, target),
@@ -28,6 +28,24 @@ export class PLBoard {
                 this.update()
 
         });
+
+    }
+
+    onDragStart(source, piece) {
+
+        // jogo acabou
+        if (this.game.isGameOver())
+            return false;
+
+        // vez das brancas
+        if (this.game.turn() === "w" && piece.startsWith("b"))
+            return false;
+
+        // vez das pretas
+        if (this.game.turn() === "b" && piece.startsWith("w"))
+            return false;
+
+        return true;
 
     }
 
@@ -43,7 +61,7 @@ export class PLBoard {
 
         });
 
-        if (!move)
+        if (move === null)
             return "snapback";
 
     }

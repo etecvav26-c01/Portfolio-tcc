@@ -93,14 +93,14 @@ src="{{ url_for('static', filename='js/main.js') }}">
 
 <script>
 
-function mostrarFen(){
+    function mostrarFen(){
 
-    document.getElementById("fen").value =
-        PLBoard.fen();
+        document.getElementById("fen").value =
+            PLBoard.fen();
 
-}
+    }
 
-setInterval(mostrarFen,500);
+    setInterval(mostrarFen,500);
 
 </script>
 
