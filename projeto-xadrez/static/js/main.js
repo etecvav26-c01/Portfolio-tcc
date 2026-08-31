@@ -1,21 +1,8 @@
-import { PLBoard }
-from "./board-config/board.js";
+import { PLBoard } from "./board-config/board.js";
 
-window.addEventListener("DOMContentLoaded", ()=>{
+console.log("PLBoard carregado:", PLBoard);
 
-    const elemento =
-        document.getElementById("board");
-
-    if(!elemento)
-        return;
-
-    window.PLBoard =
-        new PLBoard({
-
-            element:"board",
-
-            draggable:true
-
-        });
-
+window.PLBoard = new PLBoard({
+    element: "board",
+    draggable: true
 });

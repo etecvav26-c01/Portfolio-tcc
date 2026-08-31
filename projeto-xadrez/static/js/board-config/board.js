@@ -1,3 +1,7 @@
+import { Chess } from "../chess.js";
+
+console.log("Chess importado:", Chess);
+
 export class PLBoard {
 
     constructor(config = {}) {
@@ -33,69 +37,51 @@ export class PLBoard {
 
     onDragStart(source, piece) {
 
-        // jogo acabou
         if (this.game.isGameOver())
             return false;
 
-        // vez das brancas
         if (this.game.turn() === "w" && piece.startsWith("b"))
             return false;
 
-        // vez das pretas
         if (this.game.turn() === "b" && piece.startsWith("w"))
             return false;
 
         return true;
-
     }
 
     onDrop(source, target) {
 
         const move = this.game.move({
-
             from: source,
-
             to: target,
-
             promotion: "q"
-
         });
 
         if (move === null)
             return "snapback";
 
+        this.update();
     }
 
     update() {
-
         this.board.position(this.game.fen());
-
     }
 
     reset() {
-
         this.game.reset();
-
         this.update();
-
     }
 
     flip() {
-
         this.board.flip();
-
     }
 
     fen() {
-
         return this.game.fen();
-
     }
 
     pgn() {
-
         return this.game.pgn();
-
     }
 
 }
