@@ -2,13 +2,17 @@ import { Chess } from "../chess.js";
 
 export class PLBoard {
 
-    constructor(config = {}) {
+constructor(config = {}) {
 
-        this.element = config.element || "board";
+    this.element = config.element || "board";
 
-        this.game = new Chess();
+    this.game = new Chess();
 
-        this.allowMove = config.allowMove || (() => true);
+    this.allowMove =
+        config.allowMove || (() => true);
+
+    this.onMove =
+        config.onMove || (() => {});
 
         if (config.fen && config.fen !== "start") {
 
@@ -26,6 +30,10 @@ export class PLBoard {
 
             draggable: config.draggable ?? true,
 
+            moveSpeed: 0,
+            snapbackSpeed: 0,
+            snapSpeed: 0,
+
             pieceTheme:
                 "/static/img/chesspieces/wikipedia/{piece}.png",
 
@@ -37,21 +45,27 @@ export class PLBoard {
 
             onSnapEnd: () =>
                 this.update()
-
         });
-
     }
+
+
+    // ==========================================
+    // CONTROLE DAS JOGADAS
+    // ==========================================
 
     onDragStart(source, piece) {
 
+        // Não permite jogar se a partida acabou
         if (this.game.isGameOver()) {
             return false;
         }
 
+        // Permissão personalizada
         if (!this.allowMove(source, piece)) {
             return false;
         }
 
+        // Só permite mover peças da vez
         if (
             this.game.turn() === "w" &&
             piece.startsWith("b")
@@ -69,6 +83,7 @@ export class PLBoard {
         return true;
     }
 
+
     onDrop(source, target) {
 
         let move;
@@ -84,9 +99,9 @@ export class PLBoard {
         } catch (error) {
 
             return "snapback";
-
         }
 
+        // Movimento ilegal
         if (!move) {
             return "snapback";
         }
@@ -96,27 +111,34 @@ export class PLBoard {
         return undefined;
     }
 
+
+    // ==========================================
+    // ATUALIZAÇÃO
+    // ==========================================
+
     update() {
 
         this.board.position(
             this.game.fen()
         );
-
     }
+
+
+    // ==========================================
+    // CONTROLES
+    // ==========================================
 
     reset() {
 
         this.game.reset();
 
         this.update();
-
     }
 
 
     flip() {
 
         this.board.flip();
-
     }
 
 
@@ -125,9 +147,12 @@ export class PLBoard {
         this.game.undo();
 
         this.update();
-
     }
 
+
+    // ==========================================
+    // FEN
+    // ==========================================
 
     loadFEN(fen) {
 
@@ -141,53 +166,59 @@ export class PLBoard {
 
         } catch (error) {
 
-            console.error("FEN inválida:", error);
+            console.error(
+                "FEN inválida:",
+                error
+            );
 
             return false;
         }
-
     }
+
 
     fen() {
 
         return this.game.fen();
-
     }
 
 
     pgn() {
 
         return this.game.pgn();
-
     }
 
+
+    // ==========================================
+    // ESTADO DA PARTIDA
+    // ==========================================
 
     turn() {
 
         return this.game.turn();
-
     }
 
 
     isGameOver() {
 
         return this.game.isGameOver();
-
     }
 
 
     isCheck() {
 
         return this.game.isCheck();
-
     }
 
 
     isCheckmate() {
 
         return this.game.isCheckmate();
-
     }
+
+
+    // ==========================================
+    // DESTAQUE DE CASAS
+    // ==========================================
 
     highlight(square) {
 
@@ -197,10 +228,13 @@ export class PLBoard {
             );
 
         if (element) {
-            element.classList.add("pl-highlight");
-        }
 
+            element.classList.add(
+                "pl-highlight"
+            );
+        }
     }
+
 
     clearHighlights() {
 
@@ -213,49 +247,6 @@ export class PLBoard {
                 element.classList.remove(
                     "pl-highlight"
                 );
-
             });
-
     }
-
-    lock() {
-
-        this.board = Chessboard(this.element, {
-
-            position: this.game.fen(),
-
-            draggable: false,
-
-            pieceTheme:
-                "/static/img/chesspieces/wikipedia/{piece}.png"
-
-        });
-
-    }
-
-
-    unlock() {
-
-        this.board = Chessboard(this.element, {
-
-            position: this.game.fen(),
-
-            draggable: true,
-
-            pieceTheme:
-                "/static/img/chesspieces/wikipedia/{piece}.png",
-
-            onDragStart: (source, piece) =>
-                this.onDragStart(source, piece),
-
-            onDrop: (source, target) =>
-                this.onDrop(source, target),
-
-            onSnapEnd: () =>
-                this.update()
-
-        });
-
-    }
-
 }

@@ -4,33 +4,58 @@ export class PLExercise {
 
         this.board = board;
 
-        this.startFEN = config.fen;
+        this.nome =
+            config.nome || "Exercício";
 
-        this.solution = config.solution;
+        this.startFEN =
+            config.fen || board.fen();
 
-        this.points = config.points || 10;
+        this.correctMoves =
+            config.moves || [];
+
+        this.pontos =
+            config.pontos || 10;
+
+        this.currentMove = 0;
 
         this.finished = false;
-
     }
 
 
-    checkMove(from, to) {
+    checkMove(move) {
 
         if (this.finished) {
             return false;
         }
 
+        const expected =
+            this.correctMoves[this.currentMove];
+
+        if (!expected) {
+            return false;
+        }
+
 
         if (
-            from === this.solution.from &&
-            to === this.solution.to
+            move.from === expected.from &&
+            move.to === expected.to
         ) {
 
-            this.finished = true;
+            this.currentMove++;
+
+
+            if (
+                this.currentMove >=
+                this.correctMoves.length
+            ) {
+
+                this.finished = true;
+
+                return true;
+            }
+
 
             return true;
-
         }
 
 
@@ -40,17 +65,24 @@ export class PLExercise {
 
     reset() {
 
-        this.board.loadFEN(this.startFEN);
+        this.board.loadFEN(
+            this.startFEN
+        );
+
+        this.currentMove = 0;
 
         this.finished = false;
-
     }
 
 
     isFinished() {
 
         return this.finished;
-
     }
 
+
+    getPoints() {
+
+        return this.pontos;
+    }
 }

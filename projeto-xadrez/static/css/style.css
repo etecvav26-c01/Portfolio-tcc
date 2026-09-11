@@ -180,7 +180,7 @@ main{
         inset 0 0 0 5px rgba(255, 193, 7, 0.75);
 }
 
-/* parte do admin
+/* parte do admin */
 
 /* =========================
    ADMIN
@@ -212,11 +212,7 @@ main{
     margin-bottom: 0;
 }
 
-/* perfil
-
-/* =========================
-   PERFIL
-   ========================= */
+/* perfil */
 
 .profile-avatar {
     width: 90px;
@@ -265,4 +261,9 @@ main{
 .profile-icon {
     font-size: 32px;
     margin-bottom: 8px;
+}
+.pl-highlight {
+    box-shadow:
+        inset 0 0 0 5px
+        rgba(255, 193, 7, 0.75);
 }
