@@ -1,35 +1,131 @@
 import { PLBoard } from "./board-config/board.js";
+import { ExerciseManager } from "./exercises/exercise-manager.js";
+import { exercises } from "./exercises/exercises.js";
 
 console.log("Primeiro Lance Engine carregando...");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const boardElement = document.getElementById("board");
 
-        const boardElement =
-            document.getElementById("board");
+  if (!boardElement) {
+    return;
+  }
 
-        // Se a página não possui tabuleiro,
-        // não faz nada.
-        if (!boardElement) {
-            return;
-        }
+  console.log("Tabuleiro encontrado.");
 
-        console.log(
-            "Tabuleiro encontrado."
-        );
+  window.PLBoard = new PLBoard({
+    element: "board",
 
-        window.PLBoard =
-            new PLBoard({
+    draggable: true,
+  });
 
-                element: "board",
+  // Se a página possuir
+  // sistema de exercícios
 
-                draggable: true
+  if (document.getElementById("exercise-container")) {
+    window.exerciseManager = new ExerciseManager(window.PLBoard, exercises);
 
-            });
+    window.PLBoard.onMove = (move) => {
+      verificarJogada(move);
+    };
 
-        console.log(
-            "PLBoard inicializado."
-        );
+    atualizarExercicio();
+  }
+
+  console.log("PLBoard inicializado.");
+});
+
+function verificarJogada(move) {
+  if (!window.exerciseManager) {
+    return;
+  }
+
+  const result = window.exerciseManager.checkMove(move);
+
+  if (!result) {
+    return;
+  }
+
+  const mensagem = document.getElementById("exercise-feedback");
+
+  if (result.correct) {
+    if (result.finished) {
+      mensagem.innerHTML = `<div class="alert alert-success">
+                    ✅ Exercício concluído!
+                    <strong>+${result.pontos} pontos</strong>
+                </div>`;
+
+      document.getElementById("next-exercise").disabled = false;
+    } else {
+      mensagem.innerHTML = `<div class="alert alert-success">
+                    ✅ Jogada correta!
+                </div>`;
     }
-);
+  } else {
+    mensagem.innerHTML = `<div class="alert alert-danger">
+                ❌ Jogada incorreta. Tente novamente.
+            </div>`;
+  }
+}
+
+function atualizarExercicio() {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  const exercise = manager.getCurrent();
+
+  if (!exercise) {
+    return;
+  }
+
+  document.getElementById("exercise-title").textContent = exercise.nome;
+
+  document.getElementById("exercise-description").textContent =
+    exercise.descricao;
+
+  document.getElementById("exercise-number").textContent =
+    `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
+
+  document.getElementById("exercise-feedback").innerHTML = "";
+
+  document.getElementById("next-exercise").disabled = true;
+}
+
+window.proximoExercicio = function () {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  if (manager.next()) {
+    atualizarExercicio();
+  } else {
+    document.getElementById("exercise-feedback").innerHTML =
+      `<div class="alert alert-warning">
+                🏆 Você concluiu todos os exercícios!
+                <br>
+                Pontuação: 
+                <strong>
+                    ${manager.getScore()}
+                </strong>
+            </div>`;
+
+    document.getElementById("next-exercise").disabled = true;
+  }
+};
+
+window.reiniciarExercicio = function () {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  manager.reset();
+
+  atualizarExercicio();
+};

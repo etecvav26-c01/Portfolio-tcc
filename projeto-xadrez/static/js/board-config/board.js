@@ -1,252 +1,193 @@
 import { Chess } from "../chess.js";
 
 export class PLBoard {
-
-constructor(config = {}) {
-
+  constructor(config = {}) {
     this.element = config.element || "board";
 
     this.game = new Chess();
 
-    this.allowMove =
-        config.allowMove || (() => true);
+    this.allowMove = config.allowMove || (() => true);
 
-    this.onMove =
-        config.onMove || (() => {});
+    this.onMove = config.onMove || (() => {});
 
-        if (config.fen && config.fen !== "start") {
-
-            try {
-                this.game.load(config.fen);
-            } catch (error) {
-                console.error("FEN inválida:", error);
-            }
-
-        }
-
-        this.board = Chessboard(this.element, {
-
-            position: this.game.fen(),
-
-            draggable: config.draggable ?? true,
-
-            moveSpeed: 0,
-            snapbackSpeed: 0,
-            snapSpeed: 0,
-
-            pieceTheme:
-                "/static/img/chesspieces/wikipedia/{piece}.png",
-
-            onDragStart: (source, piece) =>
-                this.onDragStart(source, piece),
-
-            onDrop: (source, target) =>
-                this.onDrop(source, target),
-
-            onSnapEnd: () =>
-                this.update()
-        });
+    if (config.fen && config.fen !== "start") {
+      try {
+        this.game.load(config.fen);
+      } catch (error) {
+        console.error("FEN inválida:", error);
+      }
     }
 
+    this.board = Chessboard(this.element, {
+      position: this.game.fen(),
 
-    // ==========================================
-    // CONTROLE DAS JOGADAS
-    // ==========================================
+      draggable: config.draggable ?? true,
 
-    onDragStart(source, piece) {
+      moveSpeed: 0,
+      snapbackSpeed: 0,
+      snapSpeed: 0,
 
-        // Não permite jogar se a partida acabou
-        if (this.game.isGameOver()) {
-            return false;
-        }
+      pieceTheme: "/static/img/chesspieces/wikipedia/{piece}.png",
 
-        // Permissão personalizada
-        if (!this.allowMove(source, piece)) {
-            return false;
-        }
+      onDragStart: (source, piece) => this.onDragStart(source, piece),
 
-        // Só permite mover peças da vez
-        if (
-            this.game.turn() === "w" &&
-            piece.startsWith("b")
-        ) {
-            return false;
-        }
+      onDrop: (source, target) => this.onDrop(source, target),
 
-        if (
-            this.game.turn() === "b" &&
-            piece.startsWith("w")
-        ) {
-            return false;
-        }
+      onSnapEnd: () => this.update(),
+    });
+  }
 
-        return true;
+  // ==========================================
+  // CONTROLE DAS JOGADAS
+  // ==========================================
+
+  onDragStart(source, piece) {
+    // Não permite jogar se a partida acabou
+    if (this.game.isGameOver()) {
+      return false;
     }
 
-
-    onDrop(source, target) {
-
-        let move;
-
-        try {
-
-            move = this.game.move({
-                from: source,
-                to: target,
-                promotion: "q"
-            });
-
-        } catch (error) {
-
-            return "snapback";
-        }
-
-        // Movimento ilegal
-        if (!move) {
-            return "snapback";
-        }
-
-        this.update();
-
-        return undefined;
+    // Permissão personalizada
+    if (!this.allowMove(source, piece)) {
+      return false;
     }
 
-
-    // ==========================================
-    // ATUALIZAÇÃO
-    // ==========================================
-
-    update() {
-
-        this.board.position(
-            this.game.fen()
-        );
+    // Só permite mover peças da vez
+    if (this.game.turn() === "w" && piece.startsWith("b")) {
+      return false;
     }
 
-
-    // ==========================================
-    // CONTROLES
-    // ==========================================
-
-    reset() {
-
-        this.game.reset();
-
-        this.update();
+    if (this.game.turn() === "b" && piece.startsWith("w")) {
+      return false;
     }
 
+    return true;
+  }
 
-    flip() {
+  onDrop(source, target) {
+    let move;
 
-        this.board.flip();
+    try {
+      move = this.game.move({
+        from: source,
+        to: target,
+        promotion: "q",
+      });
+    } catch (error) {
+      return "snapback";
     }
 
-
-    undo() {
-
-        this.game.undo();
-
-        this.update();
+    if (!move) {
+      return "snapback";
     }
 
+    this.update();
 
-    // ==========================================
-    // FEN
-    // ==========================================
+    this.onMove({
+      from: move.from,
+      to: move.to,
+      piece: move.piece,
+      captured: move.captured,
+      promotion: move.promotion,
+      san: move.san,
+    });
 
-    loadFEN(fen) {
+    return undefined;
+  }
 
-        try {
+  // ==========================================
+  // ATUALIZAÇÃO
+  // ==========================================
 
-            this.game.load(fen);
+  update() {
+    this.board.position(this.game.fen());
+  }
 
-            this.update();
+  // ==========================================
+  // CONTROLES
+  // ==========================================
 
-            return true;
+  reset() {
+    this.game.reset();
 
-        } catch (error) {
+    this.update();
+  }
 
-            console.error(
-                "FEN inválida:",
-                error
-            );
+  flip() {
+    this.board.flip();
+  }
 
-            return false;
-        }
+  undo() {
+    this.game.undo();
+
+    this.update();
+  }
+
+  // ==========================================
+  // FEN
+  // ==========================================
+
+  loadFEN(fen) {
+    try {
+      this.game.load(fen);
+
+      this.update();
+
+      return true;
+    } catch (error) {
+      console.error("FEN inválida:", error);
+
+      return false;
     }
+  }
 
+  fen() {
+    return this.game.fen();
+  }
 
-    fen() {
+  pgn() {
+    return this.game.pgn();
+  }
 
-        return this.game.fen();
+  // ==========================================
+  // ESTADO DA PARTIDA
+  // ==========================================
+
+  turn() {
+    return this.game.turn();
+  }
+
+  isGameOver() {
+    return this.game.isGameOver();
+  }
+
+  isCheck() {
+    return this.game.isCheck();
+  }
+
+  isCheckmate() {
+    return this.game.isCheckmate();
+  }
+
+  // ==========================================
+  // DESTAQUE DE CASAS
+  // ==========================================
+
+  highlight(square) {
+    const element = document.querySelector(
+      `#${this.element} .square-${square}`,
+    );
+
+    if (element) {
+      element.classList.add("pl-highlight");
     }
+  }
 
-
-    pgn() {
-
-        return this.game.pgn();
-    }
-
-
-    // ==========================================
-    // ESTADO DA PARTIDA
-    // ==========================================
-
-    turn() {
-
-        return this.game.turn();
-    }
-
-
-    isGameOver() {
-
-        return this.game.isGameOver();
-    }
-
-
-    isCheck() {
-
-        return this.game.isCheck();
-    }
-
-
-    isCheckmate() {
-
-        return this.game.isCheckmate();
-    }
-
-
-    // ==========================================
-    // DESTAQUE DE CASAS
-    // ==========================================
-
-    highlight(square) {
-
-        const element =
-            document.querySelector(
-                `#${this.element} .square-${square}`
-            );
-
-        if (element) {
-
-            element.classList.add(
-                "pl-highlight"
-            );
-        }
-    }
-
-
-    clearHighlights() {
-
-        document
-            .querySelectorAll(
-                `#${this.element} .pl-highlight`
-            )
-            .forEach(element => {
-
-                element.classList.remove(
-                    "pl-highlight"
-                );
-            });
-    }
+  clearHighlights() {
+    document
+      .querySelectorAll(`#${this.element} .pl-highlight`)
+      .forEach((element) => {
+        element.classList.remove("pl-highlight");
+      });
+  }
 }
