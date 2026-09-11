@@ -14,6 +14,75 @@ def conectar_bd():
         cursorclass=pymysql.cursors.DictCursor
     )
 
+def atualizar_progresso(usuario_id, pontos_ganhos=0, exercicio_concluido=False):
+
+    conexao = conectar_bd()
+
+    try:
+
+        with conexao.cursor() as cursor:
+
+            cursor.execute("""
+                SELECT exercicios, pontos
+                FROM progresso
+                WHERE usuario_id = %s
+            """, (usuario_id,))
+
+            progresso = cursor.fetchone()
+
+            if not progresso:
+                return
+
+            exercicios = progresso["exercicios"]
+            pontos = progresso["pontos"]
+
+            if exercicio_concluido:
+                exercicios += 1
+
+            pontos += pontos_ganhos
+
+            if pontos >= 500:
+                nivel = "Avançado"
+
+            elif pontos >= 250:
+                nivel = "Intermediário"
+
+            elif pontos >= 100:
+                nivel = "Aprendiz"
+
+            else:
+                nivel = "Iniciante"
+
+            progresso_por_pontos = min(
+                int((pontos / 500) * 100),
+                100
+            )
+
+
+            cursor.execute("""
+                UPDATE progresso
+
+                SET
+                    exercicios = %s,
+                    pontos = %s,
+                    nivel = %s,
+                    progresso = %s
+
+                WHERE usuario_id = %s
+            """, (
+                exercicios,
+                pontos,
+                nivel,
+                progresso_por_pontos,
+                usuario_id
+            ))
+
+
+        conexao.commit()
+
+    finally:
+        conexao.close()
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -177,7 +246,6 @@ def admin():
         with conexao.cursor() as cursor:
 
             # Verifica se o usuário atual é administrador
-
             cursor.execute("""
                 SELECT admin
                 FROM usuarios
@@ -190,20 +258,43 @@ def admin():
                 return redirect("/")
 
 
-            # Busca todos os usuários
-
+            # Busca usuários
             cursor.execute("""
                 SELECT
-                    id,
-                    nome,
-                    email,
-                    admin
-                FROM usuarios
-                ORDER BY id
+                    u.id,
+                    u.nome,
+                    u.email,
+                    u.admin,
+                    COALESCE(p.exercicios, 0) AS exercicios,
+                    COALESCE(p.pontos, 0) AS pontos,
+                    COALESCE(p.nivel, 'Iniciante') AS nivel,
+                    COALESCE(p.progresso, 0) AS progresso
+                FROM usuarios u
+                LEFT JOIN progresso p
+                    ON u.id = p.usuario_id
+                ORDER BY u.id
             """)
 
             usuarios = cursor.fetchall()
 
+
+            # Quantidade de usuários
+            cursor.execute("""
+                SELECT COUNT(*) AS total
+                FROM usuarios
+            """)
+
+            total_usuarios = cursor.fetchone()["total"]
+
+
+            # Quantidade de administradores
+            cursor.execute("""
+                SELECT COUNT(*) AS total
+                FROM usuarios
+                WHERE admin = 1
+            """)
+
+            total_admins = cursor.fetchone()["total"]
 
     finally:
         conexao.close()
@@ -211,8 +302,71 @@ def admin():
 
     return render_template(
         "admin.html",
-        usuarios=usuarios
+        usuarios=usuarios,
+        total_usuarios=total_usuarios,
+        total_admins=total_admins
     )
+
+@app.route("/admin/excluir/<int:usuario_id>")
+def excluir_usuario(usuario_id):
+
+    if "usuario_id" not in session:
+        return redirect("/login")
+
+    conexao = conectar_bd()
+
+    try:
+
+        with conexao.cursor() as cursor:
+
+            # Verifica se quem está fazendo a ação é admin
+            cursor.execute("""
+                SELECT admin
+                FROM usuarios
+                WHERE id = %s
+            """, (session["usuario_id"],))
+
+            administrador = cursor.fetchone()
+
+            if not administrador or not administrador["admin"]:
+                return redirect("/")
+
+
+            # Impede excluir a própria conta
+            if usuario_id == session["usuario_id"]:
+                flash("Você não pode excluir sua própria conta.")
+                return redirect("/admin")
+
+
+            # Verifica se o usuário existe
+            cursor.execute("""
+                SELECT id
+                FROM usuarios
+                WHERE id = %s
+            """, (usuario_id,))
+
+            usuario = cursor.fetchone()
+
+            if not usuario:
+                flash("Usuário não encontrado.")
+                return redirect("/admin")
+
+
+            # Exclui o usuário
+            cursor.execute("""
+                DELETE FROM usuarios
+                WHERE id = %s
+            """, (usuario_id,))
+
+
+        conexao.commit()
+
+        flash("Usuário excluído com sucesso.")
+
+    finally:
+        conexao.close()
+
+    return redirect("/admin")
 
 @app.route("/admin/toggle/<int:usuario_id>")
 def toggle_admin(usuario_id):
@@ -227,8 +381,6 @@ def toggle_admin(usuario_id):
 
         with conexao.cursor() as cursor:
 
-            # Verifica administrador atual
-
             cursor.execute("""
                 SELECT admin
                 FROM usuarios
@@ -241,15 +393,9 @@ def toggle_admin(usuario_id):
             if not administrador or not administrador["admin"]:
                 return redirect("/")
 
-
-            # Não permite retirar o próprio acesso
-
             if usuario_id == session["usuario_id"]:
                 flash("Você não pode remover seu próprio acesso de administrador.")
                 return redirect("/admin")
-
-
-            # Busca usuário
 
             cursor.execute("""
                 SELECT admin
@@ -263,9 +409,6 @@ def toggle_admin(usuario_id):
             if not usuario:
                 flash("Usuário não encontrado.")
                 return redirect("/admin")
-
-
-            # Inverte permissão
 
             novo_valor = 0 if usuario["admin"] else 1
 
@@ -285,6 +428,20 @@ def toggle_admin(usuario_id):
 
 
     return redirect("/admin")
+
+@app.route("/teste-pontos")
+def teste_pontos():
+
+    if "usuario_id" not in session:
+        return redirect("/login")
+
+    atualizar_progresso(
+        session["usuario_id"],
+        pontos_ganhos=10,
+        exercicio_concluido=True
+    )
+
+    return redirect("/perfil")
 
 @app.route("/aprender/pecas")
 def pecas():

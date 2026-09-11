@@ -1,181 +1,179 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="container py-4">
+  <!-- CABEÇALHO -->
 
+  <div class="card admin-card mb-4">
+    <div class="card-body">
+      <center><h1>Painel Administrativo</h1></center>
 
-    <!-- CABEÇALHO -->
-
-    <div class="card admin-card mb-4">
-
-        <div class="card-body">
-
-            <h1>
-                ⚙️ Painel Administrativo
-            </h1>
-
-            <p class="text-secondary mb-0">
-                Gerenciamento dos usuários do Primeiro Lance.
-            </p>
-
-        </div>
-
+      <p class="text-secondary mb-0" style="text-align: center;">
+        Gerenciamento dos usuários do Primeiro Lance.
+      </p>
     </div>
+  </div>
 
+  <!-- ESTATÍSTICAS -->
 
-    <!-- ESTATÍSTICA -->
-
-    <div class="row mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card admin-card">
-
-                <div class="card-body text-center">
-
-                    <div class="admin-icon">
-                        👥
-                    </div>
-
-                    <h5>
-                        Usuários cadastrados
-                    </h5>
-
-                    <h2>
-                        {{ usuarios|length }}
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
+  <div class="row g-4 mb-4">
     <!-- USUÁRIOS -->
 
-    <div class="card admin-card">
+    <div class="col-md-6">
+      <div class="card admin-card h-100">
+        <div class="card-body text-center">
+          <div class="admin-icon">👥</div>
 
-        <div class="card-body">
+          <h5>Usuários cadastrados</h5>
 
-            <h4 class="mb-3">
-                Usuários
-            </h4>
-
-
-            <div class="table-responsive">
-
-                <table class="table table-dark table-hover align-middle">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-
-                            <th>Nome</th>
-
-                            <th>Email</th>
-
-                            <th>Permissão</th>
-
-                            <th>Ação</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        {% for usuario in usuarios %}
-
-                        <tr>
-
-                            <td>
-                                {{ usuario.id }}
-                            </td>
-
-                            <td>
-                                {{ usuario.nome }}
-                            </td>
-
-                            <td>
-                                {{ usuario.email }}
-                            </td>
-
-
-                            <td>
-
-                                {% if usuario.admin %}
-
-                                    <span class="badge bg-warning text-dark">
-                                        Administrador
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="badge bg-secondary">
-                                        Usuário
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <td>
-
-                                {% if usuario.id != session.get("usuario_id") %}
-
-                                    {% if usuario.admin %}
-
-                                        <a href="/admin/toggle/{{ usuario.id }}"
-                                           class="btn btn-sm btn-outline-danger">
-
-                                            Remover admin
-
-                                        </a>
-
-                                    {% else %}
-
-                                        <a href="/admin/toggle/{{ usuario.id }}"
-                                           class="btn btn-sm btn-outline-warning">
-
-                                            Tornar admin
-
-                                        </a>
-
-                                    {% endif %}
-
-                                {% else %}
-
-                                    <span class="text-secondary">
-                                        Você
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
+          <h2>{{ total_usuarios }}</h2>
         </div>
-
+      </div>
     </div>
 
+    <!-- ADMINS -->
 
+    <div class="col-md-6">
+      <div class="card admin-card h-100">
+        <div class="card-body text-center">
+          <div class="admin-icon">⚙️</div>
+
+          <h5>Administradores</h5>
+
+          <h2>{{ total_admins }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELA -->
+
+  <div class="card admin-card">
+    <div class="card-body">
+      <h4 class="mb-3" style="text-align: center;">Usuários do Sistema</h4>
+
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Nível</th>
+              <th>Pontos</th>
+              <th>Progresso</th>
+              <th>Permissão</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for usuario in usuarios %}
+
+            <tr>
+              <!-- ID -->
+
+              <td>{{ usuario.id }}</td>
+
+              <!-- NOME -->
+
+              <td>
+                {{ usuario.nome }} {% if usuario.id == session.get("usuario_id")
+                %}
+
+                <span class="badge bg-info text-dark"> Você </span>
+
+                {% endif %}
+              </td>
+
+              <!-- EMAIL -->
+
+              <td>{{ usuario.email }}</td>
+
+              <!-- NÍVEL -->
+
+              <td>{{ usuario.nivel }}</td>
+
+              <!-- PONTOS -->
+
+              <td>⭐ {{ usuario.pontos }}</td>
+
+              <!-- PROGRESSO -->
+
+              <td style="min-width: 150px">
+                <div class="progress" style="height: 20px">
+                  <div
+                    class="progress-bar bg-warning text-dark"
+                    style="width: {{ usuario.progresso }}%;"
+                  >
+                    {{ usuario.progresso }}%
+                  </div>
+                </div>
+              </td>
+
+              <!-- PERMISSÃO -->
+
+              <td>
+                {% if usuario.admin %}
+
+                <span class="badge bg-warning text-dark"> Administrador </span>
+
+                {% else %}
+
+                <span class="badge bg-secondary"> Usuário </span>
+
+                {% endif %}
+              </td>
+
+              <!-- AÇÕES -->
+
+              <td>
+                {% if usuario.id != session.get("usuario_id") %} {% if
+                usuario.admin %}
+
+                <a
+                  href="/admin/toggle/{{ usuario.id }}"
+                  class="btn btn-sm btn-outline-danger mb-1"
+                >
+                  Remover admin
+                </a>
+
+                {% else %}
+
+                <a
+                  href="/admin/toggle/{{ usuario.id }}"
+                  class="btn btn-sm btn-outline-warning mb-1"
+                >
+                  Tornar admin
+                </a>
+
+                {% endif %}
+
+                <a
+                  href="/admin/excluir/{{ usuario.id }}"
+                  class="btn btn-sm btn-outline-danger mb-1"
+                  onclick="
+                    return confirm(
+                      'Tem certeza que deseja excluir este usuário?',
+                    );
+                  "
+                >
+                  Excluir
+                </a>
+
+                {% else %}
+
+                <span class="text-secondary"> Conta atual </span>
+
+                {% endif %}
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
