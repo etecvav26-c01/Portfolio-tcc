@@ -4,31 +4,38 @@
 
 <div class="container">
 
-    <div class="card mt-4">
+    <div class="card mt-4 mb-4">
 
         <div class="card-body">
 
             <h2 class="text-warning">
-                Teste do Motor - Primeiro Lance Engine
+                Exercícios de Xadrez
             </h2>
 
             <p class="text-secondary">
-                Esta página serve para testar o funcionamento do tabuleiro.
+                Teste do motor de tabuleiro do Primeiro Lance.
             </p>
 
         </div>
 
     </div>
 
-    <br>
 
     <div class="row">
 
+        <!-- TABULEIRO -->
+
         <div class="col-lg-8">
 
-            <div id="board" style="max-width:600px;"></div>
+            <div
+                id="board"
+                style="max-width: 600px; width: 100%; margin: auto;">
+            </div>
 
         </div>
+
+
+        <!-- CONTROLES -->
 
         <div class="col-lg-4">
 
@@ -36,26 +43,42 @@
 
                 <div class="card-body">
 
-                    <h5>Controles</h5>
+                    <h5 class="mb-3">
+                        Controles
+                    </h5>
 
-                    <button class="btn btn-warning w-100 mb-2"
-                            onclick="PLBoard.reset()">
+                    <button
+                        class="btn btn-warning w-100 mb-2"
+                        onclick="reiniciar()">
 
-                        Reiniciar Partida
-
-                    </button>
-
-                    <button class="btn btn-secondary w-100 mb-2"
-                            onclick="PLBoard.flip()">
-
-                        Girar Tabuleiro
+                        🔄 Reiniciar
 
                     </button>
 
-                    <button class="btn btn-info w-100"
-                            onclick="mostrarFen()">
 
-                        Mostrar FEN
+                    <button
+                        class="btn btn-secondary w-100 mb-2"
+                        onclick="desfazer()">
+
+                        ↩️ Desfazer
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-secondary w-100 mb-2"
+                        onclick="girar()">
+
+                        🔃 Girar tabuleiro
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-info w-100"
+                        onclick="mostrarFen()">
+
+                        FEN
 
                     </button>
 
@@ -63,18 +86,32 @@
 
             </div>
 
+
+            <!-- INFORMAÇÕES -->
+
             <div class="card">
 
                 <div class="card-body">
 
-                    <h5>Informações</h5>
+                    <h5>
+                        Informações
+                    </h5>
 
-                    <p><strong>FEN Atual</strong></p>
+                    <p class="mb-1">
+                        <strong>Vez:</strong>
+                        <span id="turno">
+                            Brancas
+                        </span>
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>FEN:</strong>
+                    </p>
 
                     <textarea
                         id="fen"
                         class="form-control"
-                        rows="7"
+                        rows="5"
                         readonly></textarea>
 
                 </div>
@@ -87,21 +124,78 @@
 
 </div>
 
-<script type="module"
-src="{{ url_for('static', filename='js/main.js') }}">
-</script>
 
 <script>
 
-    function mostrarFen(){
+function reiniciar() {
 
-        document.getElementById("fen").value =
-            PLBoard.fen();
-
+    if (window.PLBoard) {
+        PLBoard.reset();
+        atualizarInformacoes();
     }
 
-    setInterval(mostrarFen,500);
+}
 
+
+function desfazer() {
+
+    if (window.PLBoard) {
+        PLBoard.undo();
+        atualizarInformacoes();
+    }
+
+}
+
+
+function girar() {
+
+    if (window.PLBoard) {
+        PLBoard.flip();
+    }
+
+}
+
+
+function mostrarFen() {
+
+    if (!window.PLBoard) {
+        return;
+    }
+
+    document.getElementById("fen").value =
+        PLBoard.fen();
+
+}
+
+
+function atualizarInformacoes() {
+
+    if (!window.PLBoard) {
+        return;
+    }
+
+    document.getElementById("fen").value =
+        PLBoard.fen();
+
+    const turno =
+        PLBoard.turn();
+
+    document.getElementById("turno").textContent =
+        turno === "w"
+            ? "Brancas"
+            : "Pretas";
+
+}
+
+
+setInterval(atualizarInformacoes, 500);
+
+</script>
+
+
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/main.js') }}">
 </script>
 
 {% endblock %}

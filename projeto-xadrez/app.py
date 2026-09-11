@@ -132,18 +132,32 @@ def perfil():
         return redirect("/login")
 
     conexao = conectar_bd()
-    cursor = conexao.cursor()
 
-    cursor.execute("""
-        SELECT nome, email
-        FROM usuarios
-        WHERE id = %s
-    """, (session["usuario_id"],))
+    try:
+        with conexao.cursor() as cursor:
 
-    usuario = cursor.fetchone()
+            cursor.execute("""
+                SELECT
+                    u.nome,
+                    u.email,
+                    p.exercicios,
+                    p.pontos,
+                    p.nivel,
+                    p.progresso
+                FROM usuarios u
+                LEFT JOIN progresso p
+                    ON u.id = p.usuario_id
+                WHERE u.id = %s
+            """, (session["usuario_id"],))
 
-    cursor.close()
-    conexao.close()
+            usuario = cursor.fetchone()
+
+    finally:
+        conexao.close()
+
+    if not usuario:
+        session.clear()
+        return redirect("/login")
 
     return render_template(
         "perfil.html",
@@ -158,22 +172,119 @@ def admin():
 
     conexao = conectar_bd()
 
-    with conexao.cursor() as cursor:
+    try:
 
-        cursor.execute("""
-            SELECT admin
-            FROM usuarios
-            WHERE id = %s
-        """, (session["usuario_id"],))
+        with conexao.cursor() as cursor:
 
-        usuario = cursor.fetchone()
+            # Verifica se o usuário atual é administrador
 
-    conexao.close()
+            cursor.execute("""
+                SELECT admin
+                FROM usuarios
+                WHERE id = %s
+            """, (session["usuario_id"],))
 
-    if not usuario["admin"]:
-        return redirect("/")
+            usuario_atual = cursor.fetchone()
 
-    return render_template("admin.html")
+            if not usuario_atual or not usuario_atual["admin"]:
+                return redirect("/")
+
+
+            # Busca todos os usuários
+
+            cursor.execute("""
+                SELECT
+                    id,
+                    nome,
+                    email,
+                    admin
+                FROM usuarios
+                ORDER BY id
+            """)
+
+            usuarios = cursor.fetchall()
+
+
+    finally:
+        conexao.close()
+
+
+    return render_template(
+        "admin.html",
+        usuarios=usuarios
+    )
+
+@app.route("/admin/toggle/<int:usuario_id>")
+def toggle_admin(usuario_id):
+
+    if "usuario_id" not in session:
+        return redirect("/login")
+
+
+    conexao = conectar_bd()
+
+    try:
+
+        with conexao.cursor() as cursor:
+
+            # Verifica administrador atual
+
+            cursor.execute("""
+                SELECT admin
+                FROM usuarios
+                WHERE id = %s
+            """, (session["usuario_id"],))
+
+            administrador = cursor.fetchone()
+
+
+            if not administrador or not administrador["admin"]:
+                return redirect("/")
+
+
+            # Não permite retirar o próprio acesso
+
+            if usuario_id == session["usuario_id"]:
+                flash("Você não pode remover seu próprio acesso de administrador.")
+                return redirect("/admin")
+
+
+            # Busca usuário
+
+            cursor.execute("""
+                SELECT admin
+                FROM usuarios
+                WHERE id = %s
+            """, (usuario_id,))
+
+            usuario = cursor.fetchone()
+
+
+            if not usuario:
+                flash("Usuário não encontrado.")
+                return redirect("/admin")
+
+
+            # Inverte permissão
+
+            novo_valor = 0 if usuario["admin"] else 1
+
+
+            cursor.execute("""
+                UPDATE usuarios
+                SET admin = %s
+                WHERE id = %s
+            """, (novo_valor, usuario_id))
+
+
+        conexao.commit()
+
+
+    finally:
+        conexao.close()
+
+
+    return redirect("/admin")
 
 @app.route("/aprender/pecas")
 def pecas():

@@ -1,87 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<br>
-<br>
-<div class="row justify-content-center">
 
-    <div class="col-lg-8">
+<div class="container py-4">
 
-        <!-- Cabeçalho -->
+    <!-- CABEÇALHO -->
 
-        <div class="card mb-4">
+    <div class="text-center mb-5">
 
-            <div class="card-body text-center">
-
-                <div class="profile-avatar mb-3">
-                    ♟️
-                </div>
-
-                <h1 class="profile-name">
-                    {{ usuario.nome }}
-                </h1>
-
-                <p class="profile-email">
-                    {{ usuario.email }}
-                </p>
-
-            </div>
-
+        <div class="profile-avatar mb-3">
+            ♟️
         </div>
 
-        <!-- Estatísticas -->
+        <h1 class="profile-name">
+            {{ usuario.nome }}
+        </h1>
 
-        <div class="row">
+        <p class="profile-email">
+            {{ usuario.email }}
+        </p>
 
-            <div class="col-md-4 mb-3">
+    </div>
 
-                <div class="card h-100">
 
-                    <div class="card-body text-center">
+    <!-- ESTATÍSTICAS -->
 
-                        <h2>📚</h2>
+    <div class="row g-4 mb-4">
 
-                        <h5>Exercícios</h5>
+        <!-- EXERCÍCIOS -->
 
-                        <h3>0</h3>
+        <div class="col-md-4">
 
+            <div class="card profile-card h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="profile-icon">
+                        📚
                     </div>
 
-                </div>
+                    <h5>
+                        Exercícios
+                    </h5>
 
-            </div>
-
-            <div class="col-md-4 mb-3">
-
-                <div class="card h-100">
-
-                    <div class="card-body text-center">
-
-                        <h2>⭐</h2>
-
-                        <h5>Pontos</h5>
-
-                        <h3>0</h3>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4 mb-3">
-
-                <div class="card h-100">
-
-                    <div class="card-body text-center">
-
-                        <h2>🏆</h2>
-
-                        <h5>Nível</h5>
-
-                        <h3>Iniciante</h3>
-
-                    </div>
+                    <h2>
+                        {{ usuario.exercicios or 0 }}
+                    </h2>
 
                 </div>
 
@@ -89,23 +53,26 @@
 
         </div>
 
-        <!-- Progresso -->
 
-        <div class="card mt-3">
+        <!-- PONTOS -->
 
-            <div class="card-body">
+        <div class="col-md-4">
 
-                <h4>Progresso Geral</h4>
+            <div class="card profile-card h-100">
 
-                <div class="progress mt-3">
+                <div class="card-body text-center">
 
-                    <div class="progress-bar"
-                         role="progressbar"
-                         style="width: 25%;">
-
-                        25%
-
+                    <div class="profile-icon">
+                        ⭐
                     </div>
+
+                    <h5>
+                        Pontos
+                    </h5>
+
+                    <h2>
+                        {{ usuario.pontos or 0 }}
+                    </h2>
 
                 </div>
 
@@ -113,27 +80,139 @@
 
         </div>
 
-        <!-- Próximos Passos -->
 
-        <div class="card mt-3">
+        <!-- NÍVEL -->
 
-            <div class="card-body">
+        <div class="col-md-4">
 
-                <h4>Próximos Passos</h4>
+            <div class="card profile-card h-100">
 
-                <ul class="mt-3">
+                <div class="card-body text-center">
 
-                    <li>Aprender o movimento das peças.</li>
+                    <div class="profile-icon">
+                        🏆
+                    </div>
 
-                    <li>Resolver o primeiro exercício.</li>
+                    <h5>
+                        Nível
+                    </h5>
 
-                    <li>Concluir o módulo iniciante.</li>
+                    <h2>
+                        {{ usuario.nivel or "Iniciante" }}
+                    </h2>
 
-                </ul>
+                </div>
 
             </div>
 
         </div>
+
+    </div>
+
+
+    <!-- PROGRESSO -->
+
+    <div class="card profile-card mb-4">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                📈 Progresso Geral
+            </h4>
+
+            <div class="progress"
+                 style="height: 25px;">
+
+                <div class="progress-bar bg-warning text-dark"
+                     role="progressbar"
+                     style="width: {{ usuario.progresso or 0 }}%;">
+
+                    {{ usuario.progresso or 0 }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PRÓXIMOS PASSOS -->
+
+    <div class="card profile-card mb-4">
+
+        <div class="card-body">
+
+            <h4>
+                🎯 Próximos Passos
+            </h4>
+
+            <ul class="mt-3">
+
+                {% if (usuario.progresso or 0) < 25 %}
+
+                    <li>
+                        Aprender o movimento das peças.
+                    </li>
+
+                    <li>
+                        Resolver o primeiro exercício.
+                    </li>
+
+                    <li>
+                        Concluir o módulo iniciante.
+                    </li>
+
+                {% elif (usuario.progresso or 0) < 50 %}
+
+                    <li>
+                        Aprender conceitos de xeque e xeque-mate.
+                    </li>
+
+                    <li>
+                        Resolver novos exercícios.
+                    </li>
+
+                {% elif (usuario.progresso or 0) < 75 %}
+
+                    <li>
+                        Estudar táticas de xadrez.
+                    </li>
+
+                    <li>
+                        Praticar posições no tabuleiro.
+                    </li>
+
+                {% else %}
+
+                    <li>
+                        Estudar aberturas.
+                    </li>
+
+                    <li>
+                        Resolver exercícios avançados.
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- SAIR -->
+
+    <div class="text-center mb-4">
+
+        <a href="/logout"
+           class="btn btn-outline-danger">
+
+            🚪 Sair da conta
+
+        </a>
 
     </div>
 
