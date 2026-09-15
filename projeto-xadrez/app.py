@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, jsonify 
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
 
@@ -82,6 +82,41 @@ def atualizar_progresso(usuario_id, pontos_ganhos=0, exercicio_concluido=False):
 
     finally:
         conexao.close()
+
+@app.route("/api/exercicio/concluir", methods=["POST"])
+def concluir_exercicio():
+
+    if "usuario_id" not in session:
+        return jsonify({
+            "sucesso": False,
+            "mensagem": "Usuário não autenticado."
+        }), 401
+
+    dados = request.get_json()
+
+    pontos = dados.get("pontos", 0)
+
+    try:
+        pontos = int(pontos)
+    except (TypeError, ValueError):
+        pontos = 0
+
+    if pontos < 0:
+        pontos = 0
+
+    if pontos > 100:
+        pontos = 100
+
+    atualizar_progresso(
+        session["usuario_id"],
+        pontos_ganhos=pontos,
+        exercicio_concluido=True
+    )
+
+    return jsonify({
+        "sucesso": True,
+        "pontos": pontos
+    })
 
 @app.route("/")
 def index():
