@@ -1,20 +1,20 @@
 {% extends "base.html" %} {% block title %}Xeque e Xeque-mate - Primeiro Lance{%
 endblock %} {% block content %}
 
-<div class="container py-4">
+<div class="container py-4" id="course-container" data-curso="xeque">
   <div class="row g-4 align-items-center">
     <div class="col-lg-5">
       <div class="card bg-dark text-light border-secondary">
         <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-warning"> Xeque e Xeque-mate </span>
+          <div class="d-flex justify-content-between mb-3">
+            <span class="text-warning"> 👑 Xeque e Xeque-mate </span>
 
             <span id="numero-aula"> 1 / 2 </span>
           </div>
 
           <h2 id="titulo-aula">O que é xeque?</h2>
 
-          <div id="conteudo-aula" class="text-secondary"></div>
+          <div id="conteudo-aula" class="text-secondary mt-3"></div>
 
           <div class="progress mt-4">
             <div
@@ -54,27 +54,9 @@ endblock %} {% block content %}
   </div>
 </div>
 
-<script type="module">
-  import { PLBoard } from "{{ url_for('static', filename='js/board-config/board.js') }}";
-
-  import { PLCourse } from "{{ url_for('static', filename='js/aprender/course.js') }}";
-
-  import { cursos } from "{{ url_for('static', filename='js/aprender/course-data.js') }}";
-
-  import { atualizarAula } from "{{ url_for('static', filename='js/aprender/course-page.js') }}";
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const board = new PLBoard({
-      element: "board",
-      draggable: true,
-    });
-
-    window.cursoAtual = new PLCourse(board, cursos.xeque);
-
-    window.cursoAtual.iniciar();
-
-    atualizarAula();
-  });
-</script>
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/main.js') }}"
+></script>
 
 {% endblock %}
