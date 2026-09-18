@@ -1,6 +1,8 @@
 import { PLBoard } from "./board-config/board.js";
 import { ExerciseManager } from "./exercises/exercise-manager.js";
 import { exercises } from "./exercises/exercises.js";
+import { PLCourse } from "./aprender/course.js";
+import { cursos } from "./aprender/course-data.js";
 
 console.log("Primeiro Lance Engine carregando...");
 
@@ -18,7 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     draggable: true,
   });
+  if (document.getElementById("conteudo-aula")) {
 
+    window.cursoAtual =
+        new PLCourse(
+            window.PLBoard,
+            cursos.pecas
+        );
+
+    atualizarAula();
+
+}
   // Se a página possuir
   // sistema de exercícios
 
@@ -212,4 +224,85 @@ window.reiniciarExercicio = function () {
   manager.reset();
 
   atualizarExercicio();
+};
+function atualizarAula() {
+
+    const curso = window.cursoAtual;
+
+    if (!curso) {
+        return;
+    }
+
+    const aula = curso.getAula();
+
+    document.getElementById(
+        "titulo-aula"
+    ).textContent = aula.titulo;
+
+    document.getElementById(
+        "conteudo-aula"
+    ).innerHTML = aula.conteudo;
+
+    document.getElementById(
+        "numero-aula"
+    ).textContent =
+        `${curso.numeroAtual()} / ${curso.totalAulas()}`;
+
+    document.getElementById(
+        "progresso-aula"
+    ).style.width =
+        `${curso.progresso()}%`;
+
+    document.getElementById(
+        "btn-anterior"
+    ).disabled =
+        curso.primeira();
+
+    document.getElementById(
+        "btn-proxima"
+    ).textContent =
+        curso.ultima()
+            ? "Concluir ✓"
+            : "Próxima →";
+}
+
+
+window.proximaAula = function () {
+
+    if (!window.cursoAtual) {
+        return;
+    }
+
+    const avancou =
+        window.cursoAtual.proxima();
+
+    if (avancou) {
+
+        atualizarAula();
+
+    } else {
+
+        Swal.fire({
+            icon: "success",
+            title: "Curso concluído!",
+            text: "Você terminou todas as aulas sobre as peças."
+        });
+
+    }
+
+};
+
+
+window.aulaAnterior = function () {
+
+    if (!window.cursoAtual) {
+        return;
+    }
+
+    if (window.cursoAtual.anterior()) {
+
+        atualizarAula();
+
+    }
+
 };

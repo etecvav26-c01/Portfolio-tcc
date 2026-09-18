@@ -1,71 +1,76 @@
-    {% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block title %}Aprender - Primeiro Lance{% endblock
+%} {% block content %}
 
-    <div class="container py-4">
-    <div class="text-center mb-5">
-        <h1 class="text-warning">♟️ Curso de Xadrez</h1>
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">♟️ Aprenda Xadrez</h1>
 
-        <p class="text-secondary">
-        Aprenda os fundamentos do xadrez e prepare-se para suas partidas.
-        </p>
+    <p class="text-secondary">
+      Aprenda os principais conceitos do xadrez através de aulas simples e
+      interativas.
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card bg-dark text-light border-secondary h-100">
+        <div class="card-body p-4">
+          <h3>♟️ Peças do Xadrez</h3>
+
+          <p class="text-secondary">
+            Aprenda como cada peça se movimenta e quais são suas principais
+            características.
+          </p>
+
+          <a href="/aprender/pecas" class="btn btn-warning"> Começar aula </a>
+        </div>
+      </div>
     </div>
 
-    <div class="row g-4">
-        <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body">
-            <h3>♟️ Movimento das Peças</h3>
+    <div class="col-md-6">
+      <div class="card bg-dark text-light border-secondary h-100">
+        <div class="card-body p-4">
+          <h3>👑 Xeque e Xeque-mate</h3>
 
-            <p class="text-secondary">
-                Aprenda como cada peça se movimenta e pratique no tabuleiro.
-            </p>
+          <p class="text-secondary">
+            Entenda o que significa estar em xeque e como funciona o xeque-mate.
+          </p>
 
-            <a href="/aprender/pecas" class="btn btn-warning"> Começar aula → </a>
-            </div>
+          <a href="/aprender/xeque" class="btn btn-warning"> Começar aula </a>
         </div>
-        </div>
-
-        <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body">
-            <h3>👑 Xeque e Xeque-Mate</h3>
-
-            <p class="text-secondary">
-                Entenda como funcionam o xeque e o xeque-mate.
-            </p>
-
-            <a href="/aprender/xeque" class="btn btn-warning"> Estudar → </a>
-            </div>
-        </div>
-        </div>
-
-        <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body">
-            <h3>🎯 Táticas</h3>
-
-            <p class="text-secondary">
-                Aprenda garfos, cravadas, ataques descobertos e outros temas.
-            </p>
-
-            <a href="/aprender/taticas" class="btn btn-warning"> Estudar → </a>
-            </div>
-        </div>
-        </div>
-
-        <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-body">
-            <h3>📖 Aberturas</h3>
-
-            <p class="text-secondary">
-                Aprenda os principais princípios para começar bem uma partida.
-            </p>
-
-            <a href="/aprender/aberturas" class="btn btn-warning"> Estudar → </a>
-            </div>
-        </div>
-        </div>
-    </div>
+      </div>
     </div>
 
-    {% endblock %}
+    <div class="col-md-6">
+      <div class="card bg-dark text-light border-secondary h-100">
+        <div class="card-body p-4">
+          <h3>🎯 Táticas</h3>
+
+          <p class="text-secondary">
+            Conheça recursos táticos importantes para melhorar suas partidas.
+          </p>
+
+          <a href="/aprender/taticas" class="btn btn-warning"> Começar aula </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card bg-dark text-light border-secondary h-100">
+        <div class="card-body p-4">
+          <h3>📖 Aberturas</h3>
+
+          <p class="text-secondary">
+            Aprenda os principais princípios para começar bem uma partida.
+          </p>
+
+          <a href="/aprender/aberturas" class="btn btn-warning">
+            Começar aula
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
