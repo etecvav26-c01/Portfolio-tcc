@@ -6,7 +6,7 @@ from routes.perfil import perfil
 from routes.admin import admin
 from routes.aprender import aprender
 from routes.exercicios import exercicios
-
+from routes.curso import curso
 
 app = Flask(__name__)
 

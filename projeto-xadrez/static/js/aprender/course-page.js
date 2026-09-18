@@ -1,136 +1,133 @@
 export function iniciarCurso(board, curso) {
+  if (!board || !curso) {
+    return null;
+  }
 
-    if (!board || !curso) {
-        return null;
-    }
+  window.cursoAtual = curso;
 
-    window.cursoAtual = curso;
+  atualizarAula();
 
-    atualizarAula();
-
-    return curso;
+  return curso;
 }
-
 
 export function atualizarAula() {
+  const curso = window.cursoAtual;
 
-    const curso = window.cursoAtual;
+  if (!curso) {
+    return;
+  }
 
-    if (!curso) {
-        return;
-    }
+  const aula = curso.getAula();
 
-    const aula = curso.getAula();
+  if (!aula) {
+    return;
+  }
 
-    if (!aula) {
-        return;
-    }
+  const titulo = document.getElementById("titulo-aula");
 
+  if (titulo) {
+    titulo.textContent = aula.titulo;
+  }
 
-    const titulo = document.getElementById("titulo-aula");
+  const conteudo = document.getElementById("conteudo-aula");
 
-    if (titulo) {
-        titulo.textContent = aula.titulo;
-    }
+  if (conteudo) {
+    conteudo.innerHTML = aula.conteudo;
+  }
 
+  const numero = document.getElementById("numero-aula");
 
-    const conteudo =
-        document.getElementById("conteudo-aula");
+  if (numero) {
+    numero.textContent = `${curso.numeroAtual()} / ${curso.totalAulas()}`;
+  }
 
-    if (conteudo) {
-        conteudo.innerHTML = aula.conteudo;
-    }
+  const progresso = document.getElementById("progresso-aula");
 
+  if (progresso) {
+    progresso.style.width = `${curso.progresso()}%`;
+  }
 
-    const numero =
-        document.getElementById("numero-aula");
+  const anterior = document.getElementById("btn-anterior");
 
-    if (numero) {
+  if (anterior) {
+    anterior.disabled = curso.primeira();
+  }
 
-        numero.textContent =
-            `${curso.numeroAtual()} / ${curso.totalAulas()}`;
+  const proxima = document.getElementById("btn-proxima");
 
-    }
-
-
-    const progresso =
-        document.getElementById("progresso-aula");
-
-    if (progresso) {
-
-        progresso.style.width =
-            `${curso.progresso()}%`;
-
-    }
-
-
-    const anterior =
-        document.getElementById("btn-anterior");
-
-    if (anterior) {
-
-        anterior.disabled =
-            curso.primeira();
-
-    }
-
-
-    const proxima =
-        document.getElementById("btn-proxima");
-
-    if (proxima) {
-
-        proxima.textContent =
-            curso.ultima()
-                ? "Concluir ✓"
-                : "Próxima →";
-
-    }
+  if (proxima) {
+    proxima.textContent = curso.ultima() ? "Concluir ✓" : "Próxima →";
+  }
 }
 
+export async function proximaAula() {
+  const curso = window.cursoAtual;
 
-export function proximaAula() {
+  if (!curso) {
+    return;
+  }
 
-    const curso = window.cursoAtual;
+  curso.concluirAula();
 
-    if (!curso) {
-        return;
-    }
+  if (curso.ultima()) {
+    atualizarAula();
 
-    if (curso.proxima()) {
-
-        atualizarAula();
-
-        return;
-    }
-
+    await salvarConclusaoModulo();
 
     Swal.fire({
-        icon: "success",
-        title: "Curso concluído!",
-        text: "Você concluiu todas as aulas deste módulo.",
-        confirmButtonText: "Continuar"
+      icon: "success",
+
+      title: "Módulo concluído!",
+
+      text: "Você terminou todas as aulas deste módulo.",
+
+      confirmButtonText: "Continuar",
     });
 
-}
+    return;
+  }
 
+  curso.proxima();
+
+  atualizarAula();
+}
 
 export function aulaAnterior() {
+  const curso = window.cursoAtual;
 
-    const curso = window.cursoAtual;
+  if (!curso) {
+    return;
+  }
 
-    if (!curso) {
-        return;
-    }
-
-    if (curso.anterior()) {
-
-        atualizarAula();
-
-    }
-
+  if (curso.anterior()) {
+    atualizarAula();
+  }
 }
+async function salvarConclusaoModulo() {
+  const container = document.getElementById("course-container");
 
+  if (!container) {
+    return;
+  }
+
+  const modulo = container.dataset.curso;
+
+  try {
+    await fetch("/api/curso/concluir", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        modulo: modulo,
+      }),
+    });
+  } catch (erro) {
+    console.error("Erro ao salvar módulo:", erro);
+  }
+}
 
 window.proximaAula = proximaAula;
 window.aulaAnterior = aulaAnterior;

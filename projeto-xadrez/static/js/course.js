@@ -1,87 +1,69 @@
 export class PLCourse {
-  constructor(board, curso) {
+  constructor(board, lessons = []) {
     this.board = board;
 
-    this.curso = curso;
+    this.lessons = lessons;
 
-    this.aulas = curso.aulas || [];
-
-    this.atual = 0;
-
-    this.concluidas = new Set();
+    this.currentLesson = 0;
   }
 
-  getAula() {
-    return this.aulas[this.atual];
+  getCurrentLesson() {
+    return this.lessons[this.currentLesson];
   }
 
-  iniciar() {
-    const aula = this.getAula();
-
-    if (!aula) {
-      return;
-    }
-
-    if (aula.fen) {
-      this.board.loadFEN(aula.fen);
-    }
-  }
-
-  proxima() {
-    this.concluirAula();
-
-    if (this.atual >= this.aulas.length - 1) {
+  startLesson(index) {
+    if (index < 0 || index >= this.lessons.length) {
       return false;
     }
 
-    this.atual++;
+    this.currentLesson = index;
 
-    this.iniciar();
+    const lesson = this.getCurrentLesson();
+
+    if (lesson.fen) {
+      this.board.loadFEN(lesson.fen);
+    }
 
     return true;
   }
 
-  anterior() {
-    if (this.atual <= 0) {
-      return false;
+  nextLesson() {
+    if (this.currentLesson < this.lessons.length - 1) {
+      this.currentLesson++;
+
+      const lesson = this.getCurrentLesson();
+
+      if (lesson.fen) {
+        this.board.loadFEN(lesson.fen);
+      }
+
+      return true;
     }
 
-    this.atual--;
-
-    this.iniciar();
-
-    return true;
+    return false;
   }
 
-  concluirAula() {
-    this.concluidas.add(this.atual);
+  previousLesson() {
+    if (this.currentLesson > 0) {
+      this.currentLesson--;
+
+      const lesson = this.getCurrentLesson();
+
+      if (lesson.fen) {
+        this.board.loadFEN(lesson.fen);
+      }
+
+      return true;
+    }
+
+    return false;
   }
 
-  progresso() {
-    if (!this.aulas.length) {
+  getProgress() {
+    if (!this.lessons.length) {
       return 0;
     }
 
-    return Math.round((this.concluidas.size / this.aulas.length) * 100);
-  }
-
-  numeroAtual() {
-    return this.atual + 1;
-  }
-
-  totalAulas() {
-    return this.aulas.length;
-  }
-
-  primeira() {
-    return this.atual === 0;
-  }
-
-  ultima() {
-    return this.atual === this.aulas.length - 1;
-  }
-
-  cursoConcluido() {
-    return this.concluidas.size === this.aulas.length;
+    return Math.round(((this.currentLesson + 1) / this.lessons.length) * 100);
   }
 }

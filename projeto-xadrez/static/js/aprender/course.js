@@ -1,11 +1,14 @@
 export class PLCourse {
   constructor(board, curso) {
     this.board = board;
+
     this.curso = curso;
 
-    this.aulas = curso.aulas;
+    this.aulas = curso.aulas || [];
 
     this.atual = 0;
+
+    this.concluidas = new Set();
   }
 
   getAula() {
@@ -25,6 +28,8 @@ export class PLCourse {
   }
 
   proxima() {
+    this.concluirAula();
+
     if (this.atual >= this.aulas.length - 1) {
       return false;
     }
@@ -48,8 +53,16 @@ export class PLCourse {
     return true;
   }
 
+  concluirAula() {
+    this.concluidas.add(this.atual);
+  }
+
   progresso() {
-    return Math.round(((this.atual + 1) / this.aulas.length) * 100);
+    if (!this.aulas.length) {
+      return 0;
+    }
+
+    return Math.round((this.concluidas.size / this.aulas.length) * 100);
   }
 
   numeroAtual() {
@@ -66,5 +79,9 @@ export class PLCourse {
 
   ultima() {
     return this.atual === this.aulas.length - 1;
+  }
+
+  cursoConcluido() {
+    return this.concluidas.size === this.aulas.length;
   }
 }
