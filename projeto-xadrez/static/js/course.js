@@ -1,69 +1,87 @@
 export class PLCourse {
-  constructor(board, lessons = []) {
+  constructor(board, curso) {
     this.board = board;
 
-    this.lessons = lessons;
+    this.curso = curso;
 
-    this.currentLesson = 0;
+    this.aulas = curso.aulas || [];
+
+    this.atual = 0;
+
+    this.concluidas = new Set();
   }
 
-  getCurrentLesson() {
-    return this.lessons[this.currentLesson];
+  getAula() {
+    return this.aulas[this.atual];
   }
 
-  startLesson(index) {
-    if (index < 0 || index >= this.lessons.length) {
+  iniciar() {
+    const aula = this.getAula();
+
+    if (!aula) {
+      return;
+    }
+
+    if (aula.fen) {
+      this.board.loadFEN(aula.fen);
+    }
+  }
+
+  proxima() {
+    this.concluirAula();
+
+    if (this.atual >= this.aulas.length - 1) {
       return false;
     }
 
-    this.currentLesson = index;
+    this.atual++;
 
-    const lesson = this.getCurrentLesson();
-
-    if (lesson.fen) {
-      this.board.loadFEN(lesson.fen);
-    }
+    this.iniciar();
 
     return true;
   }
 
-  nextLesson() {
-    if (this.currentLesson < this.lessons.length - 1) {
-      this.currentLesson++;
-
-      const lesson = this.getCurrentLesson();
-
-      if (lesson.fen) {
-        this.board.loadFEN(lesson.fen);
-      }
-
-      return true;
+  anterior() {
+    if (this.atual <= 0) {
+      return false;
     }
 
-    return false;
+    this.atual--;
+
+    this.iniciar();
+
+    return true;
   }
 
-  previousLesson() {
-    if (this.currentLesson > 0) {
-      this.currentLesson--;
-
-      const lesson = this.getCurrentLesson();
-
-      if (lesson.fen) {
-        this.board.loadFEN(lesson.fen);
-      }
-
-      return true;
-    }
-
-    return false;
+  concluirAula() {
+    this.concluidas.add(this.atual);
   }
 
-  getProgress() {
-    if (!this.lessons.length) {
+  progresso() {
+    if (!this.aulas.length) {
       return 0;
     }
 
-    return Math.round(((this.currentLesson + 1) / this.lessons.length) * 100);
+    return Math.round((this.concluidas.size / this.aulas.length) * 100);
+  }
+
+  numeroAtual() {
+    return this.atual + 1;
+  }
+
+  totalAulas() {
+    return this.aulas.length;
+  }
+
+  primeira() {
+    return this.atual === 0;
+  }
+
+  ultima() {
+    return this.atual === this.aulas.length - 1;
+  }
+
+  cursoConcluido() {
+    return this.concluidas.size === this.aulas.length;
   }
 }
