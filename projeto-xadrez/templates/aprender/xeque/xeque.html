@@ -55,15 +55,13 @@ endblock %} {% block content %}
 </div>
 
 <script type="module">
+  import { PLBoard } from "{{ url_for('static', filename='js/board-config/board.js') }}";
+
   import { PLCourse } from "{{ url_for('static', filename='js/aprender/course.js') }}";
 
   import { cursos } from "{{ url_for('static', filename='js/aprender/course-data.js') }}";
 
-  import {
-    atualizarAula,
-    proximaAula,
-    aulaAnterior,
-  } from "{{ url_for('static', filename='js/aprender/course-page.js') }}";
+  import { atualizarAula } from "{{ url_for('static', filename='js/aprender/course-page.js') }}";
 
   document.addEventListener("DOMContentLoaded", () => {
     const board = new PLBoard({

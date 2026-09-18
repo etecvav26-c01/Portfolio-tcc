@@ -1,51 +1,130 @@
 import { PLBoard } from "./board-config/board.js";
+
 import { ExerciseManager } from "./exercises/exercise-manager.js";
 import { exercises } from "./exercises/exercises.js";
+
 import { PLCourse } from "./aprender/course.js";
 import { cursos } from "./aprender/course-data.js";
 
+import {
+    atualizarAula
+} from "./aprender/course-page.js";
+
+
 console.log("Primeiro Lance Engine carregando...");
 
+
 document.addEventListener("DOMContentLoaded", () => {
-  const boardElement = document.getElementById("board");
 
-  if (!boardElement) {
-    return;
-  }
+    const boardElement =
+        document.getElementById("board");
 
-  console.log("Tabuleiro encontrado.");
+    /*
+     * Nenhuma página com tabuleiro
+     */
+    if (!boardElement) {
+        return;
+    }
 
-  window.PLBoard = new PLBoard({
-    element: "board",
 
-    draggable: true,
-  });
-  if (document.getElementById("conteudo-aula")) {
+    console.log("Tabuleiro encontrado.");
 
-    window.cursoAtual =
-        new PLCourse(
-            window.PLBoard,
-            cursos.pecas
+
+    window.PLBoard =
+        new PLBoard({
+            element: "board",
+            draggable: true
+        });
+
+
+    /*
+     * ==========================================
+     * CURSO
+     * ==========================================
+     */
+
+    const conteudoAula =
+        document.getElementById("conteudo-aula");
+
+
+    if (conteudoAula) {
+
+        let tipoCurso = "pecas";
+
+
+        const pagina =
+            document.body.dataset.curso;
+
+
+        if (pagina) {
+            tipoCurso = pagina;
+        }
+
+
+        const curso =
+            cursos[tipoCurso];
+
+
+        if (curso) {
+
+            window.cursoAtual =
+                new PLCourse(
+                    window.PLBoard,
+                    curso
+                );
+
+
+            window.cursoAtual.iniciar();
+
+            atualizarAula();
+
+        }
+
+    }
+
+
+    /*
+     * ==========================================
+     * EXERCÍCIOS
+     * ==========================================
+     */
+
+    const exerciseContainer =
+        document.getElementById(
+            "exercise-container"
         );
 
-    atualizarAula();
 
-}
-  // Se a página possuir
-  // sistema de exercícios
+    if (exerciseContainer) {
 
-  if (document.getElementById("exercise-container")) {
-    window.exerciseManager = new ExerciseManager(window.PLBoard, exercises);
+        window.exerciseManager =
+            new ExerciseManager(
+                window.PLBoard,
+                exercises
+            );
 
-    window.PLBoard.onMove = (move) => {
-      verificarJogada(move);
-    };
 
-    atualizarExercicio();
-  }
+        window.PLBoard.onMove =
+            (move) => {
+                verificarJogada(move);
+            };
 
-  console.log("PLBoard inicializado.");
+
+        atualizarExercicio();
+
+    }
+
+
+    console.log("PLBoard inicializado.");
+
 });
+
+
+/*
+ * ==========================================
+ * EXERCÍCIOS
+ * ==========================================
+ */
 
 function verificarJogada(move) {
 
@@ -69,24 +148,35 @@ function verificarJogada(move) {
         );
 
 
-    // ==========================================
-    // JOGADA CORRETA
-    // ==========================================
+    if (!mensagem) {
+        return;
+    }
+
 
     if (result.correct) {
 
         if (result.finished) {
 
             mensagem.innerHTML =
-                `<div class="alert alert-success">
+                `
+                <div class="alert alert-success">
                     ✅ Exercício concluído!
-                    <strong>+${result.pontos} pontos</strong>
-                </div>`;
+                    <strong>
+                        +${result.pontos} pontos
+                    </strong>
+                </div>
+                `;
 
 
-            document.getElementById(
-                "next-exercise"
-            ).disabled = false;
+            const botao =
+                document.getElementById(
+                    "next-exercise"
+                );
+
+
+            if (botao) {
+                botao.disabled = false;
+            }
 
 
             salvarProgresso(
@@ -96,31 +186,32 @@ function verificarJogada(move) {
         } else {
 
             mensagem.innerHTML =
-                `<div class="alert alert-success">
+                `
+                <div class="alert alert-success">
                     ✅ Jogada correta!
-                </div>`;
+                </div>
+                `;
+
         }
 
-    }
+    } else {
 
-
-    // ==========================================
-    // JOGADA ERRADA
-    // ==========================================
-
-    else {
-
-        // Volta a posição anterior
         window.PLBoard.undo();
 
 
         mensagem.innerHTML =
-            `<div class="alert alert-danger">
+            `
+            <div class="alert alert-danger">
                 ❌ Jogada incorreta.
                 Tente novamente!
-            </div>`;
+            </div>
+            `;
+
     }
+
 }
+
+
 async function salvarProgresso(pontos) {
 
     try {
@@ -161,148 +252,162 @@ async function salvarProgresso(pontos) {
             "Erro ao conectar com o servidor:",
             erro
         );
+
     }
+
 }
+
 
 function atualizarExercicio() {
-  const manager = window.exerciseManager;
 
-  if (!manager) {
-    return;
-  }
+    const manager =
+        window.exerciseManager;
 
-  const exercise = manager.getCurrent();
 
-  if (!exercise) {
-    return;
-  }
+    if (!manager) {
+        return;
+    }
 
-  document.getElementById("exercise-title").textContent = exercise.nome;
 
-  document.getElementById("exercise-description").textContent =
-    exercise.descricao;
+    const exercise =
+        manager.getCurrent();
 
-  document.getElementById("exercise-number").textContent =
-    `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
 
-  document.getElementById("exercise-feedback").innerHTML = "";
+    if (!exercise) {
+        return;
+    }
 
-  document.getElementById("next-exercise").disabled = true;
+
+    const titulo =
+        document.getElementById(
+            "exercise-title"
+        );
+
+
+    const descricao =
+        document.getElementById(
+            "exercise-description"
+        );
+
+
+    const numero =
+        document.getElementById(
+            "exercise-number"
+        );
+
+
+    const feedback =
+        document.getElementById(
+            "exercise-feedback"
+        );
+
+
+    const proximo =
+        document.getElementById(
+            "next-exercise"
+        );
+
+
+    if (titulo) {
+        titulo.textContent =
+            exercise.nome;
+    }
+
+
+    if (descricao) {
+        descricao.textContent =
+            exercise.descricao;
+    }
+
+
+    if (numero) {
+
+        numero.textContent =
+            `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
+
+    }
+
+
+    if (feedback) {
+        feedback.innerHTML = "";
+    }
+
+
+    if (proximo) {
+        proximo.disabled = true;
+    }
+
 }
+
 
 window.proximoExercicio = function () {
-  const manager = window.exerciseManager;
 
-  if (!manager) {
-    return;
-  }
+    const manager =
+        window.exerciseManager;
 
-  if (manager.next()) {
-    atualizarExercicio();
-  } else {
-    document.getElementById("exercise-feedback").innerHTML =
-      `<div class="alert alert-warning">
-                🏆 Você concluiu todos os exercícios!
-                <br>
-                Pontuação: 
-                <strong>
-                    ${manager.getScore()}
-                </strong>
-            </div>`;
 
-    document.getElementById("next-exercise").disabled = true;
-  }
-};
-
-window.reiniciarExercicio = function () {
-  const manager = window.exerciseManager;
-
-  if (!manager) {
-    return;
-  }
-
-  manager.reset();
-
-  atualizarExercicio();
-};
-function atualizarAula() {
-
-    const curso = window.cursoAtual;
-
-    if (!curso) {
+    if (!manager) {
         return;
     }
 
-    const aula = curso.getAula();
 
-    document.getElementById(
-        "titulo-aula"
-    ).textContent = aula.titulo;
+    if (manager.next()) {
 
-    document.getElementById(
-        "conteudo-aula"
-    ).innerHTML = aula.conteudo;
-
-    document.getElementById(
-        "numero-aula"
-    ).textContent =
-        `${curso.numeroAtual()} / ${curso.totalAulas()}`;
-
-    document.getElementById(
-        "progresso-aula"
-    ).style.width =
-        `${curso.progresso()}%`;
-
-    document.getElementById(
-        "btn-anterior"
-    ).disabled =
-        curso.primeira();
-
-    document.getElementById(
-        "btn-proxima"
-    ).textContent =
-        curso.ultima()
-            ? "Concluir ✓"
-            : "Próxima →";
-}
-
-
-window.proximaAula = function () {
-
-    if (!window.cursoAtual) {
-        return;
-    }
-
-    const avancou =
-        window.cursoAtual.proxima();
-
-    if (avancou) {
-
-        atualizarAula();
+        atualizarExercicio();
 
     } else {
 
-        Swal.fire({
-            icon: "success",
-            title: "Curso concluído!",
-            text: "Você terminou todas as aulas sobre as peças."
-        });
+        const feedback =
+            document.getElementById(
+                "exercise-feedback"
+            );
+
+
+        if (feedback) {
+
+            feedback.innerHTML =
+                `
+                <div class="alert alert-warning">
+                    🏆 Você concluiu todos os exercícios!
+                    <br>
+                    Pontuação:
+                    <strong>
+                        ${manager.getScore()}
+                    </strong>
+                </div>
+                `;
+
+        }
+
+
+        const botao =
+            document.getElementById(
+                "next-exercise"
+            );
+
+
+        if (botao) {
+            botao.disabled = true;
+        }
 
     }
 
 };
 
 
-window.aulaAnterior = function () {
+window.reiniciarExercicio = function () {
 
-    if (!window.cursoAtual) {
+    const manager =
+        window.exerciseManager;
+
+
+    if (!manager) {
         return;
     }
 
-    if (window.cursoAtual.anterior()) {
 
-        atualizarAula();
+    manager.reset();
 
-    }
+    atualizarExercicio();
 
 };
