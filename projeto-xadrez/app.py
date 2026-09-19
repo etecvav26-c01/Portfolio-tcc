@@ -16,8 +16,9 @@ app.secret_key = "primeiro_lance_secret"
 app.register_blueprint(auth)
 app.register_blueprint(perfil)
 app.register_blueprint(admin)
-app.register_blueprint(aprender)
 app.register_blueprint(exercicios)
+app.register_blueprint(aprender)
+app.register_blueprint(curso)
 
 
 @app.route("/")
