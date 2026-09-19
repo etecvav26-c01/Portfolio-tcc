@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}
-Táticas de Xadrez - Primeiro Lance
+Xeque e Xeque-mate - Primeiro Lance
 {% endblock %}
-
 
 {% block content %}
 
@@ -13,28 +12,22 @@ Táticas de Xadrez - Primeiro Lance
     data-curso="taticas"
 >
 
-    <div class="mb-4">
+    <h1 id="titulo-aula">
+        Carregando...
+    </h1>
 
-        <h1 id="titulo-aula">
-            Carregando...
-        </h1>
+    <p class="text-secondary">
+        Aula
+        <span id="numero-aula">1 / 3</span>
+    </p>
 
-        <p class="text-secondary mb-0">
-            Aula
-            <span id="numero-aula">
-                1 / 3
-            </span>
-        </p>
+    <div class="progress mb-4">
 
-        <div class="progress mt-3">
-
-            <div
-                id="progresso-aula"
-                class="progress-bar bg-warning"
-                style="width: 0%;"
-            ></div>
-
-        </div>
+        <div
+            id="progresso-aula"
+            class="progress-bar bg-warning"
+            style="width: 0%;"
+        ></div>
 
     </div>
 
@@ -48,9 +41,7 @@ Táticas de Xadrez - Primeiro Lance
                 <div class="card-body">
 
                     <div id="conteudo-aula">
-                        <p class="text-secondary">
-                            Carregando conteúdo...
-                        </p>
+                        Carregando conteúdo...
                     </div>
 
                 </div>
@@ -69,7 +60,10 @@ Táticas de Xadrez - Primeiro Lance
                     <div
                         id="board"
                         class="mx-auto"
-                        style="width: 100%; max-width: 500px;"
+                        style="
+                            width: 100%;
+                            max-width: 500px;
+                        "
                     ></div>
 
                 </div>
@@ -87,18 +81,15 @@ Táticas de Xadrez - Primeiro Lance
             type="button"
             id="btn-anterior"
             class="btn btn-secondary"
-            onclick="aulaAnterior()"
             disabled
         >
             ← Anterior
         </button>
 
-
         <button
             type="button"
             id="btn-proxima"
             class="btn btn-warning"
-            onclick="proximaAula()"
         >
             Próxima →
         </button>
@@ -110,7 +101,10 @@ Táticas de Xadrez - Primeiro Lance
 
 <script
     type="module"
-    src="{{ url_for('static', filename='js/main.js') }}"
+    src="{{ url_for(
+        'static',
+        filename='js/main.js'
+    ) }}"
 ></script>
 
 {% endblock %}

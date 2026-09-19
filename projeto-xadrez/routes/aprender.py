@@ -1,13 +1,17 @@
 from flask import Blueprint, render_template, redirect, session
 
 
-aprender = Blueprint("aprender", __name__)
+aprender = Blueprint(
+    "aprender",
+    __name__
+)
 
 
 @aprender.route("/aprender")
 def pagina_aprender():
 
     if "usuario_id" not in session:
+
         return redirect("/login")
 
     return render_template(
@@ -19,6 +23,7 @@ def pagina_aprender():
 def pecas():
 
     if "usuario_id" not in session:
+
         return redirect("/login")
 
     return render_template(
@@ -30,6 +35,7 @@ def pecas():
 def xeque():
 
     if "usuario_id" not in session:
+
         return redirect("/login")
 
     return render_template(
@@ -41,6 +47,7 @@ def xeque():
 def taticas():
 
     if "usuario_id" not in session:
+
         return redirect("/login")
 
     return render_template(
@@ -52,6 +59,7 @@ def taticas():
 def aberturas():
 
     if "usuario_id" not in session:
+
         return redirect("/login")
 
     return render_template(
