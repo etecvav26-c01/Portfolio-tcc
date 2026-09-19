@@ -38,6 +38,34 @@ def concluir_modulo():
         }), 400
 
 
+    conexao = conectar_bd()
+
+
+    try:
+
+        with conexao.cursor() as cursor:
+
+            cursor.execute("""
+                INSERT INTO modulos_progresso
+                (usuario_id, modulo, concluido)
+                VALUES (%s, %s, TRUE)
+
+                ON DUPLICATE KEY UPDATE
+                concluido = TRUE
+            """, (
+                session["usuario_id"],
+                modulo
+            ))
+
+
+        conexao.commit()
+
+
+    finally:
+
+        conexao.close()
+
+
     return jsonify({
         "sucesso": True,
         "modulo": modulo

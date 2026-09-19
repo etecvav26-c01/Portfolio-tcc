@@ -6,87 +6,192 @@ import { exercises } from "./exercises/exercises.js";
 import { PLCourse } from "./aprender/course.js";
 import { cursos } from "./aprender/course-data.js";
 
-import { atualizarAula } from "./aprender/course-page.js";
+import {
+    iniciarCurso,
+    atualizarAula
+} from "./aprender/course-page.js";
+
 
 console.log("Primeiro Lance Engine carregando...");
 
+
 document.addEventListener("DOMContentLoaded", () => {
-  const boardElement = document.getElementById("board");
 
-  if (!boardElement) {
-    return;
-  }
+    console.log("DOM carregado.");
 
-  console.log("Tabuleiro encontrado.");
 
-  window.PLBoard = new PLBoard({
-    element: "board",
-    draggable: true,
-  });
+    /*
+     * TABULEIRO
+     */
 
-  const conteudoAula = document.getElementById("conteudo-aula");
+    const boardElement =
+        document.getElementById("board");
 
-  if (conteudoAula) {
-    let tipoCurso = "pecas";
+    if (!boardElement) {
+
+        console.log(
+            "Nenhum tabuleiro nesta página."
+        );
+
+        return;
+    }
+
+
+    console.log("Tabuleiro encontrado.");
+
+
+    window.PLBoard =
+        new PLBoard({
+            element: "board",
+            draggable: true
+        });
+
+
+    console.log("PLBoard inicializado.");
+
+
+    /*
+     * CURSO
+     */
 
     const courseContainer =
-    document.getElementById(
-        "course-container"
-    );
+        document.getElementById(
+            "course-container"
+        );
 
-    const pagina =
-        courseContainer?.dataset.curso;
 
-    if (pagina) {
-      tipoCurso = pagina;
+    if (courseContainer) {
+
+        console.log("Página de curso encontrada.");
+
+
+        const modulo =
+            courseContainer.dataset.curso;
+
+
+        console.log(
+            "Módulo:",
+            modulo
+        );
+
+
+        const curso =
+            cursos[modulo];
+
+
+        if (!curso) {
+
+            console.error(
+                "Curso não encontrado:",
+                modulo
+            );
+
+            return;
+        }
+
+
+        window.cursoAtual =
+            new PLCourse(
+                window.PLBoard,
+                curso
+            );
+
+
+        iniciarCurso(
+            window.PLBoard,
+            window.cursoAtual
+        );
+
+
+        atualizarAula();
+
+
+        console.log(
+            "Curso inicializado:",
+            curso.titulo
+        );
+
+        return;
     }
 
-    const curso = cursos[tipoCurso];
 
-    if (curso) {
-      window.cursoAtual = new PLCourse(window.PLBoard, curso);
+    /*
+     * EXERCÍCIOS
+     */
 
-      window.cursoAtual.iniciar();
+    const exerciseContainer =
+        document.getElementById(
+            "exercise-container"
+        );
 
-      atualizarAula();
+
+    if (exerciseContainer) {
+
+        console.log(
+            "Página de exercícios encontrada."
+        );
+
+
+        window.exerciseManager =
+            new ExerciseManager(
+                window.PLBoard,
+                exercises
+            );
+
+
+        window.PLBoard.onMove =
+            (move) => {
+
+                verificarJogada(move);
+            };
+
+
+        atualizarExercicio();
     }
-  }
 
-  const exerciseContainer = document.getElementById("exercise-container");
-
-  if (exerciseContainer) {
-    window.exerciseManager = new ExerciseManager(window.PLBoard, exercises);
-
-    window.PLBoard.onMove = (move) => {
-      verificarJogada(move);
-    };
-
-    atualizarExercicio();
-  }
-
-  console.log("PLBoard inicializado.");
 });
 
+
+/*
+ * ================================
+ * EXERCÍCIOS
+ * ================================
+ */
+
+
 function verificarJogada(move) {
-  if (!window.exerciseManager) {
-    return;
-  }
 
-  const result = window.exerciseManager.checkMove(move);
+    if (!window.exerciseManager) {
+        return;
+    }
 
-  if (!result) {
-    return;
-  }
 
-  const mensagem = document.getElementById("exercise-feedback");
+    const result =
+        window.exerciseManager.checkMove(move);
 
-  if (!mensagem) {
-    return;
-  }
 
-  if (result.correct) {
-    if (result.finished) {
-      mensagem.innerHTML = `
+    if (!result) {
+        return;
+    }
+
+
+    const mensagem =
+        document.getElementById(
+            "exercise-feedback"
+        );
+
+
+    if (!mensagem) {
+        return;
+    }
+
+
+    if (result.correct) {
+
+        if (result.finished) {
+
+            mensagem.innerHTML =
+                `
                 <div class="alert alert-success">
                     ✅ Exercício concluído!
                     <strong>
@@ -95,114 +200,206 @@ function verificarJogada(move) {
                 </div>
                 `;
 
-      const botao = document.getElementById("next-exercise");
 
-      if (botao) {
-        botao.disabled = false;
-      }
+            const botao =
+                document.getElementById(
+                    "next-exercise"
+                );
 
-      salvarProgresso(result.pontos);
-    } else {
-      mensagem.innerHTML = `
+
+            if (botao) {
+                botao.disabled = false;
+            }
+
+
+            salvarProgresso(
+                result.pontos
+            );
+
+
+        } else {
+
+            mensagem.innerHTML =
+                `
                 <div class="alert alert-success">
                     ✅ Jogada correta!
                 </div>
                 `;
-    }
-  } else {
-    window.PLBoard.undo();
+        }
 
-    mensagem.innerHTML = `
+
+    } else {
+
+        window.PLBoard.undo();
+
+
+        mensagem.innerHTML =
+            `
             <div class="alert alert-danger">
                 ❌ Jogada incorreta.
                 Tente novamente!
             </div>
             `;
-  }
+    }
 }
+
 
 async function salvarProgresso(pontos) {
-  try {
-    const resposta = await fetch("/api/exercicio/concluir", {
-      method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+    try {
 
-      body: JSON.stringify({
-        pontos: pontos,
-      }),
-    });
+        const resposta =
+            await fetch(
+                "/api/exercicio/concluir",
+                {
+                    method: "POST",
 
-    const dados = await resposta.json();
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    if (!dados.sucesso) {
-      console.error("Erro ao salvar progresso.");
+                    body: JSON.stringify({
+                        pontos: pontos
+                    })
+                }
+            );
+
+
+        const dados =
+            await resposta.json();
+
+
+        if (!dados.sucesso) {
+
+            console.error(
+                "Erro ao salvar progresso."
+            );
+        }
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao conectar com o servidor:",
+            erro
+        );
     }
-  } catch (erro) {
-    console.error("Erro ao conectar com o servidor:", erro);
-  }
 }
+
 
 function atualizarExercicio() {
-  const manager = window.exerciseManager;
 
-  if (!manager) {
-    return;
-  }
+    const manager =
+        window.exerciseManager;
 
-  const exercise = manager.getCurrent();
 
-  if (!exercise) {
-    return;
-  }
+    if (!manager) {
+        return;
+    }
 
-  const titulo = document.getElementById("exercise-title");
 
-  const descricao = document.getElementById("exercise-description");
+    const exercise =
+        manager.getCurrent();
 
-  const numero = document.getElementById("exercise-number");
 
-  const feedback = document.getElementById("exercise-feedback");
+    if (!exercise) {
+        return;
+    }
 
-  const proximo = document.getElementById("next-exercise");
 
-  if (titulo) {
-    titulo.textContent = exercise.nome;
-  }
+    const titulo =
+        document.getElementById(
+            "exercise-title"
+        );
 
-  if (descricao) {
-    descricao.textContent = exercise.descricao;
-  }
 
-  if (numero) {
-    numero.textContent = `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
-  }
+    const descricao =
+        document.getElementById(
+            "exercise-description"
+        );
 
-  if (feedback) {
-    feedback.innerHTML = "";
-  }
 
-  if (proximo) {
-    proximo.disabled = true;
-  }
-}
+    const numero =
+        document.getElementById(
+            "exercise-number"
+        );
 
-window.proximoExercicio = function () {
-  const manager = window.exerciseManager;
 
-  if (!manager) {
-    return;
-  }
+    const feedback =
+        document.getElementById(
+            "exercise-feedback"
+        );
 
-  if (manager.next()) {
-    atualizarExercicio();
-  } else {
-    const feedback = document.getElementById("exercise-feedback");
+
+    const proximo =
+        document.getElementById(
+            "next-exercise"
+        );
+
+
+    if (titulo) {
+
+        titulo.textContent =
+            exercise.nome;
+    }
+
+
+    if (descricao) {
+
+        descricao.textContent =
+            exercise.descricao;
+    }
+
+
+    if (numero) {
+
+        numero.textContent =
+            `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
+    }
+
 
     if (feedback) {
-      feedback.innerHTML = `
+
+        feedback.innerHTML = "";
+    }
+
+
+    if (proximo) {
+
+        proximo.disabled = true;
+    }
+}
+
+
+window.proximoExercicio = function () {
+
+    const manager =
+        window.exerciseManager;
+
+
+    if (!manager) {
+        return;
+    }
+
+
+    if (manager.next()) {
+
+        atualizarExercicio();
+
+
+    } else {
+
+        const feedback =
+            document.getElementById(
+                "exercise-feedback"
+            );
+
+
+        if (feedback) {
+
+            feedback.innerHTML =
+                `
                 <div class="alert alert-warning">
                     🏆 Você concluiu todos os exercícios!
                     <br>
@@ -212,24 +409,35 @@ window.proximoExercicio = function () {
                     </strong>
                 </div>
                 `;
-    }
+        }
 
-    const botao = document.getElementById("next-exercise");
 
-    if (botao) {
-      botao.disabled = true;
+        const botao =
+            document.getElementById(
+                "next-exercise"
+            );
+
+
+        if (botao) {
+
+            botao.disabled = true;
+        }
     }
-  }
 };
 
+
 window.reiniciarExercicio = function () {
-  const manager = window.exerciseManager;
 
-  if (!manager) {
-    return;
-  }
+    const manager =
+        window.exerciseManager;
 
-  manager.reset();
 
-  atualizarExercicio();
+    if (!manager) {
+        return;
+    }
+
+
+    manager.reset();
+
+    atualizarExercicio();
 };

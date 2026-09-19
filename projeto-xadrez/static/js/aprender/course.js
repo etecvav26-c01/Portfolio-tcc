@@ -1,87 +1,119 @@
 export class PLCourse {
-  constructor(board, curso) {
-    this.board = board;
 
-    this.curso = curso;
+    constructor(board, curso) {
 
-    this.aulas = curso.aulas || [];
+        this.board = board;
+        this.curso = curso;
 
-    this.atual = 0;
+        this.aulas = curso.aulas || [];
 
-    this.concluidas = new Set();
-  }
+        this.atual = 0;
 
-  getAula() {
-    return this.aulas[this.atual];
-  }
-
-  iniciar() {
-    const aula = this.getAula();
-
-    if (!aula) {
-      return;
+        this.concluidas = new Set();
     }
 
-    if (aula.fen) {
-      this.board.loadFEN(aula.fen);
-    }
-  }
 
-  proxima() {
-    this.concluirAula();
+    getAula() {
 
-    if (this.atual >= this.aulas.length - 1) {
-      return false;
+        return this.aulas[this.atual];
     }
 
-    this.atual++;
 
-    this.iniciar();
+    iniciar() {
 
-    return true;
-  }
+        const aula = this.getAula();
 
-  anterior() {
-    if (this.atual <= 0) {
-      return false;
+        if (!aula) {
+            return;
+        }
+
+        if (aula.fen) {
+
+            this.board.loadFEN(aula.fen);
+
+        } else {
+
+            this.board.reset();
+        }
     }
 
-    this.atual--;
 
-    this.iniciar();
+    proxima() {
 
-    return true;
-  }
+        this.concluirAula();
 
-  concluirAula() {
-    this.concluidas.add(this.atual);
-  }
+        if (this.ultima()) {
+            return false;
+        }
 
-  progresso() {
-    if (!this.aulas.length) {
-      return 0;
+        this.atual++;
+
+        this.iniciar();
+
+        return true;
     }
 
-    return Math.round((this.concluidas.size / this.aulas.length) * 100);
-  }
 
-  numeroAtual() {
-    return this.atual + 1;
-  }
+    anterior() {
 
-  totalAulas() {
-    return this.aulas.length;
-  }
+        if (this.primeira()) {
+            return false;
+        }
 
-  primeira() {
-    return this.atual === 0;
-  }
+        this.atual--;
 
-  ultima() {
-    return this.atual === this.aulas.length - 1;
-  }
+        this.iniciar();
 
-  cursoConcluido() {
-    return this.concluidas.size === this.aulas.length;
-  }
+        return true;
+    }
+
+
+    concluirAula() {
+
+        this.concluidas.add(this.atual);
+    }
+
+
+    progresso() {
+
+        if (!this.aulas.length) {
+            return 0;
+        }
+
+        return Math.round(
+            (this.concluidas.size / this.aulas.length) * 100
+        );
+    }
+
+
+    numeroAtual() {
+
+        return this.atual + 1;
+    }
+
+
+    totalAulas() {
+
+        return this.aulas.length;
+    }
+
+
+    primeira() {
+
+        return this.atual === 0;
+    }
+
+
+    ultima() {
+
+        return this.atual === this.aulas.length - 1;
+    }
+
+
+    cursoConcluido() {
+
+        return (
+            this.concluidas.size === this.aulas.length
+        );
+    }
 }
