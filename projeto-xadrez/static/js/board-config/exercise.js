@@ -1,20 +1,31 @@
 export class PLExercise {
 
-    constructor(board, config = {}) {
+    constructor(
+        board,
+        config = {}
+    ) {
 
         this.board = board;
 
         this.nome =
-            config.nome || "Exercício";
+            config.nome ||
+            "Exercício";
+
+        this.descricao =
+            config.descricao ||
+            "";
 
         this.startFEN =
-            config.fen || board.fen();
+            config.fen ||
+            board.fen();
 
         this.correctMoves =
-            config.moves || [];
+            config.moves ||
+            [];
 
         this.pontos =
-            config.pontos || 10;
+            config.pontos ||
+            10;
 
         this.currentMove = 0;
 
@@ -25,41 +36,69 @@ export class PLExercise {
     checkMove(move) {
 
         if (this.finished) {
-            return false;
+
+            return {
+                correct: false,
+                finished: true
+            };
         }
+
 
         const expected =
-            this.correctMoves[this.currentMove];
+            this.correctMoves[
+                this.currentMove
+            ];
+
 
         if (!expected) {
-            return false;
+
+            return {
+                correct: false,
+                finished: false
+            };
         }
+
+
+        const correct =
+            move.from === expected.from &&
+            move.to === expected.to;
+
+
+        if (!correct) {
+
+            return {
+                correct: false,
+                finished: false
+            };
+        }
+
+
+        this.currentMove++;
 
 
         if (
-            move.from === expected.from &&
-            move.to === expected.to
+            this.currentMove >=
+            this.correctMoves.length
         ) {
 
-            this.currentMove++;
+            this.finished = true;
 
 
-            if (
-                this.currentMove >=
-                this.correctMoves.length
-            ) {
+            return {
+                correct: true,
 
-                this.finished = true;
+                finished: true,
 
-                return true;
-            }
-
-
-            return true;
+                pontos: this.pontos
+            };
         }
 
 
-        return false;
+        return {
+            correct: true,
+
+            finished: false
+        };
     }
 
 

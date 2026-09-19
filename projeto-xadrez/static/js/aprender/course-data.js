@@ -1,15 +1,12 @@
 export const cursos = {
+  pecas: {
+    titulo: "Peças do Xadrez",
 
-    pecas: {
+    aulas: [
+      {
+        titulo: "Peão",
 
-        titulo: "Peças do Xadrez",
-
-        aulas: [
-
-            {
-                titulo: "Peão",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O peão é a peça mais numerosa do xadrez.
                         Cada jogador começa a partida com oito peões.
@@ -22,19 +19,19 @@ export const cursos = {
                     </p>
 
                     <p>
-                        Para capturar uma peça adversária, o peão
-                        se movimenta uma casa na diagonal para frente.
+                        Para capturar uma peça adversária,
+                        o peão se movimenta uma casa na diagonal
+                        para frente.
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/3P4/8/8 w - - 0 1"
-            },
+        fen: "8/8/8/8/8/3P4/8/8 w - - 0 1",
+      },
 
+      {
+        titulo: "Torre",
 
-            {
-                titulo: "Torre",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         A torre pode se movimentar qualquer quantidade
                         de casas na horizontal ou na vertical.
@@ -50,14 +47,13 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/8/8/R7 w - - 0 1"
-            },
+        fen: "8/8/8/8/8/8/8/R7 w - - 0 1",
+      },
 
+      {
+        titulo: "Bispo",
 
-            {
-                titulo: "Bispo",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O bispo movimenta-se na diagonal e pode
                         percorrer várias casas de uma só vez.
@@ -69,14 +65,13 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/8/8/2B5 w - - 0 1"
-            },
+        fen: "8/8/8/8/8/8/8/2B5 w - - 0 1",
+      },
 
+      {
+        titulo: "Cavalo",
 
-            {
-                titulo: "Cavalo",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O cavalo possui um movimento diferente
                         das outras peças.
@@ -94,14 +89,13 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/8/8/1N6 w - - 0 1"
-            },
+        fen: "8/8/8/8/8/8/8/1N6 w - - 0 1",
+      },
 
+      {
+        titulo: "Dama",
 
-            {
-                titulo: "Dama",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         A dama é a peça de maior valor relativo
                         do xadrez.
@@ -117,21 +111,20 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/8/8/3Q4 w - - 0 1"
-            },
+        fen: "8/8/8/8/8/8/8/3Q4 w - - 0 1",
+      },
 
+      {
+        titulo: "Rei",
 
-            {
-                titulo: "Rei",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O rei é a peça mais importante do jogo.
                     </p>
 
                     <p>
-                        Ele pode se movimentar uma casa em
-                        qualquer direção.
+                        Ele pode se movimentar uma casa
+                        em qualquer direção.
                     </p>
 
                     <p>
@@ -140,23 +133,19 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "8/8/8/8/8/8/8/4K3 w - - 0 1"
-            }
+        fen: "8/8/8/8/8/8/8/4K3 w - - 0 1",
+      },
+    ],
+  },
 
-        ]
-    },
+  xeque: {
+    titulo: "Xeque e Xeque-mate",
 
+    aulas: [
+      {
+        titulo: "O que é xeque?",
 
-    xeque: {
-
-        titulo: "Xeque e Xeque-mate",
-
-        aulas: [
-
-            {
-                titulo: "O que é xeque?",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O xeque acontece quando o rei está sendo
                         diretamente atacado por uma peça adversária.
@@ -168,18 +157,17 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "6k1/8/8/8/8/8/5R2/6K1 b - - 0 1"
-            },
+        fen: "6k1/8/8/8/8/8/5R2/6K1 b - - 0 1",
+      },
 
+      {
+        titulo: "Xeque-mate",
 
-            {
-                titulo: "Xeque-mate",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O xeque-mate acontece quando o rei está em xeque
-                        e não existe nenhuma jogada legal capaz de
-                        escapar da ameaça.
+                        e não existe nenhuma jogada legal capaz de escapar
+                        da ameaça.
                     </p>
 
                     <p>
@@ -188,23 +176,19 @@ export const cursos = {
                     </p>
                 `,
 
-                fen: "7k/6Q1/6K1/8/8/8/8/8 b - - 0 1"
-            }
+        fen: "7k/6Q1/6K1/8/8/8/8/8 b - - 0 1",
+      },
+    ],
+  },
 
-        ]
-    },
+  taticas: {
+    titulo: "Táticas de Xadrez",
 
+    aulas: [
+      {
+        titulo: "Garfo",
 
-    taticas: {
-
-        titulo: "Táticas de Xadrez",
-
-        aulas: [
-
-            {
-                titulo: "Garfo",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O garfo acontece quando uma única peça
                         ataca duas ou mais peças adversárias
@@ -215,32 +199,30 @@ export const cursos = {
                         O cavalo é especialmente conhecido por
                         realizar garfos devido ao seu movimento.
                     </p>
-                `
-            },
+                `,
+      },
 
+      {
+        titulo: "Cravada",
 
-            {
-                titulo: "Cravada",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         A cravada acontece quando uma peça não pode
-                        se movimentar porque atrás dela existe uma
-                        peça mais importante.
+                        se movimentar porque atrás dela existe
+                        uma peça mais importante.
                     </p>
 
                     <p>
                         Quando a peça protegida é o rei,
                         temos uma cravada absoluta.
                     </p>
-                `
-            },
+                `,
+      },
 
+      {
+        titulo: "Ataque descoberto",
 
-            {
-                titulo: "Ataque descoberto",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O ataque descoberto acontece quando uma peça
                         se movimenta e revela o ataque de outra peça
@@ -251,23 +233,19 @@ export const cursos = {
                         Esse recurso pode criar ameaças simultâneas
                         e é bastante utilizado em combinações táticas.
                     </p>
-                `
-            }
+                `,
+      },
+    ],
+  },
 
-        ]
-    },
+  aberturas: {
+    titulo: "Princípios de Abertura",
 
+    aulas: [
+      {
+        titulo: "Controle do centro",
 
-    aberturas: {
-
-        titulo: "Princípios de Abertura",
-
-        aulas: [
-
-            {
-                titulo: "Controle do centro",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         No início da partida, é importante disputar
                         o controle das casas centrais do tabuleiro.
@@ -279,15 +257,13 @@ export const cursos = {
                     </p>
                 `,
 
-                fen:
-                    "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"
-            },
+        fen: "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      },
 
+      {
+        titulo: "Desenvolvimento",
 
-            {
-                titulo: "Desenvolvimento",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         Desenvolver significa colocar as peças em casas
                         onde elas participem ativamente da partida.
@@ -298,14 +274,13 @@ export const cursos = {
                         desenvolvidos antes de movimentar várias vezes
                         a mesma peça.
                     </p>
-                `
-            },
+                `,
+      },
 
+      {
+        titulo: "Roque",
 
-            {
-                titulo: "Roque",
-
-                conteudo: `
+        conteudo: `
                     <p>
                         O roque é um movimento especial que envolve
                         o rei e uma das torres.
@@ -315,10 +290,8 @@ export const cursos = {
                         Ele permite colocar o rei em uma posição
                         geralmente mais segura e desenvolver a torre.
                     </p>
-                `
-            }
-
-        ]
-    }
-
+                `,
+      },
+    ],
+  },
 };
