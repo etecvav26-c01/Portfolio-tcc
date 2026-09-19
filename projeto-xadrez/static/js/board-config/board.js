@@ -24,7 +24,9 @@ export class PLBoard {
       draggable: config.draggable ?? true,
 
       moveSpeed: 0,
+
       snapbackSpeed: 0,
+
       snapSpeed: 0,
 
       pieceTheme: "/static/img/chesspieces/wikipedia/{piece}.png",
@@ -37,22 +39,15 @@ export class PLBoard {
     });
   }
 
-  // ==========================================
-  // CONTROLE DAS JOGADAS
-  // ==========================================
-
   onDragStart(source, piece) {
-    // Não permite jogar se a partida acabou
     if (this.game.isGameOver()) {
       return false;
     }
 
-    // Permissão personalizada
     if (!this.allowMove(source, piece)) {
       return false;
     }
 
-    // Só permite mover peças da vez
     if (this.game.turn() === "w" && piece.startsWith("b")) {
       return false;
     }
@@ -85,27 +80,24 @@ export class PLBoard {
 
     this.onMove({
       from: move.from,
+
       to: move.to,
+
       piece: move.piece,
+
       captured: move.captured,
+
       promotion: move.promotion,
+
       san: move.san,
     });
 
     return undefined;
   }
 
-  // ==========================================
-  // ATUALIZAÇÃO
-  // ==========================================
-
   update() {
     this.board.position(this.game.fen());
   }
-
-  // ==========================================
-  // CONTROLES
-  // ==========================================
 
   reset() {
     this.game.reset();
@@ -122,10 +114,6 @@ export class PLBoard {
 
     this.update();
   }
-
-  // ==========================================
-  // FEN
-  // ==========================================
 
   loadFEN(fen) {
     try {
@@ -149,10 +137,6 @@ export class PLBoard {
     return this.game.pgn();
   }
 
-  // ==========================================
-  // ESTADO DA PARTIDA
-  // ==========================================
-
   turn() {
     return this.game.turn();
   }
@@ -168,10 +152,6 @@ export class PLBoard {
   isCheckmate() {
     return this.game.isCheckmate();
   }
-
-  // ==========================================
-  // DESTAQUE DE CASAS
-  // ==========================================
 
   highlight(square) {
     const element = document.querySelector(

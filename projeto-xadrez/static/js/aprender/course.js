@@ -1,119 +1,89 @@
 export class PLCourse {
+  constructor(board, curso) {
+    this.board = board;
 
-    constructor(board, curso) {
+    this.curso = curso;
 
-        this.board = board;
-        this.curso = curso;
+    this.aulas = curso.aulas || [];
 
-        this.aulas = curso.aulas || [];
+    this.atual = 0;
 
-        this.atual = 0;
+    this.concluidas = new Set();
+  }
 
-        this.concluidas = new Set();
+  getAula() {
+    return this.aulas[this.atual];
+  }
+
+  iniciar() {
+    const aula = this.getAula();
+
+    if (!aula) {
+      return;
     }
 
+    if (aula.fen) {
+      this.board.loadFEN(aula.fen);
+    } else {
+      this.board.reset();
+    }
+  }
 
-    getAula() {
+  proxima() {
+    this.concluirAula();
 
-        return this.aulas[this.atual];
+    if (this.ultima()) {
+      return false;
     }
 
+    this.atual++;
 
-    iniciar() {
+    this.iniciar();
 
-        const aula = this.getAula();
+    return true;
+  }
 
-        if (!aula) {
-            return;
-        }
-
-        if (aula.fen) {
-
-            this.board.loadFEN(aula.fen);
-
-        } else {
-
-            this.board.reset();
-        }
+  anterior() {
+    if (this.primeira()) {
+      return false;
     }
 
+    this.atual--;
 
-    proxima() {
+    this.iniciar();
 
-        this.concluirAula();
+    return true;
+  }
 
-        if (this.ultima()) {
-            return false;
-        }
+  concluirAula() {
+    this.concluidas.add(this.atual);
+  }
 
-        this.atual++;
-
-        this.iniciar();
-
-        return true;
+  progresso() {
+    if (!this.aulas.length) {
+      return 0;
     }
 
+    return Math.round((this.concluidas.size / this.aulas.length) * 100);
+  }
 
-    anterior() {
+  numeroAtual() {
+    return this.atual + 1;
+  }
 
-        if (this.primeira()) {
-            return false;
-        }
+  totalAulas() {
+    return this.aulas.length;
+  }
 
-        this.atual--;
+  primeira() {
+    return this.atual === 0;
+  }
 
-        this.iniciar();
+  ultima() {
+    return this.atual === this.aulas.length - 1;
+  }
 
-        return true;
-    }
-
-
-    concluirAula() {
-
-        this.concluidas.add(this.atual);
-    }
-
-
-    progresso() {
-
-        if (!this.aulas.length) {
-            return 0;
-        }
-
-        return Math.round(
-            (this.concluidas.size / this.aulas.length) * 100
-        );
-    }
-
-
-    numeroAtual() {
-
-        return this.atual + 1;
-    }
-
-
-    totalAulas() {
-
-        return this.aulas.length;
-    }
-
-
-    primeira() {
-
-        return this.atual === 0;
-    }
-
-
-    ultima() {
-
-        return this.atual === this.aulas.length - 1;
-    }
-
-
-    cursoConcluido() {
-
-        return (
-            this.concluidas.size === this.aulas.length
-        );
-    }
+  cursoConcluido() {
+    return this.concluidas.size === this.aulas.length;
+  }
 }
