@@ -23,8 +23,7 @@ O projeto tem como objetivo ensinar xadrez de forma interativa, oferecendo conte
 - [ ] Exercícios interativos
 - [ ] Sistema de pontuação
 - [ ] Estatísticas
-- [ ] Ranking
-
+      
 ## Tecnologias Utilizadas
 
 - Python
@@ -63,8 +62,6 @@ Desenvolvido pelos alunos do curso Técnico em Desenvolvimento de Sistemas da ET
 
 ### Futuro
 
-- Ranking
-- Integração com motores de xadrez
 - Aplicativo móvel (PWA)
 
 ## Licença

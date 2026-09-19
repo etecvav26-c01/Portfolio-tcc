@@ -29,12 +29,10 @@ def concluir_modulo():
         }), 401
 
 
-    dados =
-        request.get_json() or {}
+    dados =request.get_json() or {}
 
 
-    modulo =
-        dados.get(
+    modulo =dados.get(
             "modulo",
             ""
         )
@@ -57,8 +55,7 @@ def concluir_modulo():
         }), 400
 
 
-    conexao =
-        conectar_bd()
+    conexao = conectar_bd()
 
 
     try:
