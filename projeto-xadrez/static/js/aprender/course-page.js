@@ -1,7 +1,6 @@
-export function iniciarCurso(board, curso) {
-  if (!board || !curso) {
-    console.error("Não foi possível iniciar o curso.");
-
+export function iniciarCurso(curso) {
+  if (!curso) {
+    console.error("Curso não encontrado.");
     return;
   }
 
@@ -16,8 +15,6 @@ export function atualizarAula() {
   const curso = window.cursoAtual;
 
   if (!curso) {
-    console.error("Curso não encontrado.");
-
     return;
   }
 
@@ -25,44 +22,53 @@ export function atualizarAula() {
 
   if (!aula) {
     console.error("Aula não encontrada.");
-
     return;
   }
 
+  // Título
   const titulo = document.getElementById("titulo-aula");
 
   if (titulo) {
     titulo.textContent = aula.titulo;
   }
 
+  // Conteúdo
   const conteudo = document.getElementById("conteudo-aula");
 
   if (conteudo) {
     conteudo.innerHTML = aula.conteudo;
   }
 
+  // Número da aula
   const numero = document.getElementById("numero-aula");
 
   if (numero) {
     numero.textContent = `${curso.numeroAtual()} / ${curso.totalAulas()}`;
   }
 
+  // Barra de progresso
   const progresso = document.getElementById("progresso-aula");
 
   if (progresso) {
     progresso.style.width = `${curso.progresso()}%`;
   }
 
+  // Botão anterior
   const anterior = document.getElementById("btn-anterior");
 
   if (anterior) {
     anterior.disabled = curso.primeira();
   }
 
+  // Botão próxima
   const proxima = document.getElementById("btn-proxima");
 
   if (proxima) {
-    proxima.textContent = curso.ultima() ? "Concluir ✓" : "Próxima →";
+    if (curso.ultima()) {
+      proxima.textContent = "Concluir ✓";
+    } else {
+      proxima.textContent = "Próxima →";
+    }
   }
 }
 
@@ -73,30 +79,35 @@ export async function proximaAula() {
     return;
   }
 
+  // Última aula
   if (curso.ultima()) {
     curso.concluirAula();
 
     atualizarAula();
 
-    await salvarConclusaoModulo();
+    const salvo = await salvarConclusaoModulo();
 
-    if (typeof Swal !== "undefined") {
+    if (!salvo) {
       Swal.fire({
-        icon: "success",
-
-        title: "Módulo concluído!",
-
-        text: "Você terminou todas as aulas deste módulo.",
-
-        confirmButtonText: "Continuar",
+        icon: "error",
+        title: "Erro",
+        text: "Não foi possível salvar a conclusão do módulo.",
       });
-    } else {
-      alert("Módulo concluído!");
+
+      return;
     }
+
+    Swal.fire({
+      icon: "success",
+      title: "Módulo concluído!",
+      text: "Você terminou todas as aulas deste módulo.",
+      confirmButtonText: "Continuar",
+    });
 
     return;
   }
 
+  // Próxima aula
   curso.proxima();
 
   atualizarAula();
@@ -118,7 +129,7 @@ async function salvarConclusaoModulo() {
   const container = document.getElementById("course-container");
 
   if (!container) {
-    return;
+    return false;
   }
 
   const modulo = container.dataset.curso;
@@ -138,10 +149,16 @@ async function salvarConclusaoModulo() {
 
     const dados = await resposta.json();
 
-    if (!dados.sucesso) {
-      console.error("Erro ao salvar conclusão do módulo.");
+    if (!resposta.ok || !dados.sucesso) {
+      console.error("Erro ao salvar módulo:", dados);
+
+      return false;
     }
+
+    return true;
   } catch (erro) {
-    console.error("Erro ao salvar módulo:", erro);
+    console.error("Erro ao salvar conclusão:", erro);
+
+    return false;
   }
 }

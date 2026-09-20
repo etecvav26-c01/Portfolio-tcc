@@ -3,15 +3,10 @@ import { PLExercise } from "../board-config/exercise.js";
 export class ExerciseManager {
   constructor(board, exercises) {
     this.board = board;
-
     this.exercises = exercises || [];
-
     this.currentIndex = 0;
-
     this.currentExercise = null;
-
     this.score = 0;
-
     this.completed = 0;
 
     this.loadExercise();
@@ -24,9 +19,13 @@ export class ExerciseManager {
       return;
     }
 
+    // Instancia o novo exercício
     this.currentExercise = new PLExercise(this.board, config);
 
-    this.board.loadFEN(config.fen);
+    // Carrega a FEN do exercício no tabuleiro e ajusta a orientação/peças
+    if (this.board && typeof this.board.loadFEN === "function") {
+      this.board.loadFEN(config.fen);
+    }
   }
 
   checkMove(move) {
@@ -38,7 +37,6 @@ export class ExerciseManager {
 
     if (result.correct && result.finished) {
       this.score += result.pontos;
-
       this.completed++;
     }
 
@@ -48,9 +46,7 @@ export class ExerciseManager {
   next() {
     if (this.currentIndex < this.exercises.length - 1) {
       this.currentIndex++;
-
       this.loadExercise();
-
       return true;
     }
 
@@ -58,8 +54,20 @@ export class ExerciseManager {
   }
 
   reset() {
+    const config = this.exercises[this.currentIndex];
+
+    if (!config) {
+      return;
+    }
+
+    // 1. Reseta o estado interno do exercício
     if (this.currentExercise) {
       this.currentExercise.reset();
+    }
+
+    // 2. Restaura a FEN original do exercício no tabuleiro
+    if (this.board && typeof this.board.loadFEN === "function") {
+      this.board.loadFEN(config.fen);
     }
   }
 

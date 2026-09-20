@@ -15,159 +15,391 @@ import {
   aulaAnterior,
 } from "./aprender/course-page.js";
 
-console.log("Primeiro Lance Engine carregando...");
+document.addEventListener("DOMContentLoaded", inicializar);
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM carregado.");
-
+function inicializar() {
   const boardElement = document.getElementById("board");
 
-  /*
-   * SE A PÁGINA NÃO POSSUI
-   * TABULEIRO, NÃO FAZ NADA.
-   */
-
   if (!boardElement) {
-    console.log("Nenhum tabuleiro nesta página.");
-
     return;
   }
 
   /*
-   * CRIA O TABULEIRO
-   */
-
-  window.PLBoard = new PLBoard({
-    element: "board",
-    draggable: true,
-  });
-
-  console.log("PLBoard inicializado.");
-
-  /*
-   * CURSO
-   */
+    ============================================================
+    CURSO
+    ============================================================
+    */
 
   const courseContainer = document.getElementById("course-container");
 
   if (courseContainer) {
-    console.log("Página de curso encontrada.");
-
-    const modulo = courseContainer.dataset.curso;
-
-    console.log("Módulo:", modulo);
-
-    const dadosCurso = cursos[modulo];
-
-    if (!dadosCurso) {
-      console.error("Curso não encontrado:", modulo);
-
-      return;
-    }
-
-    window.cursoAtual = new PLCourse(window.PLBoard, dadosCurso);
-
-    iniciarCurso(window.PLBoard, window.cursoAtual);
-
-    atualizarAula();
-
-    /*
-     * BOTÕES
-     */
-
-    const btnProxima = document.getElementById("btn-proxima");
-
-    if (btnProxima) {
-      btnProxima.addEventListener("click", proximaAula);
-    }
-
-    const btnAnterior = document.getElementById("btn-anterior");
-
-    if (btnAnterior) {
-      btnAnterior.addEventListener("click", aulaAnterior);
-    }
-
-    console.log("Curso inicializado:", dadosCurso.titulo);
+    iniciarCursoPagina(courseContainer);
 
     return;
   }
 
   /*
-   * EXERCÍCIOS
-   */
+    ============================================================
+    EXERCÍCIOS
+    ============================================================
+    */
 
   const exerciseContainer = document.getElementById("exercise-container");
 
   if (exerciseContainer) {
-    window.exerciseManager = new ExerciseManager(window.PLBoard, exercises);
-
-    window.PLBoard.onMove = (move) => {
-      verificarJogada(move);
-    };
-
-    atualizarExercicio();
-  }
-});
-
-/*
- * =====================================
- * EXERCÍCIOS
- * =====================================
- */
-
-function verificarJogada(move) {
-  if (!window.exerciseManager) {
-    return;
-  }
-
-  const result = window.exerciseManager.checkMove(move);
-
-  if (!result) {
-    return;
-  }
-
-  const mensagem = document.getElementById("exercise-feedback");
-
-  if (!mensagem) {
-    return;
-  }
-
-  if (result.correct) {
-    if (result.finished) {
-      mensagem.innerHTML = `
-                <div class="alert alert-success">
-                    ✅ Exercício concluído!
-                    <strong>
-                        +${result.pontos} pontos
-                    </strong>
-                </div>
-                `;
-
-      const botao = document.getElementById("next-exercise");
-
-      if (botao) {
-        botao.disabled = false;
-      }
-
-      salvarProgresso(result.pontos);
-    } else {
-      mensagem.innerHTML = `
-                <div class="alert alert-success">
-                    ✅ Jogada correta!
-                </div>
-                `;
-    }
-  } else {
-    window.PLBoard.undo();
-
-    mensagem.innerHTML = `
-            <div class="alert alert-danger">
-                ❌ Jogada incorreta.
-                Tente novamente!
-            </div>
-            `;
+    iniciarExercicios(exerciseContainer);
   }
 }
+
+/*
+============================================================
+CURSO
+============================================================
+*/
+
+function iniciarCursoPagina(container) {
+  const modulo = container.dataset.curso;
+
+  const cursoData = cursos[modulo];
+
+  if (!cursoData) {
+    console.error("Curso não encontrado:", modulo);
+
+    return;
+  }
+
+  /*
+    Tabuleiro demonstrativo:
+    NÃO pode ser movimentado.
+    */
+
+  const board = new PLBoard("board", {
+    allowMove: false,
+  });
+
+  window.board = board;
+
+  const curso = new PLCourse(board, cursoData);
+
+  window.cursoAtual = curso;
+
+  iniciarCurso(curso);
+
+  /*
+    Botões do curso
+    */
+
+  const btnAnterior = document.getElementById("btn-anterior");
+
+  const btnProxima = document.getElementById("btn-proxima");
+
+  if (btnAnterior) {
+    btnAnterior.onclick = aulaAnterior;
+  }
+
+  if (btnProxima) {
+    btnProxima.onclick = proximaAula;
+  }
+}
+
+/*
+============================================================
+EXERCÍCIOS
+============================================================
+*/
+
+function iniciarExercicios(container) {
+  const board = new PLBoard("board", {
+    allowMove: true,
+  });
+
+  window.board = board;
+
+  /*
+    Filtra pelo tema, se existir.
+    */
+
+  const tema = container.dataset.tema;
+
+  let lista = exercises;
+
+  if (tema) {
+    lista = exercises.filter((exercicio) => exercicio.tema === tema);
+  }
+
+  if (!lista.length) {
+    console.error("Nenhum exercício encontrado.");
+
+    return;
+  }
+
+  const manager = new ExerciseManager(board, lista);
+
+  window.exerciseManager = manager;
+
+  /*
+    Quando uma peça é movimentada,
+    verifica a jogada.
+    */
+
+  board.onMove = verificarJogada;
+
+  /*
+    Deixa as funções disponíveis
+    para os onclick="" do HTML.
+    */
+
+  window.proximoExercicio = proximoExercicio;
+
+  window.reiniciarExercicio = reiniciarExercicio;
+
+  atualizarExercicio();
+}
+
+/*
+============================================================
+VERIFICAR JOGADA
+============================================================
+*/
+
+async function verificarJogada(move) {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  const resultado = manager.checkMove(move);
+
+  if (!resultado) {
+    return;
+  }
+
+  const feedback = document.getElementById("exercise-feedback");
+
+  /*
+    JOGADA ERRADA
+    */
+
+  if (!resultado.correct) {
+    if (feedback) {
+      feedback.innerHTML = `
+                <div class="alert alert-danger">
+                    ❌ Jogada incorreta. Tente novamente.
+                </div>
+            `;
+    }
+
+    /*
+        O tabuleiro precisa voltar
+        para a posição original.
+        */
+
+    manager.reset();
+
+    return;
+  }
+
+  /*
+    JOGADA CORRETA, MAS AINDA NÃO TERMINOU
+    */
+
+  if (!resultado.finished) {
+    if (feedback) {
+      feedback.innerHTML = `
+                <div class="alert alert-success">
+                    ✓ Boa jogada! Continue.
+                </div>
+            `;
+    }
+
+    return;
+  }
+
+  /*
+    EXERCÍCIO CONCLUÍDO
+    */
+
+  await salvarProgresso(resultado.pontos);
+
+  const nextButton = document.getElementById("next-exercise");
+
+  if (nextButton) {
+    nextButton.disabled = false;
+  }
+
+  if (feedback) {
+    feedback.innerHTML = `
+            <div class="alert alert-success">
+                <strong>✓ Exercício concluído!</strong><br>
+                +${resultado.pontos} pontos
+            </div>
+        `;
+  }
+}
+
+/*
+============================================================
+ATUALIZAR EXERCÍCIO
+============================================================
+*/
+
+function atualizarExercicio() {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  const exercicio = manager.getCurrent();
+
+  if (!exercicio) {
+    return;
+  }
+
+  /*
+    Título
+    */
+
+  const titulo = document.getElementById("exercise-title");
+
+  if (titulo) {
+    titulo.textContent = exercicio.nome;
+  }
+
+  /*
+    Descrição
+    */
+
+  const descricao = document.getElementById("exercise-description");
+
+  if (descricao) {
+    descricao.textContent = exercicio.descricao;
+  }
+
+  /*
+    Número
+    */
+
+  const numero = document.getElementById("exercise-number");
+
+  if (numero) {
+    numero.textContent = `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
+  }
+
+  /*
+    Limpa feedback
+    */
+
+  const feedback = document.getElementById("exercise-feedback");
+
+  if (feedback) {
+    feedback.innerHTML = "";
+  }
+
+  /*
+    Botão próximo
+    */
+
+  const nextButton = document.getElementById("next-exercise");
+
+  if (nextButton) {
+    nextButton.disabled = !exercicio.isFinished();
+  }
+}
+
+/*
+============================================================
+PRÓXIMO EXERCÍCIO
+============================================================
+*/
+
+function proximoExercicio() {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  /*
+    Só pode avançar depois de concluir.
+    */
+
+  const exercicio = manager.getCurrent();
+
+  if (!exercicio || !exercicio.isFinished()) {
+    return;
+  }
+
+  /*
+    Último exercício
+    */
+
+  if (manager.isLast()) {
+    const feedback = document.getElementById("exercise-feedback");
+
+    if (feedback) {
+      feedback.innerHTML = `
+                <div class="alert alert-warning">
+                    🏆 Você concluiu todos os exercícios!
+                    <br>
+                    Pontuação: ${manager.getScore()} pontos.
+                </div>
+            `;
+    }
+
+    const nextButton = document.getElementById("next-exercise");
+
+    if (nextButton) {
+      nextButton.disabled = true;
+
+      nextButton.textContent = "Exercícios concluídos ✓";
+    }
+
+    return;
+  }
+
+  /*
+    Vai para o próximo.
+    */
+
+  const sucesso = manager.next();
+
+  if (!sucesso) {
+    return;
+  }
+
+  atualizarExercicio();
+}
+
+/*
+============================================================
+REINICIAR EXERCÍCIO
+============================================================
+*/
+
+function reiniciarExercicio() {
+  const manager = window.exerciseManager;
+
+  if (!manager) {
+    return;
+  }
+
+  /*
+    Volta o exercício atual
+    para a posição inicial.
+    */
+
+  manager.reset();
+
+  atualizarExercicio();
+}
+
+/*
+============================================================
+SALVAR PROGRESSO
+============================================================
+*/
 
 async function salvarProgresso(pontos) {
   try {
@@ -185,99 +417,16 @@ async function salvarProgresso(pontos) {
 
     const dados = await resposta.json();
 
-    if (!dados.sucesso) {
-      console.error("Erro ao salvar progresso.");
+    if (!resposta.ok || !dados.sucesso) {
+      console.error("Erro ao salvar progresso:", dados);
+
+      return false;
     }
+
+    return true;
   } catch (erro) {
-    console.error("Erro ao conectar com servidor:", erro);
+    console.error("Erro ao salvar progresso:", erro);
+
+    return false;
   }
 }
-
-function atualizarExercicio() {
-  const manager = window.exerciseManager;
-
-  if (!manager) {
-    return;
-  }
-
-  const exercise = manager.getCurrent();
-
-  if (!exercise) {
-    return;
-  }
-
-  const titulo = document.getElementById("exercise-title");
-
-  const descricao = document.getElementById("exercise-description");
-
-  const numero = document.getElementById("exercise-number");
-
-  const feedback = document.getElementById("exercise-feedback");
-
-  const proximo = document.getElementById("next-exercise");
-
-  if (titulo) {
-    titulo.textContent = exercise.nome;
-  }
-
-  if (descricao) {
-    descricao.textContent = exercise.descricao;
-  }
-
-  if (numero) {
-    numero.textContent = `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
-  }
-
-  if (feedback) {
-    feedback.innerHTML = "";
-  }
-
-  if (proximo) {
-    proximo.disabled = true;
-  }
-}
-
-window.proximoExercicio = function () {
-  const manager = window.exerciseManager;
-
-  if (!manager) {
-    return;
-  }
-
-  if (manager.next()) {
-    atualizarExercicio();
-  } else {
-    const feedback = document.getElementById("exercise-feedback");
-
-    if (feedback) {
-      feedback.innerHTML = `
-                    <div class="alert alert-warning">
-                        🏆 Você concluiu todos os exercícios!
-                        <br>
-                        Pontuação:
-                        <strong>
-                            ${manager.getScore()}
-                        </strong>
-                    </div>
-                    `;
-    }
-
-    const botao = document.getElementById("next-exercise");
-
-    if (botao) {
-      botao.disabled = true;
-    }
-  }
-};
-
-window.reiniciarExercicio = function () {
-  const manager = window.exerciseManager;
-
-  if (!manager) {
-    return;
-  }
-
-  manager.reset();
-
-  atualizarExercicio();
-};
