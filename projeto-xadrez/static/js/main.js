@@ -1,13 +1,8 @@
 import { PLBoard } from "./board-config/board.js";
-
 import { ExerciseManager } from "./exercises/exercise-manager.js";
-
 import { exercises } from "./exercises/exercises.js";
-
 import { PLCourse } from "./aprender/course.js";
-
 import { cursos } from "./aprender/course-data.js";
-
 import {
   iniciarCurso,
   atualizarAula,
@@ -28,13 +23,11 @@ function inicializar() {
     ============================================================
     CURSO
     ============================================================
-    */
-
+  */
   const courseContainer = document.getElementById("course-container");
 
   if (courseContainer) {
     iniciarCursoPagina(courseContainer);
-
     return;
   }
 
@@ -42,8 +35,7 @@ function inicializar() {
     ============================================================
     EXERCÍCIOS
     ============================================================
-    */
-
+  */
   const exerciseContainer = document.getElementById("exercise-container");
 
   if (exerciseContainer) {
@@ -59,20 +51,17 @@ CURSO
 
 function iniciarCursoPagina(container) {
   const modulo = container.dataset.curso;
-
   const cursoData = cursos[modulo];
 
   if (!cursoData) {
     console.error("Curso não encontrado:", modulo);
-
     return;
   }
 
   /*
     Tabuleiro demonstrativo:
     NÃO pode ser movimentado.
-    */
-
+  */
   const board = new PLBoard("board", {
     allowMove: false,
   });
@@ -87,10 +76,8 @@ function iniciarCursoPagina(container) {
 
   /*
     Botões do curso
-    */
-
+  */
   const btnAnterior = document.getElementById("btn-anterior");
-
   const btnProxima = document.getElementById("btn-proxima");
 
   if (btnAnterior) {
@@ -108,19 +95,14 @@ EXERCÍCIOS
 ============================================================
 */
 
-function iniciarExercicios(container) {
+async function iniciarExercicios(container) {
   const board = new PLBoard("board", {
     allowMove: true,
   });
 
   window.board = board;
 
-  /*
-    Filtra pelo tema, se existir.
-    */
-
   const tema = container.dataset.tema;
-
   let lista = exercises;
 
   if (tema) {
@@ -129,33 +111,39 @@ function iniciarExercicios(container) {
 
   if (!lista.length) {
     console.error("Nenhum exercício encontrado.");
-
     return;
   }
 
   const manager = new ExerciseManager(board, lista);
-
   window.exerciseManager = manager;
 
   /*
-    Quando uma peça é movimentada,
-    verifica a jogada.
-    */
+    ============================================================
+    BUSCA O EXERCÍCIO ATUAL DO BANCO DE DADOS
+    ============================================================
+  */
+  try {
+    const resposta = await fetch("/api/exercicio/atual");
+    const dados = await resposta.json();
+
+    if (dados.sucesso && dados.proximo_id) {
+      // Converte o ID para o índice base 0 (Ex: proximo_id 2 vira índice 1)
+      const indiceInicial = dados.proximo_id - 1;
+
+      // Executa o método goTo que acabamos de criar
+      manager.goTo(indiceInicial);
+    }
+  } catch (erro) {
+    console.error("Erro ao buscar progresso do banco:", erro);
+  }
 
   board.onMove = verificarJogada;
-
-  /*
-    Deixa as funções disponíveis
-    para os onclick="" do HTML.
-    */
-
   window.proximoExercicio = proximoExercicio;
-
   window.reiniciarExercicio = reiniciarExercicio;
 
+  // Atualiza a interface gráfica (título, descrição, número)
   atualizarExercicio();
 }
-
 /*
 ============================================================
 VERIFICAR JOGADA
@@ -179,47 +167,37 @@ async function verificarJogada(move) {
 
   /*
     JOGADA ERRADA
-    */
-
+  */
   if (!resultado.correct) {
     if (feedback) {
       feedback.innerHTML = `
-                <div class="alert alert-danger">
-                    ❌ Jogada incorreta. Tente novamente.
-                </div>
-            `;
+        <div class="alert alert-danger">
+            ❌ Jogada incorreta. Tente novamente.
+        </div>
+      `;
     }
 
-    /*
-        O tabuleiro precisa voltar
-        para a posição original.
-        */
-
     manager.reset();
-
     return;
   }
 
   /*
     JOGADA CORRETA, MAS AINDA NÃO TERMINOU
-    */
-
+  */
   if (!resultado.finished) {
     if (feedback) {
       feedback.innerHTML = `
-                <div class="alert alert-success">
-                    ✓ Boa jogada! Continue.
-                </div>
-            `;
+        <div class="alert alert-success">
+            ✓ Boa jogada! Continue.
+        </div>
+      `;
     }
-
     return;
   }
 
   /*
     EXERCÍCIO CONCLUÍDO
-    */
-
+  */
   await salvarProgresso(resultado.pontos);
 
   const nextButton = document.getElementById("next-exercise");
@@ -230,11 +208,11 @@ async function verificarJogada(move) {
 
   if (feedback) {
     feedback.innerHTML = `
-            <div class="alert alert-success">
-                <strong>✓ Exercício concluído!</strong><br>
-                +${resultado.pontos} pontos
-            </div>
-        `;
+      <div class="alert alert-success">
+          <strong>✓ Exercício concluído!</strong><br>
+          +${resultado.pontos} pontos
+      </div>
+    `;
   }
 }
 
@@ -259,50 +237,40 @@ function atualizarExercicio() {
 
   /*
     Título
-    */
-
+  */
   const titulo = document.getElementById("exercise-title");
-
   if (titulo) {
     titulo.textContent = exercicio.nome;
   }
 
   /*
     Descrição
-    */
-
+  */
   const descricao = document.getElementById("exercise-description");
-
   if (descricao) {
     descricao.textContent = exercicio.descricao;
   }
 
   /*
     Número
-    */
-
+  */
   const numero = document.getElementById("exercise-number");
-
   if (numero) {
     numero.textContent = `${manager.getCurrentNumber()} / ${manager.getTotal()}`;
   }
 
   /*
     Limpa feedback
-    */
-
+  */
   const feedback = document.getElementById("exercise-feedback");
-
   if (feedback) {
     feedback.innerHTML = "";
   }
 
   /*
     Botão próximo
-    */
-
+  */
   const nextButton = document.getElementById("next-exercise");
-
   if (nextButton) {
     nextButton.disabled = !exercicio.isFinished();
   }
@@ -323,8 +291,7 @@ function proximoExercicio() {
 
   /*
     Só pode avançar depois de concluir.
-    */
-
+  */
   const exercicio = manager.getCurrent();
 
   if (!exercicio || !exercicio.isFinished()) {
@@ -333,26 +300,24 @@ function proximoExercicio() {
 
   /*
     Último exercício
-    */
-
+  */
   if (manager.isLast()) {
     const feedback = document.getElementById("exercise-feedback");
 
     if (feedback) {
       feedback.innerHTML = `
-                <div class="alert alert-warning">
-                    🏆 Você concluiu todos os exercícios!
-                    <br>
-                    Pontuação: ${manager.getScore()} pontos.
-                </div>
-            `;
+        <div class="alert alert-warning">
+            🏆 Você concluiu todos os exercícios!
+            <br>
+            Pontuação: ${manager.getScore()} pontos.
+        </div>
+      `;
     }
 
     const nextButton = document.getElementById("next-exercise");
 
     if (nextButton) {
       nextButton.disabled = true;
-
       nextButton.textContent = "Exercícios concluídos ✓";
     }
 
@@ -361,8 +326,7 @@ function proximoExercicio() {
 
   /*
     Vai para o próximo.
-    */
-
+  */
   const sucesso = manager.next();
 
   if (!sucesso) {
@@ -385,13 +349,7 @@ function reiniciarExercicio() {
     return;
   }
 
-  /*
-    Volta o exercício atual
-    para a posição inicial.
-    */
-
   manager.reset();
-
   atualizarExercicio();
 }
 
@@ -405,11 +363,9 @@ async function salvarProgresso(pontos) {
   try {
     const resposta = await fetch("/api/exercicio/concluir", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         pontos: pontos,
       }),
@@ -419,14 +375,12 @@ async function salvarProgresso(pontos) {
 
     if (!resposta.ok || !dados.sucesso) {
       console.error("Erro ao salvar progresso:", dados);
-
       return false;
     }
 
     return true;
   } catch (erro) {
     console.error("Erro ao salvar progresso:", erro);
-
     return false;
   }
 }

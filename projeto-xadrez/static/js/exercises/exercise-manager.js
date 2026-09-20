@@ -12,6 +12,16 @@ export class ExerciseManager {
     this.loadExercise();
   }
 
+  // NOVA FUNÇÃO: Permite ir direto para o exercício do banco
+  goTo(index) {
+    if (index >= 0 && index < this.exercises.length) {
+      this.currentIndex = index;
+      this.loadExercise();
+      return true;
+    }
+    return false;
+  }
+
   loadExercise() {
     const config = this.exercises[this.currentIndex];
 
@@ -27,6 +37,8 @@ export class ExerciseManager {
       this.board.loadFEN(config.fen);
     }
   }
+
+  // ... (mantenha o restante dos métodos checkMove, next, reset, etc. exatamente como estão)
 
   checkMove(move) {
     if (!this.currentExercise) {
