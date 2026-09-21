@@ -3,31 +3,31 @@ export const cursos = {
     titulo: "Peças do Xadrez",
 
     aulas: [
-      {
-        titulo: "Peão",
+    {
+    titulo: "Peão",
 
-        conteudo: `
-                    <p>
-                        O peão é a peça mais numerosa do xadrez.
-                        Cada jogador começa a partida com oito peões.
-                    </p>
+    conteudo: `
+                <p>
+                    O peão é a peça mais numerosa do xadrez.
+                    Cada jogador começa a partida com oito peões.
+                </p>
 
-                    <p>
-                        Normalmente, o peão movimenta-se uma casa
-                        para frente. Em seu primeiro movimento,
-                        pode avançar duas casas.
-                    </p>
+                <p>
+                    Normalmente, o peão movimenta-se uma casa
+                    para frente. Em seu primeiro movimento,
+                    pode avançar duas casas.
+                </p>
 
-                    <p>
-                        Para capturar uma peça adversária,
-                        o peão se movimenta uma casa na diagonal
-                        para frente.
-                    </p>
-                `,
+                <p>
+                    Para capturar uma peça adversária,
+                    o peão se movimenta uma casa na diagonal
+                    para frente.
+                </p>
+            `,
 
-        fen: "4k3/8/8/8/8/8/8/R3K3 w - - 0 1"
-      },
-
+    // Rei preto em e8 (4k3), Peão branco em e2 (4P3), Rei branco em e1 (4K3)
+    fen: "4k3/8/8/8/8/8/4P3/4K3 w - - 0 1"
+    },
       {
         titulo: "Torre",
 
@@ -47,7 +47,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "8/8/8/8/8/8/8/R7 w - - 0 1",
+        fen: "7k/8/8/8/8/8/8/R3K3 w - - 0 1",
       },
 
       {
@@ -65,7 +65,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "8/8/8/8/8/8/8/2B5 w - - 0 1",
+        fen: "7k/8/8/8/8/8/8/2B1K3 w - - 0 1",
       },
 
       {
@@ -89,7 +89,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "8/8/8/8/8/8/8/1N6 w - - 0 1",
+        fen: "7k/8/8/8/8/8/8/1N2K3 w - - 0 1",
       },
 
       {
@@ -111,7 +111,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "8/8/8/8/8/8/8/3Q4 w - - 0 1",
+        fen: "7k/8/8/8/8/8/8/3QK3 w - - 0 1",
       },
 
       {
@@ -133,7 +133,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "8/8/8/8/8/8/8/4K3 w - - 0 1",
+        fen: "7k/8/8/8/8/8/8/4K3 w - - 0 1",
       },
     ],
   },
@@ -200,6 +200,7 @@ export const cursos = {
                         realizar garfos devido ao seu movimento.
                     </p>
                 `,
+        fen: "3r1rk1/ppp2ppp/8/4N3/4n3/8/PPP2PPP/R4RK1 w - - 0 1"
       },
 
       {
@@ -217,6 +218,7 @@ export const cursos = {
                         temos uma cravada absoluta.
                     </p>
                 `,
+        fen: "4r1k1/ppp2ppp/8/8/4b3/8/PPP2PPP/4R1K1 w - - 0 1"
       },
 
       {
@@ -234,6 +236,7 @@ export const cursos = {
                         e é bastante utilizado em combinações táticas.
                     </p>
                 `,
+        fen: "r1bqk2r/pppp1ppp/2n5/4p3/2B1P3/3P1N2/PPP2PPP/R2QK2R w KQkq - 0 1"
       },
     ],
   },
@@ -275,6 +278,7 @@ export const cursos = {
                         a mesma peça.
                     </p>
                 `,
+        fen: "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
       },
 
       {
@@ -291,6 +295,7 @@ export const cursos = {
                         geralmente mais segura e desenvolver a torre.
                     </p>
                 `,
+        fen: "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R b KQkq - 0 5"
       },
     ],
   },
