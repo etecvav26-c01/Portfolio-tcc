@@ -20,8 +20,8 @@ O projeto tem como objetivo ensinar xadrez de forma interativa, oferecendo conte
 - [x] Área administrativa
 - [x] Curso introdutório
 - [x] Módulo de Movimento das Peças
-- [ ] Exercícios interativos
-- [ ] Sistema de pontuação
+- [x] Exercícios interativos
+- [x] Sistema de pontuação
 - [ ] Estatísticas
       
 ## Tecnologias Utilizadas
