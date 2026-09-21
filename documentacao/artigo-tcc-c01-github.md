@@ -32,6 +32,8 @@ Esta pesquisa justifica-se pela dificuldade encontrada por muitos jogadores em e
 
 A metodologia adotada consiste em pesquisa descritiva, com levantamento bibliográfico, análise documental de plataformas digitais relacionadas ao xadrez e entrevistas com jogadores da escola.
 
+Durante o desenvolvimento do projeto foram utilizadas ferramentas de Inteligência Artificial como apoio à revisão de código e à comparação de possíveis soluções. As respostas obtidas foram analisadas, verificadas e testadas pelo aluno. As ferramentas utilizadas, suas finalidades, etapas de utilização e formas de validação encontram-se detalhadas na **DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL**, apresentada ao final deste artigo.
+
 # O XADREZ COMO FERRAMENTA DE DESENVOLVIMENTO COGNITIVO
 
 O xadrez é considerado uma atividade que promove o desenvolvimento intelectual dos praticantes. Segundo Neto (2018), o aprendizado do jogo contribui para o aprimoramento do raciocínio lógico, da capacidade de planejamento e da resolução de problemas. Essas habilidades são constantemente exercitadas durante as partidas, exigindo análise, concentração e tomada de decisões.
@@ -62,35 +64,66 @@ Apesar disso, muitos usuários ainda encontram dificuldades para estabelecer uma
 
 # DESENVOLVIMENTO DA PLATAFORMA WEB
 
-O sistema proposto será desenvolvido como uma plataforma web voltada ao treinamento enxadrístico. A estrutura do curso será organizada em módulos que abordarão as principais áreas de estudo do jogo, incluindo aberturas, estratégias de meio-jogo, finais e exercícios práticos.
+O sistema proposto será desenvolvido como uma plataforma web voltada ao treinamento enxadrístico. A estrutura do curso foi organizada em módulos que abordarão as principais áreas de estudo do jogo, incluindo aberturas, estratégias de meio-jogo, finais e exercícios práticos.
 
-Além do conteúdo teórico, a plataforma contará com funcionalidades destinadas ao acompanhamento do desempenho dos usuários.
+Além do conteúdo teórico, a plataforma conta com funcionalidades destinadas ao acompanhamento do desempenho dos usuários. Dessa forma, os jogadores podem visualizar sua evolução ao longo do tempo, identificar pontos de melhoria e organizar seus estudos de maneira mais eficiente.
+
+A Figura 3 apresenta uma página de teste do tabuleiro utilizada para verificar o funcionamento dos recursos de prática. A tela reúne o tabuleiro de xadrez, controles para reiniciar a partida e girar o tabuleiro, além da opção de visualizar a posição em notação FEN.
+
+O uso da FEN permite definir e reproduzir posições específicas, que podem ser utilizadas na criação dos exercícios práticos.
+
+**Figura 3: Página de teste do tabuleiro e do mecanismo de exercícios**
 
 <p align="center">
 <strong>Figura 3 – Página inicial da plataforma</strong><br>
-<img src="img/home.png" width="400"><br>
+<img src="img/teste.png" width="400"><br>
+Fonte: Elaborado pelos autores.
+</p>
+
+A Figura 4 apresenta uma atividade prática sobre xeque-mate. A página combina uma explicação do conteúdo com um tabuleiro interativo, no qual o usuário pode analisar a posição apresentada e realizar o exercício.
+
+Esse recurso integra o conteúdo teórico à prática, permitindo aplicar o conceito estudado em uma situação de jogo.
+
+**Figura 4: Exercício prático de xeque-mate na plataforma**
+
+<p align="center">
+<strong>Figura 4 – Página inicial da plataforma</strong><br>
+<img src="img/tabuleiro.png" width="400"><br>
 Fonte: Elaborado pelos autores.
 </p>
 
 # TECNOLOGIAS UTILIZADAS
 
-O desenvolvimento da plataforma está sendo realizado utilizando tecnologias amplamente empregadas na criação de sistemas web. A estrutura das páginas é construída com HTML, enquanto o CSS é utilizado para estilização visual. Para tornar a plataforma mais dinâmica e interativa, são empregados recursos da linguagem JavaScript.
+O desenvolvimento da plataforma utiliza tecnologias empregadas na criação de sistemas web. A estrutura das páginas é construída com **HTML**, responsável pela organização dos elementos da interface.
 
-O processamento das informações e a lógica principal do sistema são desenvolvidos em PHP. Além disso, a linguagem Python é utilizada para funcionalidades complementares e automação de processos. O armazenamento e gerenciamento dos dados são realizados por meio do sistema gerenciador de banco de dados MySQL.
+Para tornar a plataforma mais dinâmica e interativa, são empregados recursos de **JavaScript**.
 
-Ressalta-se que parte das tecnologias descritas ainda está em fase de definição e poderá sofrer alterações durante o desenvolvimento do projeto.
+A linguagem **Python** também integra o projeto em funcionalidades complementares relacionadas à automação e ao tratamento de dados.
+
+Para o armazenamento e gerenciamento dos dados dos usuários, conteúdos e registros de desempenho, é utilizado o sistema gerenciador de banco de dados **MySQL**.
 
 # DISCUSSÃO E RESULTADOS
 
-*Seção em desenvolvimento.*
+Este trabalho resultou no desenvolvimento de uma plataforma web voltada à preparação para competições de xadrez, reunindo conteúdos teóricos e atividades práticas em uma estrutura organizada. O projeto foi elaborado com o objetivo de facilitar a organização dos estudos e oferecer um ambiente de apoio à preparação dos jogadores.
 
-# CONSIDERAÇÕES FINAIS
+De modo geral, o desenvolvimento permitiu reunir os principais recursos propostos para o curso em uma única plataforma, relacionando estudo e prática de xadrez. Os resultados obtidos estão de acordo com os objetivos definidos para o trabalho e demonstram a possibilidade de utilizar uma plataforma web como apoio à preparação enxadrística no contexto da comunidade escolar.
+
+
+## CONSIDERAÇÕES FINAIS
 
 Este trabalho apresentou a proposta de desenvolvimento de um curso web preparatório para competições de xadrez, com foco na organização dos estudos e no aprimoramento das habilidades dos jogadores.
 
+Foram abordados aspectos relacionados ao ensino do xadrez, à preparação competitiva e ao uso das tecnologias digitais como ferramentas de aprendizagem.
+
 Os resultados esperados indicam que a plataforma poderá contribuir para a melhoria do desempenho dos usuários por meio de conteúdos estruturados, exercícios direcionados e acompanhamento do progresso.
 
-Como continuidade do projeto, sugere-se a implementação de novos recursos, como análises automáticas de partidas, recomendações personalizadas de estudo e integração com plataformas enxadrísticas já consolidadas.
+A pesquisa também evidenciou a importância de métodos organizados de treinamento para a evolução técnica dos enxadristas.
+
+## DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Durante o desenvolvimento deste artigo e da plataforma, foi utilizada a ferramenta **ChatGPT** como apoio à organização da estrutura do texto, revisão de clareza e reformulação de trechos.
+
+As sugestões foram analisadas pelos integrantes do grupo, que revisaram e ajustaram o conteúdo final de acordo com o projeto desenvolvido.
 
 # REFERÊNCIAS
 
