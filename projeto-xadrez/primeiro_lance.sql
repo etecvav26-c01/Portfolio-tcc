@@ -17,6 +17,46 @@
 /*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
+-- Table structure for table `modulos_progresso`
+--
+
+DROP TABLE IF EXISTS `modulos_progresso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `modulos_progresso` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `modulo` varchar(50) NOT NULL,
+  `concluido` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario_id` (`usuario_id`,`modulo`),
+  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modulos_progresso`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `modulos_progresso` WRITE;
+/*!40000 ALTER TABLE `modulos_progresso` DISABLE KEYS */;
+INSERT INTO `modulos_progresso` VALUES
+(1,1,'pecas',1),
+(2,2,'pecas',0),
+(3,1,'xeque',1),
+(4,2,'xeque',0),
+(5,1,'taticas',1),
+(6,2,'taticas',0),
+(7,1,'aberturas',1),
+(8,2,'aberturas',0),
+(37,4,'pecas',1);
+/*!40000 ALTER TABLE `modulos_progresso` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
 -- Table structure for table `partidas`
 --
 
@@ -55,13 +95,15 @@ DROP TABLE IF EXISTS `progresso`;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `progresso` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) DEFAULT NULL,
-  `exercicios_concluidos` int(11) DEFAULT 0,
+  `usuario_id` int(11) NOT NULL,
+  `exercicios` int(11) DEFAULT 0,
   `pontos` int(11) DEFAULT 0,
+  `nivel` varchar(50) DEFAULT 'Iniciante',
+  `progresso` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,8 +114,15 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `progresso` WRITE;
 /*!40000 ALTER TABLE `progresso` DISABLE KEYS */;
 INSERT INTO `progresso` VALUES
-(1,1,0,0),
-(2,2,0,0);
+(1,1,4,40,'Iniciante',8),
+(2,2,0,0,'Iniciante',0),
+(8,1,4,40,'Iniciante',8),
+(9,1,4,40,'Iniciante',8),
+(10,1,4,40,'Iniciante',8),
+(11,4,3,30,'Iniciante',6),
+(12,4,3,30,'Iniciante',6),
+(13,4,3,30,'Iniciante',6),
+(14,4,3,30,'Iniciante',6);
 /*!40000 ALTER TABLE `progresso` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -94,7 +143,7 @@ CREATE TABLE `usuarios` (
   `admin` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +155,8 @@ LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` VALUES
 (1,'Adrian Morales','adrian.mflima@gmail.com','scrypt:32768:8:1$YZceaa36xX6Bt1wP$48ba6de8429e623cd037e4361e77792fd225c9f6dfda6b1955bb9646def80459ea1b8b68cfe2b68be6e30d311aa44c1db528db4bf3f6898cdb9e61f11e0101dc',1),
-(2,'Edukof','edukof@gmail.com','scrypt:32768:8:1$FeAx8UeROkwUE2sC$9a9fda3eb05a626640b741443885a39012633cea0373a55ef86109af2a2e089e5de8e78061496b4466fb219b6cbc0a833f4edad3ff1f5d15d77a0a2af4584e3f',0);
+(2,'Edukof','edukof@gmail.com','scrypt:32768:8:1$FeAx8UeROkwUE2sC$9a9fda3eb05a626640b741443885a39012633cea0373a55ef86109af2a2e089e5de8e78061496b4466fb219b6cbc0a833f4edad3ff1f5d15d77a0a2af4584e3f',0),
+(4,'Peterson','peter.777@gmail.com','scrypt:32768:8:1$67bbUvVkzy4zA4zx$93f465a62bcace843759288e167f2b63e3bcee99f0bd3e9c7cae21a8cfeadac2bca2ddef9f4a433f506b55d3f649a976bc2aedc8b9d5a1cd0f1cf6c3b1d72c8b',0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -121,4 +171,4 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-07 13:55:13
+-- Dump completed on 2026-09-27 11:12:50

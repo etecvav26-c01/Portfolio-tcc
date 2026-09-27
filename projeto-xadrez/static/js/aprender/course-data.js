@@ -157,7 +157,7 @@ export const cursos = {
                     </p>
                 `,
 
-        fen: "6k1/8/8/8/8/8/5R2/6K1 b - - 0 1",
+        fen: "6k1/8/8/8/8/8/6R1/6K1 b - - 0 1",
       },
 
       {
@@ -200,7 +200,7 @@ export const cursos = {
                         realizar garfos devido ao seu movimento.
                     </p>
                 `,
-        fen: "3r1rk1/ppp2ppp/8/4N3/4n3/8/PPP2PPP/R4RK1 w - - 0 1"
+        fen: "r1bqkb1r/pppp1ppp/2n5/4p3/2B1n3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4"
       },
 
       {

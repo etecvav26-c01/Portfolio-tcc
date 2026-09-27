@@ -1,6 +1,7 @@
 export function iniciarCurso(curso) {
   if (!curso) {
     console.error("Curso não encontrado.");
+
     return;
   }
 
@@ -22,10 +23,12 @@ export function atualizarAula() {
 
   if (!aula) {
     console.error("Aula não encontrada.");
+
     return;
   }
 
   // Título
+
   const titulo = document.getElementById("titulo-aula");
 
   if (titulo) {
@@ -33,6 +36,7 @@ export function atualizarAula() {
   }
 
   // Conteúdo
+
   const conteudo = document.getElementById("conteudo-aula");
 
   if (conteudo) {
@@ -40,6 +44,7 @@ export function atualizarAula() {
   }
 
   // Número da aula
+
   const numero = document.getElementById("numero-aula");
 
   if (numero) {
@@ -47,6 +52,7 @@ export function atualizarAula() {
   }
 
   // Barra de progresso
+
   const progresso = document.getElementById("progresso-aula");
 
   if (progresso) {
@@ -54,6 +60,7 @@ export function atualizarAula() {
   }
 
   // Botão anterior
+
   const anterior = document.getElementById("btn-anterior");
 
   if (anterior) {
@@ -61,6 +68,7 @@ export function atualizarAula() {
   }
 
   // Botão próxima
+
   const proxima = document.getElementById("btn-proxima");
 
   if (proxima) {
@@ -72,42 +80,24 @@ export function atualizarAula() {
   }
 }
 
-export async function proximaAula() {
+export function proximaAula() {
   const curso = window.cursoAtual;
 
   if (!curso) {
     return;
   }
 
-  // Última aula
+  // Se estiver na última aula,
+  // volta para a página inicial de aprender
+
   if (curso.ultima()) {
-    curso.concluirAula();
-
-    atualizarAula();
-
-    const salvo = await salvarConclusaoModulo();
-
-    if (!salvo) {
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Não foi possível salvar a conclusão do módulo.",
-      });
-
-      return;
-    }
-
-    Swal.fire({
-      icon: "success",
-      title: "Módulo concluído!",
-      text: "Você terminou todas as aulas deste módulo.",
-      confirmButtonText: "Continuar",
-    });
+    window.location.href = "/aprender";
 
     return;
   }
 
   // Próxima aula
+
   curso.proxima();
 
   atualizarAula();
