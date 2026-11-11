@@ -1,14 +1,9 @@
 export class PLCourse {
   constructor(board, curso) {
     this.board = board;
-
     this.curso = curso;
-
     this.aulas = curso.aulas || [];
-
     this.atual = 0;
-
-    this.concluidas = new Set();
   }
 
   getAula() {
@@ -23,21 +18,19 @@ export class PLCourse {
     }
 
     if (aula.fen) {
-      this.board.loadFEN(aula.fen);
+      // nas aulas o diagrama sempre é mostrado do lado das brancas
+      this.board.loadFEN(aula.fen, { orientation: "white" });
     } else {
       this.board.reset();
     }
   }
 
   proxima() {
-    this.concluirAula();
-
     if (this.ultima()) {
       return false;
     }
 
     this.atual++;
-
     this.iniciar();
 
     return true;
@@ -49,14 +42,9 @@ export class PLCourse {
     }
 
     this.atual--;
-
     this.iniciar();
 
     return true;
-  }
-
-  concluirAula() {
-    this.concluidas.add(this.atual);
   }
 
   progresso() {
@@ -64,7 +52,7 @@ export class PLCourse {
       return 0;
     }
 
-    return Math.round((this.concluidas.size / this.aulas.length) * 100);
+    return Math.round((this.numeroAtual() / this.aulas.length) * 100);
   }
 
   numeroAtual() {
@@ -81,9 +69,5 @@ export class PLCourse {
 
   ultima() {
     return this.atual === this.aulas.length - 1;
-  }
-
-  cursoConcluido() {
-    return this.concluidas.size === this.aulas.length;
   }
 }

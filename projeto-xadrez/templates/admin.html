@@ -1,179 +1,141 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
 
-<div class="container py-4">
-  <!-- CABEÇALHO -->
+{% block title %}Painel administrativo - Primeiro Lance{% endblock %}
 
-  <div class="card admin-card mb-4">
-    <div class="card-body">
-      <center><h1>Painel Administrativo</h1></center>
+{% block content %}
 
-      <p class="text-secondary mb-0" style="text-align: center;">
-        Gerenciamento dos usuários do Primeiro Lance.
-      </p>
-    </div>
-  </div>
-
-  <!-- ESTATÍSTICAS -->
-
-  <div class="row g-4 mb-4">
-    <!-- USUÁRIOS -->
-
-    <div class="col-md-6">
-      <div class="card admin-card h-100">
-        <div class="card-body text-center">
-          <div class="admin-icon">👥</div>
-
-          <h5>Usuários cadastrados</h5>
-
-          <h2>{{ total_usuarios }}</h2>
-        </div>
-      </div>
-    </div>
-
-    <!-- ADMINS -->
-
-    <div class="col-md-6">
-      <div class="card admin-card h-100">
-        <div class="card-body text-center">
-          <div class="admin-icon">⚙️</div>
-
-          <h5>Administradores</h5>
-
-          <h2>{{ total_admins }}</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TABELA -->
-
-  <div class="card admin-card">
-    <div class="card-body">
-      <h4 class="mb-3" style="text-align: center;">Usuários do Sistema</h4>
-
-      <div class="table-responsive">
-        <table class="table table-dark table-hover align-middle">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Nível</th>
-              <th>Pontos</th>
-              <th>Progresso</th>
-              <th>Permissão</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for usuario in usuarios %}
-
-            <tr>
-              <!-- ID -->
-
-              <td>{{ usuario.id }}</td>
-
-              <!-- NOME -->
-
-              <td>
-                {{ usuario.nome }} {% if usuario.id == session.get("usuario_id")
-                %}
-
-                <span class="badge bg-info text-dark"> Você </span>
-
-                {% endif %}
-              </td>
-
-              <!-- EMAIL -->
-
-              <td>{{ usuario.email }}</td>
-
-              <!-- NÍVEL -->
-
-              <td>{{ usuario.nivel }}</td>
-
-              <!-- PONTOS -->
-
-              <td>⭐ {{ usuario.pontos }}</td>
-
-              <!-- PROGRESSO -->
-
-              <td style="min-width: 150px">
-                <div class="progress" style="height: 20px">
-                  <div
-                    class="progress-bar bg-warning text-dark"
-                    style="width: {{ usuario.progresso }}%;"
-                  >
-                    {{ usuario.progresso }}%
-                  </div>
-                </div>
-              </td>
-
-              <!-- PERMISSÃO -->
-
-              <td>
-                {% if usuario.admin %}
-
-                <span class="badge bg-warning text-dark"> Administrador </span>
-
-                {% else %}
-
-                <span class="badge bg-secondary"> Usuário </span>
-
-                {% endif %}
-              </td>
-
-              <!-- AÇÕES -->
-
-              <td>
-                {% if usuario.id != session.get("usuario_id") %} {% if
-                usuario.admin %}
-
-                <a
-                  href="/admin/toggle/{{ usuario.id }}"
-                  class="btn btn-sm btn-outline-danger mb-1"
-                >
-                  Remover admin
-                </a>
-
-                {% else %}
-
-                <a
-                  href="/admin/toggle/{{ usuario.id }}"
-                  class="btn btn-sm btn-outline-warning mb-1"
-                >
-                  Tornar admin
-                </a>
-
-                {% endif %}
-
-                <a
-                  href="/admin/excluir/{{ usuario.id }}"
-                  class="btn btn-sm btn-outline-danger mb-1"
-                  onclick="
-                    return confirm(
-                      'Tem certeza que deseja excluir este usuário?',
-                    );
-                  "
-                >
-                  Excluir
-                </a>
-
-                {% else %}
-
-                <span class="text-secondary"> Conta atual </span>
-
-                {% endif %}
-              </td>
-            </tr>
-
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div class="text-center mb-4">
+    <h1 class="h2 fw-bold text-gold">Painel administrativo</h1>
+    <p class="text-secondary mb-0">Gerenciamento dos usuários do Primeiro Lance.</p>
 </div>
 
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card stat-card h-100">
+            <div class="card-body text-center py-4">
+                <div class="fs-2 mb-1">👥</div>
+                <div class="stat-value">{{ total_usuarios }}</div>
+                <div class="stat-label">Usuários cadastrados</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card stat-card h-100">
+            <div class="card-body text-center py-4">
+                <div class="fs-2 mb-1">⚙️</div>
+                <div class="stat-value">{{ total_admins }}</div>
+                <div class="stat-label">Administradores</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-3">Usuários do sistema</h2>
+
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Nível</th>
+                        <th>Pontos</th>
+                        <th>Progresso</th>
+                        <th>Permissão</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+
+                        <td>
+                            {{ usuario.nome }}
+                            {% if usuario.id == session.get("usuario_id") %}
+                                <span class="badge badge-gold ms-1">Você</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-secondary">{{ usuario.email }}</td>
+                        <td>{{ usuario.nivel }}</td>
+                        <td>⭐ {{ usuario.pontos }}</td>
+
+                        <td style="min-width: 150px">
+                            <div class="progress" role="progressbar" aria-label="Progresso de {{ usuario.nome }}"
+                                 aria-valuenow="{{ usuario.progresso }}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: {{ usuario.progresso }}%">
+                                    {{ usuario.progresso }}%
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            {% if usuario.admin %}
+                                <span class="badge badge-gold">Administrador</span>
+                            {% else %}
+                                <span class="badge text-bg-secondary">Usuário</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end text-nowrap">
+                            {% if usuario.id != session.get("usuario_id") %}
+
+                                <form method="POST" action="/admin/toggle/{{ usuario.id }}" class="d-inline"
+                                      data-confirm="{{ 'Remover o acesso de administrador de ' ~ usuario.nome ~ '?' if usuario.admin else 'Tornar ' ~ usuario.nome ~ ' administrador?' }}">
+                                    <button class="btn btn-sm {{ 'btn-outline-secondary' if usuario.admin else 'btn-outline-primary' }}">
+                                        {{ 'Remover admin' if usuario.admin else 'Tornar admin' }}
+                                    </button>
+                                </form>
+
+                                <form method="POST" action="/admin/excluir/{{ usuario.id }}" class="d-inline"
+                                      data-confirm="Excluir {{ usuario.nome }}? Essa ação não pode ser desfeita.">
+                                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                                </form>
+
+                            {% else %}
+                                <span class="text-secondary">Conta atual</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Confirmação antes de qualquer ação do painel (formulários com data-confirm)
+    document.querySelectorAll("form[data-confirm]").forEach((form) => {
+        form.addEventListener("submit", (evento) => {
+            evento.preventDefault();
+
+            Swal.fire({
+                title: "Tem certeza?",
+                text: form.dataset.confirm,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+                background: "#1E1E1E",
+                color: "#F5F5F5",
+                confirmButtonColor: "#C9A227",
+                cancelButtonColor: "#3A3A3A",
+            }).then((resultado) => {
+                if (resultado.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

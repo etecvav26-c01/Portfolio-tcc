@@ -1,0 +1,37 @@
+Anotações para o desenvolvimento da engine do primeiro lance:
+
+
+- Eu primeiro irei estudar o código que sera usado para a criar, basicamente teremos uma análise de posições, geramento delas e etc
+
+A IA gerou uma base mas irei ver parte por parte para entender e aprender a como editar e a desenvolver]
+
+O código gerado foi esse:
+
+const board = new PrimeiroLanceBoard({
+    element: "board",
+    fen: "start",
+    draggable: true
+});
+
+Basicamente é criada uma constant chamada Board, onde é geradi/incializado o tabuleiro do chessboard.js
+
+O element = "board" indica aonde será criado o tabuleiro, ou seja, dentro de uma div de id = board
+
+<div id = board> tabuleiro </div>
+
+O fen é o que define a posição das peças, no caso o "start" indica a posição inicial.
+
+E o draggable é o que define se o tabuleiro está no modo interativo ou não, nesse caso como está "true" o usuario pode interagir com ele.
+Se não quiser isso é só usar o "false" que ele deixará de ser interativo (ficara estatico)
+
+Para a constante funcionar ela precisa de uma classe para guiar oq ela deve fazer, logo criaremos uma classe:
+
+explort class PrimeiroLanceBoard{
+}
+
+Dentro dos colchetes ficarão todas as configurações do tabuleiro, e suas funcionalidades.
+
+As funcões do bglh serão definidas por metodos, que basicamente são funcoes que criamos no js, dentro do class.
+
+
+

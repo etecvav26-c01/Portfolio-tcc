@@ -2,98 +2,80 @@
 
 {% block content %}
 
-    <div class="hero">
+<section class="hero">
+    <img class="hero-logo" src="{{ url_for('static', filename='img/logo-icon.png') }}" alt="Primeiro Lance">
 
-        <h1>Primeiro Lance</h1>
+    <h1>Primeiro Lance</h1>
 
-        <p>
-            Aprenda xadrez do básico ao avançado através
-            de aulas, exercícios e desafios interativos.
-        </p>
+    <p class="lead">
+        Aprenda xadrez do básico ao avançado com aulas,
+        exercícios e desafios interativos.
+    </p>
 
+    <div class="d-flex flex-wrap justify-content-center gap-2">
         {% if "usuario_id" in session %}
-
-            <a href="/aprender" class="btn btn-primary btn-lg">
-                Continuar Aprendendo
-            </a>
-
+            <a href="/aprender" class="btn btn-primary btn-lg px-4">Continuar aprendendo</a>
+            <a href="/exercicios" class="btn btn-outline-primary btn-lg px-4">Praticar</a>
         {% else %}
-
-            <a href="/login" class="btn btn-primary btn-lg">
-                Começar Agora
-            </a>
-
+            <a href="/cadastro" class="btn btn-primary btn-lg px-4">Começar agora</a>
+            <a href="/login" class="btn btn-outline-primary btn-lg px-4">Já tenho conta</a>
         {% endif %}
-
     </div>
 
-    <hr>
-    <br>
-
-    <center><h2 class="section-title">
-        O que você encontrará?
-    </h2></center>
-
-    <br>
-    <div class="row">
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h3>📚 Aprender</h3>
-
-                    <p>
-                        Aprenda regras, táticas, finais
-                        e aberturas de forma organizada.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h3>♟️ Exercícios</h3>
-
-                    <p>
-                        Resolva posições e melhore sua
-                        visão tática.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h3>📈 Evolução</h3>
-
-                    <p>
-                        Acompanhe seu progresso
-                        e desempenho.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
+    <div class="stat-strip">
+        <div><strong>{{ total_modulos }}</strong><span>módulos de aulas</span></div>
+        <div><strong>{{ total_exercicios }}</strong><span>exercícios</span></div>
+        <div><strong>4</strong><span>níveis de evolução</span></div>
     </div>
+</section>
+
+<h2 class="section-title">O que você encontrará?</h2>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <a href="/aprender" class="text-decoration-none">
+            <div class="card card-hover h-100">
+                <div class="card-body p-4">
+                    <div class="icon-badge mb-3">📚</div>
+                    <h3 class="h5 text-body">Aprender</h3>
+                    <p class="text-secondary mb-0">
+                        Regras, peças, xeque, táticas e aberturas de forma
+                        organizada e com um tabuleiro para cada aula.
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="/exercicios" class="text-decoration-none">
+            <div class="card card-hover h-100">
+                <div class="card-body p-4">
+                    <div class="icon-badge mb-3">♟️</div>
+                    <h3 class="h5 text-body">Exercícios</h3>
+                    <p class="text-secondary mb-0">
+                        Resolva posições no tabuleiro e melhore sua visão
+                        tática, do movimento das peças às aberturas.
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="/perfil" class="text-decoration-none">
+            <div class="card card-hover h-100">
+                <div class="card-body p-4">
+                    <div class="icon-badge mb-3">📈</div>
+                    <h3 class="h5 text-body">Evolução</h3>
+                    <p class="text-secondary mb-0">
+                        Ganhe pontos, suba de nível e acompanhe seu
+                        progresso no seu perfil.
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
 
 {% endblock %}

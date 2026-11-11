@@ -200,7 +200,7 @@ export const cursos = {
                         realizar garfos devido ao seu movimento.
                     </p>
                 `,
-        fen: "r1bqkb1r/pppp1ppp/2n5/4p3/2B1n3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4"
+        fen: "4k3/3q4/8/8/4N3/8/8/4K3 w - - 0 1"
       },
 
       {
@@ -236,7 +236,7 @@ export const cursos = {
                         e é bastante utilizado em combinações táticas.
                     </p>
                 `,
-        fen: "r1bqk2r/pppp1ppp/2n5/4p3/2B1P3/3P1N2/PPP2PPP/R2QK2R w KQkq - 0 1"
+        fen: "3qk3/8/8/8/8/3B4/8/3RK3 w - - 0 1"
       },
     ],
   },

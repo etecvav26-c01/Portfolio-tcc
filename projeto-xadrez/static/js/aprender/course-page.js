@@ -1,154 +1,100 @@
-export function iniciarCurso(curso) {
-  if (!curso) {
-    console.error("Curso não encontrado.");
+import { PLBoard } from "../board-config/board.js";
+import { PLCourse } from "./course.js";
+import { cursos } from "./course-data.js";
 
-    return;
-  }
+const $ = (id) => document.getElementById(id);
 
-  window.cursoAtual = curso;
-
-  curso.iniciar();
-
-  atualizarAula();
-}
-
-export function atualizarAula() {
-  const curso = window.cursoAtual;
-
-  if (!curso) {
-    return;
-  }
-
-  const aula = curso.getAula();
-
-  if (!aula) {
-    console.error("Aula não encontrada.");
-
-    return;
-  }
-
-  // Título
-
-  const titulo = document.getElementById("titulo-aula");
-
-  if (titulo) {
-    titulo.textContent = aula.titulo;
-  }
-
-  // Conteúdo
-
-  const conteudo = document.getElementById("conteudo-aula");
-
-  if (conteudo) {
-    conteudo.innerHTML = aula.conteudo;
-  }
-
-  // Número da aula
-
-  const numero = document.getElementById("numero-aula");
-
-  if (numero) {
-    numero.textContent = `${curso.numeroAtual()} / ${curso.totalAulas()}`;
-  }
-
-  // Barra de progresso
-
-  const progresso = document.getElementById("progresso-aula");
-
-  if (progresso) {
-    progresso.style.width = `${curso.progresso()}%`;
-  }
-
-  // Botão anterior
-
-  const anterior = document.getElementById("btn-anterior");
-
-  if (anterior) {
-    anterior.disabled = curso.primeira();
-  }
-
-  // Botão próxima
-
-  const proxima = document.getElementById("btn-proxima");
-
-  if (proxima) {
-    if (curso.ultima()) {
-      proxima.textContent = "Concluir ✓";
-    } else {
-      proxima.textContent = "Próxima →";
-    }
-  }
-}
-
-export function proximaAula() {
-  const curso = window.cursoAtual;
-
-  if (!curso) {
-    return;
-  }
-
-  // Se estiver na última aula,
-  // volta para a página inicial de aprender
-
-  if (curso.ultima()) {
-    window.location.href = "/aprender";
-
-    return;
-  }
-
-  // Próxima aula
-
-  curso.proxima();
-
-  atualizarAula();
-}
-
-export function aulaAnterior() {
-  const curso = window.cursoAtual;
-
-  if (!curso) {
-    return;
-  }
-
-  if (curso.anterior()) {
-    atualizarAula();
-  }
-}
-
-async function salvarConclusaoModulo() {
-  const container = document.getElementById("course-container");
-
-  if (!container) {
-    return false;
-  }
-
-  const modulo = container.dataset.curso;
-
+async function salvarConclusaoModulo(modulo) {
   try {
     const resposta = await fetch("/api/curso/concluir", {
       method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        modulo: modulo,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ modulo }),
     });
 
     const dados = await resposta.json();
 
-    if (!resposta.ok || !dados.sucesso) {
-      console.error("Erro ao salvar módulo:", dados);
-
-      return false;
-    }
-
-    return true;
+    return resposta.ok && dados.sucesso;
   } catch (erro) {
     console.error("Erro ao salvar conclusão:", erro);
-
     return false;
   }
+}
+
+function avisarErro() {
+  const texto = "Não foi possível salvar sua conclusão. Tente novamente.";
+
+  if (window.Swal) {
+    Swal.fire({
+      icon: "error",
+      title: "Ops!",
+      text: texto,
+      background: "#1E1E1E",
+      color: "#F5F5F5",
+      confirmButtonColor: "#C9A227",
+    });
+  } else {
+    alert(texto);
+  }
+}
+
+export function iniciarCursoPagina(container) {
+  const modulo = container.dataset.curso;
+  const dados = cursos[modulo];
+
+  if (!dados) {
+    console.error("Curso não encontrado:", modulo);
+    return;
+  }
+
+  // Tabuleiro demonstrativo: não pode ser movimentado
+  const board = new PLBoard("board", { allowMove: false });
+  const curso = new PLCourse(board, dados);
+
+  const anterior = $("btn-anterior");
+  const proxima = $("btn-proxima");
+  const barra = $("progresso-aula");
+
+  function atualizar() {
+    const aula = curso.getAula();
+
+    $("titulo-aula").textContent = aula.titulo;
+    // conteúdo próprio do projeto (course-data.js), não vem do usuário
+    $("conteudo-aula").innerHTML = aula.conteudo;
+    $("numero-aula").textContent = `${curso.numeroAtual()} / ${curso.totalAulas()}`;
+
+    barra.style.width = `${curso.progresso()}%`;
+    barra.setAttribute("aria-valuenow", curso.progresso());
+
+    anterior.disabled = curso.primeira();
+    proxima.textContent = curso.ultima() ? "Concluir ✓" : "Próxima →";
+  }
+
+  anterior.addEventListener("click", () => {
+    if (curso.anterior()) {
+      atualizar();
+    }
+  });
+
+  proxima.addEventListener("click", async () => {
+    if (!curso.ultima()) {
+      curso.proxima();
+      atualizar();
+      return;
+    }
+
+    // Última aula: grava que o módulo foi concluído e volta para a lista
+    proxima.disabled = true;
+
+    if (await salvarConclusaoModulo(modulo)) {
+      window.location.href = "/aprender";
+      return;
+    }
+
+    proxima.disabled = false;
+    avisarErro();
+  });
+
+  curso.iniciar();
+  atualizar();
 }

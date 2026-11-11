@@ -4,10 +4,14 @@ export class PLBoard {
   constructor(element, config = {}) {
     this.element = element;
     this.allowMove = config.allowMove ?? true;
+
+    /*
+      onMove(move) é chamado depois de uma jogada legal.
+      Se devolver false, a jogada é desfeita e a peça volta para a casa.
+    */
     this.onMove = config.onMove || null;
 
     this.game = new Chess();
-    this.chess = this.game;
 
     this.board = Chessboard(element, {
       draggable: this.allowMove,
@@ -16,8 +20,11 @@ export class PLBoard {
 
       onDragStart: (source, piece) => this.onDragStart(source, piece),
       onDrop: (source, target) => this.onDrop(source, target),
-      onSnapEnd: () => this.onSnapEnd()
+      onSnapEnd: () => this.onSnapEnd(),
     });
+
+    // O chessboard.js não se ajusta sozinho quando a janela muda de tamanho.
+    window.addEventListener("resize", () => this.board.resize());
 
     if (config.fen) {
       this.loadFEN(config.fen);
@@ -30,25 +37,12 @@ export class PLBoard {
   ============================================================
   */
   onDragStart(source, piece) {
-    if (!this.allowMove) {
+    if (!this.allowMove || this.game.isGameOver()) {
       return false;
     }
 
-    if (!this.game || this.game.isGameOver()) {
-      return false;
-    }
-
-    const turno = this.game.turn();
-
-    // Permite mover apenas as peças do jogador do turno atual
-    if (
-      (turno === "w" && piece.startsWith("b")) ||
-      (turno === "b" && piece.startsWith("w"))
-    ) {
-      return false;
-    }
-
-    return true;
+    // Permite mover apenas as peças de quem joga no momento
+    return piece.startsWith(this.game.turn());
   }
 
   /*
@@ -56,119 +50,90 @@ export class PLBoard {
   DROP
   ============================================================
   */
-onDrop(source, target) {
-    if (!this.allowMove || !this.game) {
-        return "snapback";
+  onDrop(source, target) {
+    if (!this.allowMove || source === target || target === "offboard") {
+      return "snapback";
     }
+
+    let move;
 
     try {
-        // Executa o movimento no chess.js
-        const move = this.game.move({
-            from: source,
-            to: target,
-            promotion: "q"
-        });
-
-        // Se o chess.js recusou por regra estrita de FEN
-        if (!move) {
-            return "snapback";
-        }
-
-        // Se a jogada foi válida, envia para a verificação do exercício
-        if (typeof this.onMove === "function") {
-            this.onMove({
-                from: move.from,
-                to: move.to,
-                san: move.san,
-                captured: move.captured,
-                promotion: move.promotion
-            });
-        }
-    } catch (e) {
-        return "snapback";
+      // chess.js lança erro quando a jogada é ilegal
+      move = this.game.move({
+        from: source,
+        to: target,
+        promotion: "q",
+      });
+    } catch (erro) {
+      return "snapback";
     }
-}
+
+    if (typeof this.onMove === "function") {
+      const aceita = this.onMove({
+        from: move.from,
+        to: move.to,
+        san: move.san,
+        captured: move.captured,
+        promotion: move.promotion,
+      });
+
+      if (aceita === false) {
+        this.game.undo();
+        return "snapback";
+      }
+    }
+  }
 
   /*
   ============================================================
-  SNAP END (Atualiza o tabuleiro após a animação de soltar)
+  SNAP END (sincroniza o tabuleiro depois da animação)
   ============================================================
   */
   onSnapEnd() {
     this.board.position(this.game.fen());
   }
 
-  /*
-  ============================================================
-  UPDATE
-  ============================================================
-  */
   update() {
-    if (!this.board || !this.game) {
-      return;
-    }
-
     this.board.position(this.game.fen(), false);
   }
 
-  /*
-  ============================================================
-  RESET
-  ============================================================
-  */
   reset() {
     this.game = new Chess();
-    this.chess = this.game;
     this.update();
   }
 
   /*
   ============================================================
   LOAD FEN
+  Por padrão, o tabuleiro gira para a cor de quem joga.
+  Passe { orientation: "white" } para fixar a visão.
   ============================================================
   */
-  loadFEN(fen) {
+  loadFEN(fen, { orientation } = {}) {
     if (!fen) {
       this.reset();
       return;
     }
 
     try {
-      const tempGame = new Chess();
-      tempGame.load(fen);
-
-      this.game = tempGame;
-      this.chess = this.game;
-
-      // Ajusta a orientação do tabuleiro para combinar com a cor de quem joga
-      const turno = this.game.turn();
-      const orientation = turno === "w" ? "white" : "black";
-
-      if (this.board) {
-        this.board.orientation(orientation);
-        this.board.position(this.game.fen(), false);
-      }
+      this.game = new Chess(fen);
     } catch (erro) {
-      console.error("FEN inválida interceptada:", fen, erro);
-    }
-  }
-
-  /*
-  ============================================================
-  OUTROS MÉTODOS
-  ============================================================
-  */
-  flip() {
-    if (this.board) {
-      this.board.flip();
-    }
-  }
-
-  undo() {
-    if (!this.game) {
+      console.error("FEN inválida:", fen, erro);
       return;
     }
 
+    const lado =
+      orientation || (this.game.turn() === "w" ? "white" : "black");
+
+    this.board.orientation(lado);
+    this.board.position(this.game.fen(), false);
+  }
+
+  flip() {
+    this.board.flip();
+  }
+
+  undo() {
     this.game.undo();
     this.update();
   }
@@ -186,15 +151,15 @@ onDrop(source, target) {
   }
 
   isGameOver() {
-    return this.game ? this.game.isGameOver() : false;
+    return this.game.isGameOver();
   }
 
   isCheck() {
-    return this.game ? this.game.isCheck() : false;
+    return this.game.isCheck();
   }
 
   isCheckmate() {
-    return this.game ? this.game.isCheckmate() : false;
+    return this.game.isCheckmate();
   }
 
   /*

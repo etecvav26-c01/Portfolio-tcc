@@ -1,93 +1,44 @@
-{% extends "base.html" %} {% block title %}Aprender - Primeiro Lance{% endblock
-%} {% block content %}
+{% extends "base.html" %}
 
-<div class="container py-5">
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">♟️ Aprenda Xadrez</h1>
+{% block title %}Aprender - Primeiro Lance{% endblock %}
 
-    <p class="text-secondary">
-      Aprenda os principais conceitos do xadrez através de aulas simples e
-      interativas.
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1 class="fw-bold">Aprenda xadrez</h1>
+    <p class="text-secondary mb-0">
+        Os principais conceitos do xadrez em aulas simples e interativas.
     </p>
-  </div>
+</div>
 
-  <div class="row g-4">
+<div class="row g-4">
+    {% for chave, modulo in modulos.items() %}
     <div class="col-md-6">
-      <div class="card bg-dark text-light border-secondary h-100">
-        <div class="card-body p-4">
-          <h3>♟️ Peças do Xadrez</h3>
+        <div class="card card-hover h-100">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex align-items-start justify-content-between mb-3">
+                    <div class="icon-badge">{{ modulo.icone }}</div>
 
-          <p class="text-secondary">
-            Aprenda os movimentos e características das seis peças do xadrez.
-          </p>
+                    {% if chave in concluidos %}
+                        <span class="badge badge-gold">✓ Concluído</span>
+                    {% endif %}
+                </div>
 
-          <span class="badge text-bg-secondary mb-3"> 6 aulas </span>
+                <h2 class="h4">{{ modulo.titulo }}</h2>
+                <p class="text-secondary">{{ modulo.descricao }}</p>
 
-          <br />
+                <div class="mt-auto d-flex align-items-center justify-content-between">
+                    <span class="badge text-bg-secondary">{{ modulo.aulas }} aulas</span>
 
-          <a href="/aprender/pecas" class="btn btn-warning"> Começar aula </a>
+                    <a href="/aprender/{{ chave }}"
+                       class="btn {{ 'btn-outline-primary' if chave in concluidos else 'btn-primary' }}">
+                        {{ 'Revisar' if chave in concluidos else 'Começar aula' }}
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-
-    <div class="col-md-6">
-      <div class="card bg-dark text-light border-secondary h-100">
-        <div class="card-body p-4">
-          <h3>👑 Xeque e Xeque-mate</h3>
-
-          <p class="text-secondary">
-            Entenda o xeque, o xeque-mate e como escapar das ameaças ao rei.
-          </p>
-
-          <span class="badge text-bg-secondary mb-3"> 2 aulas </span>
-
-          <br />
-
-          <a href="/aprender/xeque" class="btn btn-warning"> Começar aula </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card bg-dark text-light border-secondary h-100">
-        <div class="card-body p-4">
-          <h3>🎯 Táticas</h3>
-
-          <p class="text-secondary">
-            Aprenda recursos táticos fundamentais para encontrar combinações nas
-            partidas.
-          </p>
-
-          <span class="badge text-bg-secondary mb-3"> 3 aulas </span>
-
-          <br />
-
-          <a href="/aprender/taticas" class="btn btn-warning"> Começar aula </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card bg-dark text-light border-secondary h-100">
-        <div class="card-body p-4">
-          <h3>📖 Aberturas</h3>
-
-          <p class="text-secondary">
-            Conheça princípios importantes para começar uma partida
-            corretamente.
-          </p>
-
-          <span class="badge text-bg-secondary mb-3"> 3 aulas </span>
-
-          <br>
-
-          <a href="/aprender/aberturas" class="btn btn-warning">
-            Começar aula
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+    {% endfor %}
 </div>
 
 {% endblock %}

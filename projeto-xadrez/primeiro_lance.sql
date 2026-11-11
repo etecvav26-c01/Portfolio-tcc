@@ -30,7 +30,7 @@ CREATE TABLE `modulos_progresso` (
   `concluido` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `usuario_id` (`usuario_id`,`modulo`),
-  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_modulos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,7 +70,7 @@ CREATE TABLE `partidas` (
   `data_partida` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+  CONSTRAINT `fk_partidas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,8 +101,8 @@ CREATE TABLE `progresso` (
   `nivel` varchar(50) DEFAULT 'Iniciante',
   `progresso` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+  UNIQUE KEY `uq_progresso_usuario` (`usuario_id`),
+  CONSTRAINT `fk_progresso_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,15 +114,9 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `progresso` WRITE;
 /*!40000 ALTER TABLE `progresso` DISABLE KEYS */;
 INSERT INTO `progresso` VALUES
-(1,1,4,40,'Iniciante',8),
+(1,1,4,40,'Iniciante',10),
 (2,2,0,0,'Iniciante',0),
-(8,1,4,40,'Iniciante',8),
-(9,1,4,40,'Iniciante',8),
-(10,1,4,40,'Iniciante',8),
-(11,4,3,30,'Iniciante',6),
-(12,4,3,30,'Iniciante',6),
-(13,4,3,30,'Iniciante',6),
-(14,4,3,30,'Iniciante',6);
+(11,4,3,30,'Iniciante',7);
 /*!40000 ALTER TABLE `progresso` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;

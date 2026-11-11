@@ -1,58 +1,39 @@
 {% extends "base.html" %}
 
+{% block title %}Entrar - Primeiro Lance{% endblock %}
+
 {% block content %}
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
 
-        <div class="alert alert-success">
+<div class="auth-card">
+    <div class="text-center mb-4">
+        <img class="auth-logo mb-3" src="{{ url_for('static', filename='img/logo-icon.png') }}" alt="">
+        <h1 class="h3 fw-bold">Entrar</h1>
+        <p class="text-secondary mb-0">Continue de onde parou.</p>
+    </div>
 
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
+    <div class="card">
+        <div class="card-body p-4">
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control"
+                           autocomplete="email" autofocus required>
+                </div>
 
+                <div class="mb-4">
+                    <label class="form-label" for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" class="form-control"
+                           autocomplete="current-password" required>
+                </div>
+
+                <button class="btn btn-primary w-100 py-2">Entrar</button>
+            </form>
         </div>
+    </div>
 
-    {% endif %}
-{% endwith %}
-<br>
-<br>
-
-    <center><h1>Login</h1></center>
-
-    <form method="POST">    
-
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email"
-                name="email"
-                class="form-control"
-                required>
-        </div>
-
-        <div class="mb-3">
-            <label>Senha</label>
-            <input type="password"
-                name="senha"
-                class="form-control"
-                required>
-        </div>
-        <br>
-        <center><button class="btn btn-primary">
-            Entrar
-        </button></center>
-
-    </form>
-    <br>
-    <p class="text-center">
-        Não possui uma conta?
-        <a href="/cadastro">
-            Cadastre-se aqui
-        </a>
+    <p class="text-center text-secondary mt-4">
+        Não possui uma conta? <a href="/cadastro">Cadastre-se aqui</a>
     </p>
- 
-
-
-
-
+</div>
 
 {% endblock %}

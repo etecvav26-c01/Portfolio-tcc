@@ -1,48 +1,48 @@
 {% extends "base.html" %}
 
+{% block title %}Criar conta - Primeiro Lance{% endblock %}
+
 {% block content %}
 
-    <br><br>
-    <center><h1>Criar Conta</h1></center>
+<div class="auth-card">
+    <div class="text-center mb-4">
+        <img class="auth-logo mb-3" src="{{ url_for('static', filename='img/logo-icon.png') }}" alt="">
+        <h1 class="h3 fw-bold">Criar conta</h1>
+        <p class="text-secondary mb-0">Dê o seu primeiro lance.</p>
+    </div>
 
-    <form method="POST">
+    <div class="card">
+        <div class="card-body p-4">
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" class="form-control"
+                           value="{{ nome or '' }}" maxlength="100"
+                           autocomplete="name" autofocus required>
+                </div>
 
-        <div class="mb-3">
-            <label>Nome</label>
-            <input type="text"
-                name="nome"
-                class="form-control"
-                required>
+                <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control"
+                           value="{{ email or '' }}" maxlength="150"
+                           autocomplete="email" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label" for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" class="form-control"
+                           minlength="6" autocomplete="new-password" required>
+                    <div class="form-text">Mínimo de 6 caracteres.</div>
+                </div>
+
+                <button class="btn btn-primary w-100 py-2">Criar conta</button>
+            </form>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email"
-                name="email"
-                class="form-control"
-                required>
-        </div>
-
-        <div class="mb-3">
-            <label>Senha</label>
-            <input type="password"
-                name="senha"
-                class="form-control"
-                required>
-        </div>
-        <br>
-        <center><button class="btn btn-primary">
-            Criar Conta
-        </button></center>
-    </form>
-    <br>
-    <p class="text-center">
-        Já possui uma conta?
-        <a href="/login">
-            Entre por aqui
-        </a>
+    <p class="text-center text-secondary mt-4">
+        Já possui uma conta? <a href="/login">Entre por aqui</a>
     </p>
- 
-
+</div>
 
 {% endblock %}
