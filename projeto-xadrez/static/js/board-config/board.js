@@ -37,7 +37,13 @@ export class PLBoard {
   ============================================================
   */
   onDragStart(source, piece) {
-    if (!this.allowMove || this.game.isGameOver()) {
+    /*
+      Não usamos game.isGameOver() aqui: o chess.js o considera verdadeiro
+      em posições com material insuficiente (ex.: rei contra rei, ou rei e
+      cavalo contra rei), o que travava vários exercícios didáticos.
+      A legalidade da jogada é validada pelo próprio game.move() no onDrop.
+    */
+    if (!this.allowMove) {
       return false;
     }
 
